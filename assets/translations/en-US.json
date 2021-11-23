@@ -1,0 +1,12 @@
+{
+    "app_name": "Social Survey",
+    "app_name_nl": "Social\nSurvey",
+    "welcome_text":"Social Survey, share your thoughts",
+    "login": "Sign in",
+    "logout": "Sign out",
+    "register": "Sign up",
+    "forgot_pass": "Forgot Password?",
+    "dont_have": "Don't have an account?",
+    "mail": "Mail address",
+    "password": "Password"
+}

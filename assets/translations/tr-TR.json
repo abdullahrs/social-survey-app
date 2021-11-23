@@ -1,0 +1,12 @@
+{
+    "app_name": "Sosyal Anket",
+    "app_name_nl": "Sosyal\nAnket",
+    "welcome_text": "Sosyal Anket, fikirlerini paylaş",
+    "login": "Giriş yap",
+    "logout": "Çıkış yap",
+    "register": "Kayıt ol",
+    "forgot_pass": "Şifremi Unuttum",
+    "dont_have": "Hesabınız yok mu?",
+    "mail": "Mail adresi",
+    "password": "Şifre"
+}
