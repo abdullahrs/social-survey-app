@@ -7,6 +7,9 @@
     "register": "Sign up",
     "forgot_pass": "Forgot Password?",
     "dont_have": "Don't have an account?",
+    "do_have":"Alreay have an account?",
     "mail": "Mail address",
-    "password": "Password"
+    "password": "Password",
+    "name": "Full Name",
+    "password_repeat": "Repeat password"
 }

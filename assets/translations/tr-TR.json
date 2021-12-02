@@ -7,6 +7,9 @@
     "register": "Kayıt ol",
     "forgot_pass": "Şifremi Unuttum",
     "dont_have": "Hesabınız yok mu?",
+    "do_have":"Zaten hesabınız var mı?",
     "mail": "Mail adresi",
-    "password": "Şifre"
+    "password": "Şifre",
+    "name": "Ad soyad",
+    "password_repeat": "Şifre tekrar"
 }
