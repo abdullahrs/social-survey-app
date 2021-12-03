@@ -25,7 +25,7 @@ class SigninPage extends StatelessWidget {
           listener: (context, state) {
             if (state is LoginValidationState && !state.isValidate) {
               // TODO: navigate to main menu
-              // Navigator.push(context, MaterialPageRoute(builder: (_)=>SignUpPage()));
+              Navigator.push(context, MaterialPageRoute(builder: (_)=>SignUpPage()));
             }
           },
           builder: (context, state) {
