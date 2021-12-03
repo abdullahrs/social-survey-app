@@ -11,5 +11,9 @@
     "mail": "Mail adresi",
     "password": "Şifre",
     "name": "Ad soyad",
-    "password_repeat": "Şifre tekrar"
+    "password_repeat": "Şifre tekrar",
+    "empty_field":"Alanı boş bırakmayınız!",
+    "unvalid_email":"Geçersiz email",
+    "short_password":"Şifre çok kısa",
+    "unmatch_password":"Şifreler eşleşmiyor"
 }
