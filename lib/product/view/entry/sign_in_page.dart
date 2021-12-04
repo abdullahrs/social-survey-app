@@ -1,6 +1,6 @@
 import 'package:anket/core/extensions/buildcontext_extension.dart';
 import 'package:anket/product/components/custom_button.dart';
-import 'package:anket/product/utils/text_field_validations.dart';
+import 'package:anket/product/constants/enums/login_statuses.dart';
 import 'package:anket/product/view/entry/components/custom_text_field.dart';
 import 'package:anket/product/view/entry/view_model/sign_in_cubit.dart';
 import 'package:easy_localization/src/public_ext.dart';
@@ -25,7 +25,8 @@ class SigninPage extends StatelessWidget {
           listener: (context, state) {
             if (state is LoginValidationState && !state.isValidate) {
               // TODO: navigate to main menu
-              Navigator.push(context, MaterialPageRoute(builder: (_)=>SignUpPage()));
+              // Navigator.push(
+              //     context, MaterialPageRoute(builder: (_) => SignUpPage()));
             }
           },
           builder: (context, state) {
@@ -60,11 +61,19 @@ class SigninPage extends StatelessWidget {
               passwordField(),
               forgotPassField(),
               const SizedBox(height: 50),
+              Visibility(
+                visible: state is LoginStatus
+                    ? (state.status == LoginStatuses.unsucsess ? true : false)
+                    : false,
+                child: warningField(),
+              ),
               CustomButton(
                 voidCallback: () async =>
                     await context.read<LoginCubit>().postUserModel(),
                 text: 'login',
-                loading: state is LoginStatus ? (state.responseRecived ? false : true) : false,
+                loading: state is LoginStatus
+                    ? (state.status == LoginStatuses.started ? true : false)
+                    : false,
               ),
               const SizedBox(height: 20),
               signUpButton(context),
@@ -73,6 +82,21 @@ class SigninPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Padding warningField() {
+    return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    const Icon(Icons.close_outlined, color: Colors.red),
+                    const Text(
+                      'wrong_morp',
+                      style: TextStyle(color: Colors.red),
+                    ).tr(),
+                  ],
+                ),
+              );
   }
 
   CustomTextField mailField() {

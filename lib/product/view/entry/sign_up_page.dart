@@ -4,6 +4,9 @@ import 'package:anket/product/view/entry/components/custom_text_field.dart';
 import 'package:anket/product/view/entry/sign_in_page.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'view_model/sign_up_cubit.dart';
 
 class SignUpPage extends StatelessWidget {
   SignUpPage({Key? key}) : super(key: key);
@@ -16,35 +19,51 @@ class SignUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Form(
-        key: _formKey,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 50),
-                Center(
-                    child:
-                        Text('register', style: context.appTextTheme.headline2)
-                            .tr()),
-                const SizedBox(height: 50),
-                nameField(),
-                const SizedBox(height: 20),
-                mailField(),
-                const SizedBox(height: 20),
-                passwordField(),
-                const SizedBox(height: 20),
-                repeatPasswordField(),
-                const SizedBox(height: 50),
-                CustomButton(voidCallback: () {}, text: 'register'),
-                const SizedBox(height: 20),
-                loginButton(context),
-                const SizedBox(height: 50),
-              ],
-            ),
+      body: BlocProvider(
+        create: (context) => RegisterCubit(
+            formKey: _formKey,
+            nameController: _nameController,
+            mailController: _mailController,
+            passwordController: _passwordController,
+            repeatPassController: _repeatPassController),
+        child: BlocConsumer<RegisterCubit, RegisterState>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            return body(context, state);
+          },
+        ),
+      ),
+    );
+  }
+
+  Form body(BuildContext context, RegisterState state) {
+    return Form(
+      key: _formKey,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 50),
+              Center(
+                  child: Text('register', style: context.appTextTheme.headline2)
+                      .tr()),
+              const SizedBox(height: 50),
+              nameField(),
+              const SizedBox(height: 20),
+              mailField(),
+              const SizedBox(height: 20),
+              passwordField(),
+              const SizedBox(height: 20),
+              repeatPasswordField(),
+              const SizedBox(height: 50),
+              CustomButton(voidCallback: () {}, text: 'register'),
+              const SizedBox(height: 20),
+              loginButton(context),
+              const SizedBox(height: 50),
+            ],
           ),
         ),
       ),

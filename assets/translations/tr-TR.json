@@ -15,5 +15,6 @@
     "empty_field":"Alanı boş bırakmayınız!",
     "unvalid_email":"Geçersiz email",
     "short_password":"Şifre çok kısa",
-    "unmatch_password":"Şifreler eşleşmiyor"
+    "unmatch_password":"Şifreler eşleşmiyor",
+    "wrong_morp":"Yanlış mail ya da şifre"
 }

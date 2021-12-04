@@ -15,5 +15,6 @@
     "empty_field":"The field must be filled",
     "unvalid_email":"Unvalid email",
     "short_password":"Password is too short",
-    "unmatch_password":"Passwords unmatched"
+    "unmatch_password":"Passwords unmatched",
+    "wrong_morp":"Wrong mail or password"
 }

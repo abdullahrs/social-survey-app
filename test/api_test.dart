@@ -1,10 +1,14 @@
+import 'package:anket/product/models/user.dart';
+import 'package:anket/product/services/auth_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
 
   test('[Test] Sign-up', () {
   });
-  test('[Test] Log-in', () {
+  test('[Test] Log-in', () async{
+    var result = await AuthService.login(email: "a@x.com", password: "asdasd");
+    expect(result.runtimeType, UserModel);
   });
 
   test('[Test] Log-out', () {
