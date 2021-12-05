@@ -3,13 +3,12 @@ import 'package:anket/product/components/custom_button.dart';
 import 'package:anket/product/constants/enums/login_statuses.dart';
 import 'package:anket/product/utils/text_field_validations.dart';
 import 'package:anket/product/view/entry/components/custom_text_field.dart';
-import 'package:anket/product/view/entry/sign_in_page.dart';
+import 'package:anket/product/view/entry/pages/sign_in_page.dart';
+import 'package:anket/product/view/entry/view_model/sign_up_cubit.dart';
 import 'package:anket/product/view/home/pages/home.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'view_model/sign_up_cubit.dart';
 
 class SignUpPage extends StatelessWidget {
   SignUpPage({Key? key}) : super(key: key);

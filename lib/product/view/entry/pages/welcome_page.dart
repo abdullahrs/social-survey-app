@@ -1,6 +1,6 @@
 import 'package:anket/core/extensions/buildcontext_extension.dart';
-import 'package:anket/product/view/entry/sign_in_page.dart';
-import 'package:anket/product/view/entry/sign_up_page.dart';
+import 'package:anket/product/view/entry/pages/sign_in_page.dart';
+import 'package:anket/product/view/entry/pages/sign_up_page.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 

@@ -1,5 +1,5 @@
 import 'package:anket/core/extensions/buildcontext_extension.dart';
-import 'package:anket/product/view/entry/sign_up_page.dart';
+import 'package:anket/product/view/entry/pages/sign_up_page.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 

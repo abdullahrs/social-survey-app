@@ -1,5 +1,5 @@
 import 'package:anket/product/constants/style/theme.dart';
-import 'package:anket/product/view/entry/welcome_page.dart';
+import 'package:anket/product/view/entry/pages/welcome_page.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
