@@ -1,1 +1,1 @@
-enum LoginStatuses { started, sucsess, unsucsess, error }
+enum AuthStatuses { started, sucsess, unsucsess, error }

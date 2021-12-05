@@ -16,5 +16,7 @@
     "unvalid_email":"Geçersiz email",
     "short_password":"Şifre çok kısa",
     "unmatch_password":"Şifreler eşleşmiyor",
-    "wrong_morp":"Yanlış mail ya da şifre"
+    "wrong_morp":"Yanlış mail ya da şifre",
+    "next": "İleri",
+    "forgot_pass_desc":"Email adresinizi girin size doğrulama kodu yollayacağız"
 }

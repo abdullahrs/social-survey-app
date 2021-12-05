@@ -1,7 +1,10 @@
 import 'package:anket/core/extensions/buildcontext_extension.dart';
 import 'package:anket/product/components/custom_button.dart';
+import 'package:anket/product/constants/enums/login_statuses.dart';
+import 'package:anket/product/utils/text_field_validations.dart';
 import 'package:anket/product/view/entry/components/custom_text_field.dart';
 import 'package:anket/product/view/entry/sign_in_page.dart';
+import 'package:anket/product/view/home/pages/home.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,7 +30,12 @@ class SignUpPage extends StatelessWidget {
             passwordController: _passwordController,
             repeatPassController: _repeatPassController),
         child: BlocConsumer<RegisterCubit, RegisterState>(
-          listener: (context, state) {},
+          listener: (context, state) {
+            if (state is RegisterValidationState && !state.registerValidation) {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => const Home()));
+            }
+          },
           builder: (context, state) {
             return body(context, state);
           },
@@ -39,30 +47,41 @@ class SignUpPage extends StatelessWidget {
   Form body(BuildContext context, RegisterState state) {
     return Form(
       key: _formKey,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
+      autovalidateMode: state is RegisterValidationState
+          ? (state.registerValidation
+              ? AutovalidateMode.always
+              : AutovalidateMode.disabled)
+          : AutovalidateMode.disabled,
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 50),
+              SizedBox(height: context.dynamicHeight(0.05)),
               Center(
                   child: Text('register', style: context.appTextTheme.headline2)
                       .tr()),
-              const SizedBox(height: 50),
+              SizedBox(height: context.dynamicHeight(0.05)),
               nameField(),
-              const SizedBox(height: 20),
+              SizedBox(height: context.dynamicHeight(0.02)),
               mailField(),
-              const SizedBox(height: 20),
+              SizedBox(height: context.dynamicHeight(0.02)),
               passwordField(),
-              const SizedBox(height: 20),
+              SizedBox(height: context.dynamicHeight(0.02)),
               repeatPasswordField(),
-              const SizedBox(height: 50),
-              CustomButton(voidCallback: () {}, text: 'register'),
-              const SizedBox(height: 20),
+              SizedBox(height: context.dynamicHeight(0.05)),
+              CustomButton(
+                voidCallback: () async =>
+                    await context.read<RegisterCubit>().postUserModel(),
+                text: 'register',
+                loading: state is RegisterStatus
+                    ? (state.status == AuthStatuses.started ? true : false)
+                    : false,
+              ),
+              SizedBox(height: context.dynamicHeight(0.02)),
               loginButton(context),
-              const SizedBox(height: 50),
+              SizedBox(height: context.dynamicHeight(0.05)),
             ],
           ),
         ),
@@ -70,56 +89,33 @@ class SignUpPage extends StatelessWidget {
     );
   }
 
-  CustomTextField nameField() {
-    return CustomTextField(
-        prefixIconData: Icons.person,
-        hintText: 'name',
-        controller: _nameController,
-        validator: (String? str) {
-          if (str == null) return "empty_field".tr();
-        });
-  }
+  CustomTextField nameField() => CustomTextField(
+      prefixIconData: Icons.person,
+      hintText: 'name',
+      controller: _nameController,
+      validator: (String? str) => getValidator(str, ValidationType.name));
 
-  CustomTextField mailField() {
-    return CustomTextField(
+  CustomTextField mailField() => CustomTextField(
       prefixIconData: Icons.mail,
       hintText: 'mail',
       controller: _mailController,
-      validator: (String? str) {
-        if (str == null) return "empty_field".tr();
-        return !str.contains("@") || !str.contains(".com")
-            ? 'unvalid_email'.tr()
-            : null;
-      },
-    );
-  }
+      validator: (String? str) => getValidator(str, ValidationType.email));
 
-  CustomTextField passwordField() {
-    return CustomTextField(
-        prefixIconData: Icons.lock,
-        hintText: 'password',
-        obscure: true,
-        controller: _passwordController,
-        validator: (String? str) {
-          if (str == null) return "empty_field".tr();
-          return str.length < 6 ? 'short_password'.tr() : null;
-        });
-  }
+  CustomTextField passwordField() => CustomTextField(
+      prefixIconData: Icons.lock,
+      hintText: 'password',
+      obscure: true,
+      controller: _passwordController,
+      validator: (String? str) => getValidator(str, ValidationType.password));
 
-  CustomTextField repeatPasswordField() {
-    return CustomTextField(
-        prefixIconData: Icons.repeat,
-        hintText: 'password_repeat',
-        obscure: true,
-        controller: _repeatPassController,
-        validator: (String? str) {
-          if (str == null) return "empty_field".tr();
-          if (_passwordController.text != _repeatPassController.text) {
-            return "unmatch_password".tr();
-          }
-          return str.length < 6 ? 'short_password'.tr() : null;
-        });
-  }
+  CustomTextField repeatPasswordField() => CustomTextField(
+      prefixIconData: Icons.repeat,
+      hintText: 'password_repeat',
+      obscure: true,
+      controller: _repeatPassController,
+      validator: (String? str) => getValidator(
+          str, ValidationType.repeatPassword,
+          firstStr: _passwordController.text));
 
   Row loginButton(BuildContext context) {
     return Row(
@@ -129,9 +125,8 @@ class SignUpPage extends StatelessWidget {
         InkWell(
             onTap: () {
               Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (_) => SigninPage()));
+                  context, MaterialPageRoute(builder: (_) => SignInPage()));
             },
-            // TODO: change
             child: const Text(
               'login',
               style: TextStyle(color: Color(0xFF5a7061)),

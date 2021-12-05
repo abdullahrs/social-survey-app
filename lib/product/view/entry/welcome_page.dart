@@ -38,7 +38,7 @@ class WelcomePage extends StatelessWidget {
                 text: "login",
                 function: () {
                   Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (_) => SigninPage()));
+                      .push(MaterialPageRoute(builder: (_) => SignInPage()));
                 }),
             const SizedBox(height: 10),
             button(

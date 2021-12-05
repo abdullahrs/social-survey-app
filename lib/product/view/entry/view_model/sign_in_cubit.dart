@@ -15,21 +15,20 @@ class LoginCubit extends Cubit<LoginState> {
 
   Future<void> postUserModel() async {
     if (formKey.currentState!.validate()) {
-      emit(LoginStatus(LoginStatuses.started));
+      emit(LoginStatus(AuthStatuses.started));
       var sucsess = await AuthService.login(
           email: mailController.text, password: passwordController.text);
       emit(LoginStatus(sucsess == null
-          ? LoginStatuses.error
+          ? AuthStatuses.error
           : sucsess.tokens == null
-              ? LoginStatuses.unsucsess
-              : LoginStatuses.sucsess));
+              ? AuthStatuses.unsucsess
+              : AuthStatuses.sucsess));
 
       isLoginFailed = false;
-      emit(LoginValidationState(false));
     } else {
       isLoginFailed = true;
-      emit(LoginValidationState(isLoginFailed));
     }
+    emit(LoginValidationState(isLoginFailed));
   }
 }
 
@@ -43,6 +42,6 @@ class LoginValidationState extends LoginState {
 }
 
 class LoginStatus extends LoginState {
-  final LoginStatuses status;
+  final AuthStatuses status;
   LoginStatus(this.status);
 }

@@ -4,7 +4,9 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
 
-  test('[Test] Sign-up', () {
+  test('[Test] Sign-up', () async{
+    var result = await AuthService.register(email: "a@x.com", password: "asdasd", name: 'asd');
+    expect(result.runtimeType, UserModel);
   });
   test('[Test] Log-in', () async{
     var result = await AuthService.login(email: "a@x.com", password: "asdasd");
