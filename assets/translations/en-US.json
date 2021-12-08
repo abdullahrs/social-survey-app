@@ -18,5 +18,11 @@
     "unmatch_password":"Passwords unmatched",
     "wrong_morp":"Wrong mail or password",
     "next": "Next",
-    "forgot_pass_desc":"Please enter your email, we will send you a verification code"
+    "forgot_pass_desc":"Please enter your email, we will send you a verification code",
+    "home": "Home",
+    "categories":"Categories",
+    "participated":"Participated",
+    "settings":"Settings",
+    "surveys": "Surveys",
+    "all": "All"
 }

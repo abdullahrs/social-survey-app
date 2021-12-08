@@ -18,5 +18,11 @@
     "unmatch_password":"Şifreler eşleşmiyor",
     "wrong_morp":"Yanlış mail ya da şifre",
     "next": "İleri",
-    "forgot_pass_desc":"Email adresinizi girin size doğrulama kodu yollayacağız"
+    "forgot_pass_desc":"Email adresinizi girin size doğrulama kodu yollayacağız",
+    "home": "Ana sayfa",
+    "categories":"Kategoriler",
+    "participated":"Katılınanlar",
+    "settings":"Ayarlar",
+    "surveys": "Anketler",
+    "all": "Tümü"
 }

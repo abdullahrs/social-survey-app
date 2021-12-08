@@ -27,8 +27,10 @@ class SignInPage extends StatelessWidget {
         child: BlocConsumer<LoginCubit, LoginState>(
           listener: (context, state) {
             if (state is LoginValidationState && !state.isValidate) {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => const Home()));
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (_) => const Home()),
+                  (_) => false);
             }
           },
           builder: (context, state) {
@@ -130,5 +132,4 @@ class SignInPage extends StatelessWidget {
               style: const TextStyle(color: Color(0xFF5a7061)),
             )));
   }
-
 }

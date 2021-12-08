@@ -6,10 +6,10 @@ class AuthService {
   static Future<UserModel?> login(
       {required String email, required String password}) async {
     var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+    // https://fd7a1991-8d21-499f-aa7b-231db6c4d466.mock.pstmn.io//auth/login
+    // http://207.154.235.107:3000/v1/auth/login
     var request = http.Request(
-        'POST',
-        Uri.parse(
-            'https://fd7a1991-8d21-499f-aa7b-231db6c4d466.mock.pstmn.io//auth/login'));
+        'POST', Uri.parse('https://fd7a1991-8d21-499f-aa7b-231db6c4d466.mock.pstmn.io//auth/login'));
     request.bodyFields = {'email': email, 'password': password};
     request.headers.addAll(headers);
 
@@ -35,15 +35,11 @@ class AuthService {
       required String email,
       required String password}) async {
     var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+    // https://fd7a1991-8d21-499f-aa7b-231db6c4d466.mock.pstmn.io//auth/register
+    // http://207.154.235.107:3000/v1/auth/login
     var request = http.Request(
-        'POST',
-        Uri.parse(
-            'https://fd7a1991-8d21-499f-aa7b-231db6c4d466.mock.pstmn.io//auth/register'));
-    request.bodyFields = {
-      'name': name,
-      'email': email,
-      'password': password
-    };
+        'POST', Uri.parse('https://fd7a1991-8d21-499f-aa7b-231db6c4d466.mock.pstmn.io//auth/register'));
+    request.bodyFields = {'name': name, 'email': email, 'password': password};
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
