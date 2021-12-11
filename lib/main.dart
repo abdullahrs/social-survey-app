@@ -1,11 +1,16 @@
 import 'package:anket/product/constants/style/theme.dart';
+import 'package:anket/product/utils/token_cache_manager.dart';
 import 'package:anket/product/view/entry/pages/welcome_page.dart';
+import 'package:anket/product/view/home/pages/home.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  await Hive.initFlutter();
+  await TokenCacheManager().init();
   runApp(EasyLocalization(
     supportedLocales: const [Locale('en', 'US'), Locale('tr', 'TR')],
     path: 'assets/translations',
@@ -16,16 +21,18 @@ Future<void> main() async {
 
 class SurveyApp extends StatelessWidget {
   const SurveyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    final TokenCacheManager manager = TokenCacheManager();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       theme: lightTheme,
-      home: const WelcomePage(),
+      home: (manager.checkUserIsLogin() ?? false)
+          ? const Home()
+          : const WelcomePage(),
     );
   }
 }

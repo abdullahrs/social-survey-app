@@ -2,6 +2,7 @@ import 'package:anket/core/extensions/buildcontext_extension.dart';
 import 'package:anket/product/components/custom_button.dart';
 import 'package:anket/product/constants/enums/login_statuses.dart';
 import 'package:anket/product/utils/text_field_validations.dart';
+import 'package:anket/product/utils/token_cache_manager.dart';
 import 'package:anket/product/view/entry/components/custom_text_field.dart';
 import 'package:anket/product/view/entry/pages/sign_in_page.dart';
 import 'package:anket/product/view/entry/view_model/sign_up_cubit.dart';
@@ -17,22 +18,27 @@ class SignUpPage extends StatelessWidget {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _repeatPassController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey();
+  final TokenCacheManager userStatus = TokenCacheManager();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       body: BlocProvider(
         create: (context) => RegisterCubit(
-            formKey: _formKey,
-            nameController: _nameController,
-            mailController: _mailController,
-            passwordController: _passwordController,
-            repeatPassController: _repeatPassController),
+          formKey: _formKey,
+          nameController: _nameController,
+          mailController: _mailController,
+          passwordController: _passwordController,
+          repeatPassController: _repeatPassController,
+          cacheManager: userStatus,
+        ),
         child: BlocConsumer<RegisterCubit, RegisterState>(
           listener: (context, state) {
-            if (state is RegisterValidationState && !state.registerValidation) {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => const Home()));
+            if (state is RegisterValidationState && state.registerValidation) {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (_) => const Home()),
+                  (_) => false);
             }
           },
           builder: (context, state) {

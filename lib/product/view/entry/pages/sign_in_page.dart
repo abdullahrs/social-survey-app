@@ -3,6 +3,7 @@ import 'package:anket/product/components/custom_button.dart';
 import 'package:anket/product/components/sign_up_text_button.dart';
 import 'package:anket/product/constants/enums/login_statuses.dart';
 import 'package:anket/product/utils/text_field_validations.dart';
+import 'package:anket/product/utils/token_cache_manager.dart';
 import 'package:anket/product/view/entry/components/custom_text_field.dart';
 import 'package:anket/product/view/entry/view_model/sign_in_cubit.dart';
 import 'package:anket/product/view/home/pages/home.dart';
@@ -17,16 +18,21 @@ class SignInPage extends StatelessWidget {
   final TextEditingController _mailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey();
+  final TokenCacheManager userStatus = TokenCacheManager();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       body: BlocProvider(
-        create: (context) =>
-            LoginCubit(_mailController, _passwordController, _formKey),
+        create: (context) => LoginCubit(
+            mailController: _mailController,
+            passwordController: _passwordController,
+            formKey: _formKey,
+            cacheManager: userStatus),
         child: BlocConsumer<LoginCubit, LoginState>(
           listener: (context, state) {
-            if (state is LoginValidationState && !state.isValidate) {
+            if (state is LoginValidationState  && !state.isValidate) {
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (_) => const Home()),

@@ -1,3 +1,5 @@
+import 'package:anket/product/models/token.dart';
+
 class UserModel {
   User? user;
   Tokens? tokens;
@@ -42,48 +44,6 @@ class User {
     data['name'] = name;
     data['email'] = email;
     data['id'] = id;
-    return data;
-  }
-}
-
-class Tokens {
-  Access? access;
-  Access? refresh;
-
-  Tokens({this.access, this.refresh});
-
-  Tokens.fromJson(Map<String, dynamic> json) {
-    access = json['access'] != null ? Access.fromJson(json['access']) : null;
-    refresh = json['refresh'] != null ? Access.fromJson(json['refresh']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    if (access != null) {
-      data['access'] = access!.toJson();
-    }
-    if (refresh != null) {
-      data['refresh'] = refresh!.toJson();
-    }
-    return data;
-  }
-}
-
-class Access {
-  String? token;
-  String? expires;
-
-  Access({this.token, this.expires});
-
-  Access.fromJson(Map<String, dynamic> json) {
-    token = json['token'];
-    expires = json['expires'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    data['token'] = token;
-    data['expires'] = expires;
     return data;
   }
 }

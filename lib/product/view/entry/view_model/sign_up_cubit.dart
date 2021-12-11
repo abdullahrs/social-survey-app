@@ -1,3 +1,5 @@
+import 'package:anket/core/src/cache_manager.dart';
+import 'package:anket/product/constants/app_constants/hive_model_constants.dart';
 import 'package:anket/product/constants/enums/login_statuses.dart';
 import 'package:anket/product/services/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ class RegisterCubit extends Cubit<RegisterState> {
   final TextEditingController mailController;
   final TextEditingController passwordController;
   final TextEditingController repeatPassController;
+  final ICacheManager cacheManager;
   final GlobalKey<FormState> formKey;
 
   bool isRegisterFailed = false;
@@ -17,7 +20,8 @@ class RegisterCubit extends Cubit<RegisterState> {
       required this.mailController,
       required this.passwordController,
       required this.repeatPassController,
-      required this.formKey})
+      required this.formKey,
+      required this.cacheManager})
       : super(RegisterInitial());
 
   Future<void> postUserModel() async {
@@ -34,11 +38,13 @@ class RegisterCubit extends Cubit<RegisterState> {
               ? AuthStatuses.unsucsess
               : AuthStatuses.sucsess));
 
+      await cacheManager.putItem(HiveModelConstants.tokenKey, sucsess);
+
       isRegisterFailed = false;
     } else {
       isRegisterFailed = true;
     }
-    emit(RegisterValidationState(isRegisterFailed));
+    emit(RegisterValidationState(!isRegisterFailed));
   }
 }
 
