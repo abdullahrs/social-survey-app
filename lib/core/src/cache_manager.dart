@@ -1,6 +1,6 @@
 import 'package:hive_flutter/adapters.dart';
 
-abstract class ICacheManager<T> {
+abstract class ModelCacheManager<T> {
   static const String boxKey = "userStatusStorageKey";
 
   static Box? _box;
@@ -18,4 +18,6 @@ abstract class ICacheManager<T> {
 
   Future<void> removeItem(String key) => _box!.delete(key);
   Future<void> clearAll() async => await _box?.clear();
+
+  listen() => _box!.listenable();
 }

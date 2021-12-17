@@ -3,8 +3,6 @@ import 'package:hive_flutter/adapters.dart';
 
 part 'token.g.dart';
 
-// dart run build_runner build
-
 @HiveType(typeId: HiveConstants.tokenTypeID)
 class Tokens {
   @HiveField(0)

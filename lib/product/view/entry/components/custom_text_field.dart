@@ -24,10 +24,12 @@ class CustomTextField extends StatelessWidget {
       decoration: InputDecoration(
         prefixIcon: Icon(prefixIconData),
         hintText: hintText.tr(),
+        errorMaxLines: 2
       ),
       obscureText: obscure,
       textAlignVertical: TextAlignVertical.center,
       validator: validator,
+      
     );
   }
 }

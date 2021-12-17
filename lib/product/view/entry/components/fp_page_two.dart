@@ -1,5 +1,6 @@
 import 'package:anket/core/extensions/buildcontext_extension.dart';
 import 'package:anket/product/components/custom_button.dart';
+import 'package:anket/product/constants/style/colors.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -78,7 +79,7 @@ class _FPPageTwoState extends State<FPPageTwo> {
                         width: context.dynamicWidth(0.2),
                         height: context.dynamicWidth(0.2),
                         child: Card(
-                          color: const Color(0xFFecf2f0),
+                          color: AppStyle.codeFieldBackgroundColor,
                           child: Center(child: Text(getCode(index))),
                         ),
                       )),

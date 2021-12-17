@@ -1,10 +1,10 @@
 import 'package:anket/core/extensions/buildcontext_extension.dart';
 import 'package:anket/product/components/custom_button.dart';
-import 'package:anket/product/constants/enums/login_statuses.dart';
+import 'package:anket/product/components/sign_up_text_button.dart';
+import 'package:anket/product/constants/enums/auth_statuses.dart';
 import 'package:anket/product/utils/text_field_validations.dart';
 import 'package:anket/product/utils/token_cache_manager.dart';
 import 'package:anket/product/view/entry/components/custom_text_field.dart';
-import 'package:anket/product/view/entry/pages/sign_in_page.dart';
 import 'package:anket/product/view/entry/view_model/sign_up_cubit.dart';
 import 'package:anket/product/view/home/pages/home.dart';
 import 'package:easy_localization/src/public_ext.dart';
@@ -85,7 +85,7 @@ class SignUpPage extends StatelessWidget {
                     : false,
               ),
               SizedBox(height: context.dynamicHeight(0.02)),
-              loginButton(context),
+              SentenceTextButton(text: 'do_have'.tr(), routeName: 'login'),
               SizedBox(height: context.dynamicHeight(0.05)),
             ],
           ),
@@ -121,22 +121,4 @@ class SignUpPage extends StatelessWidget {
       validator: (String? str) => getValidator(
           str, ValidationType.repeatPassword,
           firstStr: _passwordController.text));
-
-  Row loginButton(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text('do_have', style: context.appTextTheme.bodyText2).tr(),
-        InkWell(
-            onTap: () {
-              Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (_) => SignInPage()));
-            },
-            child: const Text(
-              'login',
-              style: TextStyle(color: Color(0xFF5a7061)),
-            ).tr()),
-      ],
-    );
-  }
 }

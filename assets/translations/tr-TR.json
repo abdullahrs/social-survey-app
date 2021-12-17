@@ -24,5 +24,7 @@
     "participated":"Katılınanlar",
     "settings":"Ayarlar",
     "surveys": "Anketler",
-    "all": "Tümü"
+    "all": "Tümü",
+    "uncompleted":"Tamamlanmamış",
+    "password_lacking":"Şifre en az 1 özel karakter ve numara bulundurmalıdır."
 }

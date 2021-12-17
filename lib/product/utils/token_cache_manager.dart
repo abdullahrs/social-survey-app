@@ -4,20 +4,19 @@ import 'package:anket/product/constants/app_constants/hive_type_constants.dart';
 import 'package:anket/product/models/token.dart';
 import 'package:hive_flutter/adapters.dart';
 
-class TokenCacheManager extends ICacheManager {
-  static const String _tokenKey = HiveModelConstants.tokenKey;
-
+class TokenCacheManager extends ModelCacheManager<Tokens> {
   @override
   void registerAdapters() {
     if (!Hive.isAdapterRegistered(HiveConstants.accessTypeID)) {
-      Hive.registerAdapter(TokensAdapter());
       Hive.registerAdapter(AccessAdapter());
     }
+    if (!Hive.isAdapterRegistered(HiveConstants.tokenTypeID)) {
+      Hive.registerAdapter(TokensAdapter());
+    }
   }
-  
 
   bool? checkUserIsLogin() {
-    Tokens? token = getItem(_tokenKey);
+    Tokens? token = getItem(HiveModelConstants.tokenKey);
     // Login olmasi gerekiyor
     if (token == null) return null;
 

@@ -24,5 +24,7 @@
     "participated":"Participated",
     "settings":"Settings",
     "surveys": "Surveys",
-    "all": "All"
+    "all": "All",
+    "uncompleted":"Uncompleted",
+    "password_lacking":"Password must contain at least 1 special character and 1 number"
 }

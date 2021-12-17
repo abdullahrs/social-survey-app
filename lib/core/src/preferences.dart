@@ -1,18 +1,21 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
 abstract class Preferences<T> {
-  static const String _key = "userPreferencesStorageKey";
-  Box<T>? _box;
+  
+  final String boxKey;
 
-  Preferences();
+  Box<T>? box;
+
+  Preferences({required this.boxKey});
+  
   Future<void> init() async {
-    _box = await Hive.openBox(_key);
+    box = await Hive.openBox(boxKey);
   }
 
-  Future<void> putItem(String key, T item) => _box!.put(key, item);
+  Future<void> putItem(String key, T item) => box!.put(key, item);
 
-  T? getItem(String key) => _box!.get(key);
+  T? getItem(String key) => box!.get(key);
 
-  Future<void> removeItem(String key) => _box!.delete(key);
-  Future<void> clearAll() async => await _box?.clear();
+  Future<void> removeItem(String key) => box!.delete(key);
+  Future<void> clearAll() async => await box?.clear();
 }

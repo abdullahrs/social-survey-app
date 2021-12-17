@@ -9,28 +9,22 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  bloc: ^8.0.1
+  cupertino_icons: ^1.0.2
+  easy_localization: ^3.0.0
   flutter:
     sdk: flutter
-  # State Manegement
-  bloc: ^8.0.1
   flutter_bloc: ^8.0.0
-  # Cache
-  hive_flutter: ^1.1.0
-  # Service
-  http: ^0.13.4
-  # Translation
-  easy_localization: ^3.0.0
-  # UI
   google_nav_bar: ^5.0.5
-  cupertino_icons: ^1.0.2
-  
+  hive_flutter: ^1.1.0
+  http: ^0.13.4
 
 dev_dependencies:
-  flutter_lints: ^1.0.0
-  hive_generator: ^1.1.1
   build_runner: ^2.1.4
+  flutter_lints: ^1.0.0
   flutter_test:
     sdk: flutter
+  hive_generator: ^1.1.1
 
 flutter:
   uses-material-design: true

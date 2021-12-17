@@ -1,6 +1,8 @@
 import 'package:anket/core/extensions/buildcontext_extension.dart';
+import 'package:anket/product/utils/token_cache_manager.dart';
 import 'package:anket/product/view/entry/pages/sign_in_page.dart';
 import 'package:anket/product/view/entry/pages/sign_up_page.dart';
+import 'package:anket/product/view/home/pages/home.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -37,8 +39,13 @@ class WelcomePage extends StatelessWidget {
                 context: context,
                 text: "login",
                 function: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (_) => SignInPage()));
+                  if (TokenCacheManager().checkUserIsLogin() ?? false) {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (_) => SignInPage()));
+                  } else {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (_) => const Home()));
+                  }
                 }),
             const SizedBox(height: 10),
             button(

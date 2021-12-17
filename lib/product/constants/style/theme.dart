@@ -1,7 +1,8 @@
+import 'package:anket/product/constants/style/colors.dart';
 import 'package:flutter/material.dart';
 
 ThemeData lightTheme = ThemeData.light().copyWith(
-    scaffoldBackgroundColor: const Color(0xFFF7F8FC),
+    scaffoldBackgroundColor: AppStyle.scaffoldBackgroundColor,
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.transparent,
       shadowColor: Colors.transparent,
@@ -10,7 +11,7 @@ ThemeData lightTheme = ThemeData.light().copyWith(
     ),
     inputDecorationTheme: const InputDecorationTheme(
       filled: true,
-      fillColor: Color(0xFFecf2f0),
+      fillColor: AppStyle.textFieldFillColor,
       border: InputBorder.none,
       enabledBorder: InputBorder.none,
     ));

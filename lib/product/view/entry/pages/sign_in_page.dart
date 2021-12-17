@@ -1,7 +1,8 @@
 import 'package:anket/core/extensions/buildcontext_extension.dart';
 import 'package:anket/product/components/custom_button.dart';
 import 'package:anket/product/components/sign_up_text_button.dart';
-import 'package:anket/product/constants/enums/login_statuses.dart';
+import 'package:anket/product/constants/enums/auth_statuses.dart';
+import 'package:anket/product/constants/style/colors.dart';
 import 'package:anket/product/utils/text_field_validations.dart';
 import 'package:anket/product/utils/token_cache_manager.dart';
 import 'package:anket/product/view/entry/components/custom_text_field.dart';
@@ -25,14 +26,14 @@ class SignInPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: BlocProvider(
-        create: (context) => LoginCubit(
+        create: (context) => SignInCubit(
             mailController: _mailController,
             passwordController: _passwordController,
             formKey: _formKey,
             cacheManager: userStatus),
-        child: BlocConsumer<LoginCubit, LoginState>(
+        child: BlocConsumer<SignInCubit, SignInState>(
           listener: (context, state) {
-            if (state is LoginValidationState  && !state.isValidate) {
+            if (state is SignInValidationState && !state.isValidate) {
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (_) => const Home()),
@@ -47,10 +48,10 @@ class SignInPage extends StatelessWidget {
     );
   }
 
-  Form body(BuildContext context, LoginState state) {
+  Form body(BuildContext context, SignInState state) {
     return Form(
       key: _formKey,
-      autovalidateMode: state is LoginValidationState
+      autovalidateMode: state is SignInValidationState
           ? (state.isValidate
               ? AutovalidateMode.always
               : AutovalidateMode.disabled)
@@ -72,21 +73,24 @@ class SignInPage extends StatelessWidget {
               forgotPassField(context),
               SizedBox(height: context.dynamicHeight(0.05)),
               Visibility(
-                visible: state is LoginStatus
+                visible: state is SignInStatus
                     ? (state.status == AuthStatuses.unsucsess ? true : false)
                     : false,
                 child: warningField(),
               ),
               CustomButton(
                 voidCallback: () async =>
-                    await context.read<LoginCubit>().postUserModel(),
+                    await context.read<SignInCubit>().postUserModel(),
                 text: 'login',
-                loading: state is LoginStatus
+                loading: state is SignInStatus
                     ? (state.status == AuthStatuses.started ? true : false)
                     : false,
               ),
               SizedBox(height: context.dynamicHeight(0.02)),
-              const SignUpTextButton(),
+              SentenceTextButton(
+                text: 'dont_have'.tr(),
+                routeName: 'register',
+              ),
             ],
           ),
         ),
@@ -135,7 +139,7 @@ class SignInPage extends StatelessWidget {
                 MaterialPageRoute(builder: (_) => const ForgotPassPage())),
             child: Text(
               'forgot_pass'.tr() + "?",
-              style: const TextStyle(color: Color(0xFF5a7061)),
+              style: const TextStyle(color: AppStyle.textButtonColor),
             )));
   }
 }
