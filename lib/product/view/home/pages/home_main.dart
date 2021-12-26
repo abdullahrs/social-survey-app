@@ -1,8 +1,14 @@
 import 'package:anket/core/extensions/buildcontext_extension.dart';
+import 'package:anket/core/extensions/color_extension.dart';
+import 'package:anket/product/constants/app_constants/app_categories.dart';
+import 'package:anket/product/models/category_model.dart';
 import 'package:anket/product/models/survey_item_model.dart';
+import 'package:anket/product/services/data_service.dart';
+import 'package:anket/product/utils/token_cache_manager.dart';
 import 'package:anket/product/view/home/components/survey_list_item.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeMainPage extends StatelessWidget {
   const HomeMainPage({Key? key}) : super(key: key);
@@ -25,24 +31,45 @@ class HomeMainPage extends StatelessWidget {
             height: context.dynamicHeight(0.125),
             width: context.screenWidth,
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: ListView.builder(
-              itemCount: 5,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (BuildContext context, int index) {
-                return InkWell(
-                  onTap: () {},
-                  child: Container(
-                    height: context.dynamicHeight(0.125),
-                    width: context.dynamicHeight(0.125),
-                    padding: const EdgeInsets.all(10),
-                    child: Card(
-                      color: Color.fromARGB(255, 29 * (index + 1),
-                          26 * (index + 1), 27 * (index + 1)),
-                    ),
-                  ),
-                );
-              },
-            ),
+            child: FutureBuilder(
+                future: DataService.instance.getCategories(
+                  control: TokenCacheManager.instance.checkUserIsLogin(),
+                  token: TokenCacheManager.instance.getToken()!,
+                ),
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<CategoryModel>> snapshot) {
+                  if (snapshot.hasData &&
+                      snapshot.connectionState == ConnectionState.done) {
+                    return ListView.builder(
+                      itemCount: snapshot.data!.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (BuildContext context, int index) {
+                        String categoryName = snapshot.data![index].name;
+                        return InkWell(
+                          onTap: () {},
+                          child: Container(
+                            height: context.dynamicHeight(0.125),
+                            width: context.dynamicHeight(0.125),
+                            padding: const EdgeInsets.all(10),
+                            child: Card(
+                              color:
+                                  HexColor.fromHex(snapshot.data![index].color),
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: SvgPicture.asset(
+                                  kCategoryIcons.containsKey(categoryName)
+                                      ? kCategoryIcons[categoryName]!
+                                      : kDefaultIconPath,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  }
+                  return const Center(child: CircularProgressIndicator());
+                }),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),

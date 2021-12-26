@@ -26,5 +26,10 @@
     "surveys": "Anketler",
     "all": "Tümü",
     "uncompleted":"Tamamlanmamış",
-    "password_lacking":"Şifre en az 1 özel karakter ve numara bulundurmalıdır."
+    "password_lacking":"Şifre en az 1 özel karakter ve numara bulundurmalıdır.",
+    "current": "Güncel",
+    "art": "Sanat",
+    "education": "Eğitim",
+    "sport": "Spor",
+    "politics": "Siyaset"
 }

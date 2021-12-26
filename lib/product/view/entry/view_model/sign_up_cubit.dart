@@ -28,7 +28,7 @@ class RegisterCubit extends Cubit<RegisterState> {
   Future<void> postUserModel() async {
     if (formKey.currentState!.validate()) {
       emit(RegisterStatus(AuthStatuses.started));
-      UserModel? sucsess = await AuthService.register(
+      UserModel? sucsess = await AuthService.instance.register(
         name: nameController.text,
         email: mailController.text,
         password: passwordController.text,

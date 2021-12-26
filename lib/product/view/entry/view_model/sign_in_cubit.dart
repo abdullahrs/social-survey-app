@@ -24,7 +24,7 @@ class SignInCubit extends Cubit<SignInState> {
   Future<void> postUserModel() async {
     if (formKey.currentState!.validate()) {
       emit(SignInStatus(AuthStatuses.started));
-      UserModel? sucsess = await AuthService.login(
+      UserModel? sucsess = await AuthService.instance.login(
           email: mailController.text, password: passwordController.text);
       AuthStatuses authStatus = sucsess == null
           ? AuthStatuses.error

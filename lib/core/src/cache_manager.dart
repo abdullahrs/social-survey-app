@@ -1,7 +1,9 @@
 import 'package:hive_flutter/adapters.dart';
 
 abstract class ModelCacheManager<T> {
-  static const String boxKey = "userStatusStorageKey";
+  final String boxKey;
+
+  ModelCacheManager(this.boxKey);
 
   static Box? _box;
 

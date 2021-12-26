@@ -1,3 +1,7 @@
+import 'package:anket/product/constants/app_constants/hive_model_constants.dart';
+import 'package:anket/product/services/auth_service.dart';
+import 'package:anket/product/utils/token_cache_manager.dart';
+import 'package:anket/product/view/entry/pages/welcome_page.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 
@@ -11,8 +15,21 @@ class SettingsPage extends StatelessWidget {
       children: [
         ListTile(
           title: Text('logout'.tr()),
-        leading: const Icon(Icons.logout),
-          onTap: () async {},
+          leading: const Icon(Icons.logout),
+          onTap: () async {
+            TokenCacheManager cacheManager = TokenCacheManager();
+            var token = cacheManager.getItem(HiveModelConstants.tokenKey);
+            await AuthService.instance.logout(refreshToken: token!.refresh.token)
+                .then((value) async {
+              if (value) {
+                await cacheManager.removeItem(HiveModelConstants.tokenKey);
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (_) => const WelcomePage()),
+                    (_) => true);
+              }
+            });
+          },
         ),
       ],
     ));

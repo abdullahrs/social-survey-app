@@ -87,8 +87,8 @@ class SignInPage extends StatelessWidget {
                     : false,
               ),
               SizedBox(height: context.dynamicHeight(0.02)),
-              SentenceTextButton(
-                text: 'dont_have'.tr(),
+              const SentenceTextButton(
+                text: 'dont_have',
                 routeName: 'register',
               ),
             ],

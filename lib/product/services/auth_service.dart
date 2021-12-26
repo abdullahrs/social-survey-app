@@ -1,18 +1,16 @@
 import 'dart:convert';
-import 'package:anket/core/src/cache_manager.dart';
-import 'package:anket/product/constants/app_constants/hive_model_constants.dart';
 import 'package:anket/product/models/token.dart';
 import 'package:anket/product/models/user.dart';
 import 'package:http/http.dart' as http;
 
 class AuthService {
-  final ModelCacheManager? manager;
-  AuthService(this.manager);
+  static AuthService instance = AuthService._ctor();
+  AuthService._ctor();
 
   static const String baseURL = "https://www.socialsurveyapp.software/api/v1";
 
   // https://fd7a1991-8d21-499f-aa7b-231db6c4d466.mock.pstmn.io//auth/register
-  static Future<UserModel?> login(
+  Future<UserModel?> login(
       {required String email, required String password}) async {
     var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
     var request = http.Request('POST', Uri.parse('$baseURL/auth/login'));
@@ -21,7 +19,7 @@ class AuthService {
 
     http.StreamedResponse response = await request.send();
     String jsonString = await response.stream.bytesToString();
-    print(jsonString);
+    // print(jsonString);
     if (response.statusCode == 200) {
       var result = json.decode(jsonString);
       UserModel user = UserModel.fromJson(result);
@@ -35,7 +33,7 @@ class AuthService {
     return null;
   }
 
-  static Future<UserModel?> register(
+  Future<UserModel?> register(
       {required String name,
       required String email,
       required String password}) async {
@@ -46,7 +44,7 @@ class AuthService {
 
     http.StreamedResponse response = await request.send();
     String jsonString = await response.stream.bytesToString();
-    print(jsonString);
+    // print(jsonString);
     // Created
     if (response.statusCode == 201) {
       var result = json.decode(jsonString);
@@ -63,16 +61,32 @@ class AuthService {
     return null;
   }
 
-  Future<Tokens?> refreshAcsessToken() async {
-    Tokens token = manager!.getItem(HiveModelConstants.tokenKey);
+  Future<bool> logout({required String refreshToken}) async {
+    var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+    var request = http.Request('POST', Uri.parse('$baseURL/auth/logout'));
+    request.bodyFields = {'refreshToken': refreshToken};
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+    // String jsonString = await response.stream.bytesToString();
+    if (response.statusCode == 204) {
+      // Sucsess
+      return true;
+    } else if (response.statusCode == 404) {
+      // Not found
+    }
+    return false;
+  }
+
+  Future<Tokens?> refreshAcsessToken({required String refreshToken}) async {
     var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
     var request = http.Request('POST', Uri.parse('$baseURL/auth/register'));
-    request.bodyFields = {'refreshToken': token.refresh.token};
+    request.bodyFields = {'refreshToken': refreshToken};
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
     String jsonString = await response.stream.bytesToString();
-    print(jsonString);
+    // print(jsonString);
     // Sucsess
     if (response.statusCode == 200) {
       var result = json.decode(jsonString);
@@ -81,6 +95,36 @@ class AuthService {
     }
     // Fail
     else if (response.statusCode == 401) {}
+    return null;
+  }
+
+  Future<bool> refreshOrLogout(
+      {required bool? control, required String refreshToken}) async {
+    if (control == null) {
+      await refreshAcsessToken(refreshToken: refreshToken);
+      return true;
+    } else if (!control) {
+      await logout(refreshToken: refreshToken);
+      return false;
+    }
+    return true;
+  }
+
+  Future<String?> forgotSendMail(String email) async {
+    var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+    var request =
+        http.Request('POST', Uri.parse('$baseURL/auth/forgot-password'));
+    request.bodyFields = {'email': email};
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+    // String jsonString = await response.stream.bytesToString();
+    if (response.statusCode == 204) {
+      // Sucsess
+      return response.stream.bytesToString();
+    } else if (response.statusCode == 404) {
+      // Not found
+    }
     return null;
   }
 }

@@ -39,12 +39,14 @@ class WelcomePage extends StatelessWidget {
                 context: context,
                 text: "login",
                 function: () {
-                  if (TokenCacheManager().checkUserIsLogin() ?? false) {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (_) => SignInPage()));
+                  bool? control = TokenCacheManager().checkUserIsLogin();
+                  if (control ?? false) {
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (_) => const Home()),
+                        (_) => false);
                   } else {
                     Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (_) => const Home()));
+                        .push(MaterialPageRoute(builder: (_) => SignInPage()));
                   }
                 }),
             const SizedBox(height: 10),

@@ -1,3 +1,4 @@
 class HiveModelConstants{
-  static const String tokenKey = "userStatusTokenKey";
+  static const String tokenStorageKey = "tokenStorageKey";
+  static const String tokenKey = "tokenKey";
 }
