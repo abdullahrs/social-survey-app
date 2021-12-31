@@ -2,7 +2,7 @@ import 'package:anket/core/extensions/buildcontext_extension.dart';
 import 'package:anket/core/extensions/color_extension.dart';
 import 'package:anket/product/constants/app_constants/app_categories.dart';
 import 'package:anket/product/models/category_model.dart';
-import 'package:anket/product/models/survey_item_model.dart';
+import 'package:anket/product/models/survey_model.dart';
 import 'package:anket/product/services/data_service.dart';
 import 'package:anket/product/utils/token_cache_manager.dart';
 import 'package:anket/product/view/home/components/survey_list_item.dart';
@@ -104,7 +104,7 @@ class HomeMainPage extends StatelessWidget {
               (index) => Padding(
                     padding: const EdgeInsets.only(bottom: 20.0),
                     child: SurveyListItem(
-                      surveyListModel: SurveyListModel(
+                      surveyListModel: SurveyModel(
                           surveyID: 1,
                           title: "Birinci anket",
                           desc: "İlk deneme anketi",

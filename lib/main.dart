@@ -1,4 +1,5 @@
 import 'package:anket/product/constants/style/theme.dart';
+import 'package:anket/product/utils/forgot_pass_util.dart';
 import 'package:anket/product/utils/token_cache_manager.dart';
 import 'package:anket/product/view/entry/pages/welcome_page.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -10,6 +11,7 @@ Future<void> main() async {
   await EasyLocalization.ensureInitialized();
   await Hive.initFlutter();
   await TokenCacheManager().init();
+  await ForgotPassUtil.instance.initUniLinks();
   runApp(EasyLocalization(
     supportedLocales: const [Locale('en', 'US'), Locale('tr', 'TR')],
     path: 'assets/translations',

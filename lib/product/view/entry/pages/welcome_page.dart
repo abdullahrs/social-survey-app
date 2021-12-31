@@ -1,4 +1,5 @@
 import 'package:anket/core/extensions/buildcontext_extension.dart';
+import 'package:anket/product/utils/forgot_pass_util.dart';
 import 'package:anket/product/utils/token_cache_manager.dart';
 import 'package:anket/product/view/entry/pages/sign_in_page.dart';
 import 'package:anket/product/view/entry/pages/sign_up_page.dart';
@@ -11,6 +12,7 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ForgotPassUtil.instance.initUtil(context);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(20.0),

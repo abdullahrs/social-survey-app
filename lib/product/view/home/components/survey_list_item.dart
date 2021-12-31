@@ -1,12 +1,12 @@
 import 'package:anket/core/extensions/buildcontext_extension.dart';
 import 'package:anket/core/extensions/color_extension.dart';
 import 'package:anket/product/constants/style/colors.dart';
-import 'package:anket/product/models/survey_item_model.dart';
+import 'package:anket/product/models/survey_model.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 
 class SurveyListItem extends StatelessWidget {
-  final SurveyListModel surveyListModel;
+  final SurveyModel surveyListModel;
   const SurveyListItem({Key? key, required this.surveyListModel})
       : super(key: key);
 

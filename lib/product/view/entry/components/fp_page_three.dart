@@ -1,5 +1,7 @@
 import 'package:anket/core/extensions/buildcontext_extension.dart';
 import 'package:anket/product/components/custom_button.dart';
+import 'package:anket/product/services/auth_service.dart';
+import 'package:anket/product/utils/forgot_pass_util.dart';
 import 'package:anket/product/utils/text_field_validations.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
@@ -51,9 +53,14 @@ class FPPageThree extends StatelessWidget {
                     firstStr: _passController.text)),
             SizedBox(height: context.dynamicHeight(0.05)),
             CustomButton(
-                voidCallback: () {
+                voidCallback: () async {
                   if (_passFormState.currentState!.validate()) {
+                    await AuthService.instance.resetPassword(
+                      password: _passController.text,
+                      token: ForgotPassUtil.instance.appLink!,
+                    );
                     Navigator.of(context).pop();
+                    ForgotPassUtil.instance.dispose();
                   }
                 },
                 text: "next"),

@@ -98,6 +98,7 @@ class AuthService {
     return null;
   }
 
+  /// [control] Checks if the user is logged in
   Future<bool> refreshOrLogout(
       {required bool? control, required String refreshToken}) async {
     if (control == null) {
@@ -126,5 +127,17 @@ class AuthService {
       // Not found
     }
     return null;
+  }
+
+  Future<void> resetPassword(
+      {required String token, required String password}) async {
+    var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+    var request =
+        http.Request('POST', Uri.parse('$baseURL/auth/forgot-password'));
+
+    request.bodyFields = {'password': password};
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
   }
 }

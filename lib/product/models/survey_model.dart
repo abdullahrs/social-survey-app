@@ -1,4 +1,4 @@
-class SurveyListModel {
+class SurveyModel {
   late int surveyID;
   late String title;
   late String desc;
@@ -7,7 +7,7 @@ class SurveyListModel {
   late int numberOfSolve;
   late String color;
 
-  SurveyListModel(
+  SurveyModel(
       {required this.surveyID,
       required this.title,
       required this.desc,
@@ -16,7 +16,7 @@ class SurveyListModel {
       required this.numberOfSolve,
       required this.color});
 
-  SurveyListModel.fromJson(Map<String, dynamic> json) {
+  SurveyModel.fromJson(Map<String, dynamic> json) {
     surveyID = json['surveyID'];
     title = json['title'];
     desc = json['desc'];

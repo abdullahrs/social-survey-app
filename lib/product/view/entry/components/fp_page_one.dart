@@ -58,8 +58,8 @@ class FPPageOne extends StatelessWidget {
               text: 'next',
             ),
             SizedBox(height: context.dynamicHeight(0.05)),
-            SentenceTextButton(
-              text: 'dont_have'.tr(),
+            const SentenceTextButton(
+              text: 'dont_have',
               routeName: 'register',
             ),
           ],
