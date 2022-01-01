@@ -1,7 +1,5 @@
 import '../../../../core/extensions/buildcontext_extension.dart';
 import '../../../components/custom_button.dart';
-import '../../../services/auth_service.dart';
-import '../../../utils/forgot_pass_util.dart';
 import '../../../utils/text_field_validations.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
@@ -55,12 +53,13 @@ class FPPageThree extends StatelessWidget {
             CustomButton(
                 voidCallback: () async {
                   if (_passFormState.currentState!.validate()) {
-                    await AuthService.instance.resetPassword(
-                      password: _passController.text,
-                      token: ForgotPassUtil.instance.appLink!,
-                    );
+                    // TODO:
+                    // await AuthService.instance.resetPassword(
+                    //   password: _passController.text,
+                    //   token: ForgotPassUtil.instance.appLink!,
+                    // );
                     Navigator.of(context).pop();
-                    ForgotPassUtil.instance.dispose();
+                    // ForgotPassUtil.instance.dispose();
                   }
                 },
                 text: "next"),

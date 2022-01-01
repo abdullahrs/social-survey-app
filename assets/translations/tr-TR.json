@@ -25,6 +25,7 @@
     "settings":"Ayarlar",
     "surveys": "Anketler",
     "all": "Tümü",
+    "completed" : "Tamamlandı",
     "uncompleted":"Tamamlanmamış",
     "password_lacking":"Şifre en az 1 özel karakter ve numara bulundurmalıdır.",
     "current": "Güncel",

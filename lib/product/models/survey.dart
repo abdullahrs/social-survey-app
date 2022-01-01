@@ -1,5 +1,6 @@
-import 'question.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import 'question.dart';
 
 part 'survey.g.dart';
 

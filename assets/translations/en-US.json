@@ -25,6 +25,7 @@
     "settings": "Settings",
     "surveys": "Surveys",
     "all": "All",
+    "completed" : "Completed",
     "uncompleted": "Uncompleted",
     "password_lacking": "Password must contain at least 1 special character and 1 number",
     "current": "Current",

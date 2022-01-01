@@ -1,13 +1,20 @@
+import '../constants/app_constants/hive_type_constants.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'category.g.dart';
 
 @JsonSerializable()
+@HiveType(typeId: HiveConstants.categoriesTypeID)
 class Category {
-  late String id;
-  late String name;
-  late String color;
-  late int rank;
+  @HiveField(0)
+  final String id;
+  @HiveField(1)
+  final String name;
+  @HiveField(2)
+  final String color;
+  @HiveField(3)
+  final int rank;
   Category(
       {required this.id,
       required this.name,

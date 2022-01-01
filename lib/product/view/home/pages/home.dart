@@ -1,11 +1,12 @@
+import 'package:easy_localization/src/public_ext.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+
 import 'home_categories.dart';
 import 'home_main.dart';
 import 'home_participated.dart';
 import 'home_settings.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:easy_localization/src/public_ext.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);

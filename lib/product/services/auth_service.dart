@@ -1,13 +1,15 @@
 import 'dart:convert';
+
+import 'package:http/http.dart' as http;
+
 import '../models/token.dart';
 import '../models/user.dart';
-import 'package:http/http.dart' as http;
 
 class AuthService {
   static AuthService instance = AuthService._ctor();
   AuthService._ctor();
 
-  static const String baseURL = "https://www.socialsurveyapp.software/api/v1";
+  static const String baseURL = 'https://socialsurveyapp.software/api/v1';
 
   // https://fd7a1991-8d21-499f-aa7b-231db6c4d466.mock.pstmn.io//auth/register
   Future<User?> login(

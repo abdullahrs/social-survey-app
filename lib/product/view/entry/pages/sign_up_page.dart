@@ -1,15 +1,16 @@
+import 'package:easy_localization/src/public_ext.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../core/extensions/buildcontext_extension.dart';
 import '../../../components/custom_button.dart';
 import '../../../components/sign_up_text_button.dart';
 import '../../../constants/enums/auth_statuses.dart';
 import '../../../utils/text_field_validations.dart';
 import '../../../utils/token_cache_manager.dart';
+import '../../home/pages/home.dart';
 import '../components/custom_text_field.dart';
 import '../view_model/sign_up_cubit.dart';
-import '../../home/pages/home.dart';
-import 'package:easy_localization/src/public_ext.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpPage extends StatelessWidget {
   SignUpPage({Key? key}) : super(key: key);

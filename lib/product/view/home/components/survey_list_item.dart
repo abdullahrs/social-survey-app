@@ -1,9 +1,10 @@
+import 'package:easy_localization/src/public_ext.dart';
+import 'package:flutter/material.dart';
+
 import '../../../../core/extensions/buildcontext_extension.dart';
 import '../../../../core/extensions/color_extension.dart';
 import '../../../constants/style/colors.dart';
 import '../../../models/survey.dart';
-import 'package:easy_localization/src/public_ext.dart';
-import 'package:flutter/material.dart';
 
 class SurveyListItem extends StatelessWidget {
   final Survey surveyListModel;
@@ -13,7 +14,6 @@ class SurveyListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // height: context.dynamicHeight(0.2),
       width: context.screenWidth,
       decoration: BoxDecoration(
         color: AppStyle.surveyListItemBackgroundColor,

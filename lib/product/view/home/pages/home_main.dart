@@ -1,14 +1,15 @@
+import 'package:easy_localization/src/public_ext.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
 import '../../../../core/extensions/buildcontext_extension.dart';
 import '../../../../core/extensions/color_extension.dart';
+import '../components/survey_list_item.dart';
 import '../../../constants/app_constants/app_categories.dart';
 import '../../../models/category.dart';
 import '../../../models/survey.dart';
 import '../../../services/data_service.dart';
 import '../../../utils/token_cache_manager.dart';
-import '../components/survey_list_item.dart';
-import 'package:easy_localization/src/public_ext.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeMainPage extends StatelessWidget {
   const HomeMainPage({Key? key}) : super(key: key);
@@ -104,10 +105,19 @@ class HomeMainPage extends StatelessWidget {
                 control: TokenCacheManager.instance.checkUserIsLogin(),
                 token: TokenCacheManager.instance.getToken()!,
               ),
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<Survey>> snapshot) {
+              builder:
+                  (BuildContext context, AsyncSnapshot<List<Survey>> snapshot) {
                 if (snapshot.hasData &&
-                    snapshot.connectionState == ConnectionState.done) {}
+                    snapshot.connectionState == ConnectionState.done) {
+                  return Column(
+                      children: List<Widget>.generate(
+                          snapshot.data!.length,
+                          (index) => Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10.0),
+                            child: SurveyListItem(
+                                surveyListModel: snapshot.data![index]),
+                          )));
+                }
                 return const Center(child: CircularProgressIndicator());
               }),
         ],

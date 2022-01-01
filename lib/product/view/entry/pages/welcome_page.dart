@@ -1,5 +1,4 @@
 import '../../../../core/extensions/buildcontext_extension.dart';
-import '../../../utils/forgot_pass_util.dart';
 import '../../../utils/token_cache_manager.dart';
 import 'sign_in_page.dart';
 import 'sign_up_page.dart';
@@ -12,7 +11,6 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ForgotPassUtil.instance.initUtil(context);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -76,15 +74,16 @@ class WelcomePage extends StatelessWidget {
         onPressed: function,
         child: Text(text, style: context.appTextTheme.bodyText2).tr(),
         style: ButtonStyle(
-            minimumSize: MaterialStateProperty.all<Size>(
-                Size(double.infinity, context.dynamicHeight(0.055))),
-            backgroundColor:
-                MaterialStateProperty.all<Color>(Colors.transparent),
-            shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                const RoundedRectangleBorder(
-              side: BorderSide(color: Colors.black),
-            ))),
+          minimumSize: MaterialStateProperty.all<Size>(
+              Size(double.infinity, context.dynamicHeight(0.055))),
+          backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+          shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
+          elevation: MaterialStateProperty.all<double>(0),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              const RoundedRectangleBorder(
+            side: BorderSide(color: Colors.black),
+          )),
+        ),
       ),
     );
   }

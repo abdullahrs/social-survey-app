@@ -1,3 +1,4 @@
+import '../components/fp_page_two.dart';
 import '../components/fp_page_one.dart';
 import '../components/fp_page_three.dart';
 import 'package:flutter/material.dart';
@@ -57,9 +58,9 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
                   formState: _mailFormState,
                   textEditingController: _textController,
                   pageController: _pageController),
-              // FPPageTwo(
-              //     codeController: _codeController,
-              //     pageController: _pageController),
+              FPPageTwo(
+                  codeController: _codeController,
+                  pageController: _pageController),
               FPPageThree(
                 formState: _passFormState,
                 passController: _passController,

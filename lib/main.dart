@@ -1,5 +1,5 @@
 import 'product/constants/style/theme.dart';
-import 'product/utils/forgot_pass_util.dart';
+import 'product/utils/survey_cache_manager.dart';
 import 'product/utils/token_cache_manager.dart';
 import 'product/view/entry/pages/welcome_page.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -11,7 +11,7 @@ Future<void> main() async {
   await EasyLocalization.ensureInitialized();
   await Hive.initFlutter();
   await TokenCacheManager().init();
-  await ForgotPassUtil.instance.initUniLinks();
+  await SurveyCacheManager().init();
   runApp(EasyLocalization(
     supportedLocales: const [Locale('en', 'US'), Locale('tr', 'TR')],
     path: 'assets/translations',
