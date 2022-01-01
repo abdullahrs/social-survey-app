@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:anket/product/view/entry/pages/forgot_password_page.dart';
+import '../view/entry/pages/forgot_password_page.dart';
 import 'package:flutter/material.dart';
 import 'package:uni_links/uni_links.dart';
 

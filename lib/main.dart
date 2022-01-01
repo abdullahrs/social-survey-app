@@ -1,7 +1,7 @@
-import 'package:anket/product/constants/style/theme.dart';
-import 'package:anket/product/utils/forgot_pass_util.dart';
-import 'package:anket/product/utils/token_cache_manager.dart';
-import 'package:anket/product/view/entry/pages/welcome_page.dart';
+import 'product/constants/style/theme.dart';
+import 'product/utils/forgot_pass_util.dart';
+import 'product/utils/token_cache_manager.dart';
+import 'product/view/entry/pages/welcome_page.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';

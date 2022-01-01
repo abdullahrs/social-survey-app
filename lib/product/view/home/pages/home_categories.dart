@@ -1,9 +1,9 @@
-import 'package:anket/core/extensions/buildcontext_extension.dart';
-import 'package:anket/core/extensions/color_extension.dart';
-import 'package:anket/product/constants/app_constants/app_categories.dart';
-import 'package:anket/product/models/category.dart';
-import 'package:anket/product/services/data_service.dart';
-import 'package:anket/product/utils/token_cache_manager.dart';
+import '../../../../core/extensions/buildcontext_extension.dart';
+import '../../../../core/extensions/color_extension.dart';
+import '../../../constants/app_constants/app_categories.dart';
+import '../../../models/category.dart';
+import '../../../services/data_service.dart';
+import '../../../utils/token_cache_manager.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

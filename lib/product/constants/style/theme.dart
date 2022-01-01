@@ -1,5 +1,6 @@
-import 'package:anket/product/constants/style/colors.dart';
 import 'package:flutter/material.dart';
+
+import 'colors.dart';
 
 ThemeData lightTheme = ThemeData.light().copyWith(
     scaffoldBackgroundColor: AppStyle.scaffoldBackgroundColor,

@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:anket/product/models/token.dart';
-import 'package:anket/product/models/user.dart';
+import '../models/token.dart';
+import '../models/user.dart';
 import 'package:http/http.dart' as http;
 
 class AuthService {

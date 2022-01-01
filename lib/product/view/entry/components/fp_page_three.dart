@@ -1,8 +1,8 @@
-import 'package:anket/core/extensions/buildcontext_extension.dart';
-import 'package:anket/product/components/custom_button.dart';
-import 'package:anket/product/services/auth_service.dart';
-import 'package:anket/product/utils/forgot_pass_util.dart';
-import 'package:anket/product/utils/text_field_validations.dart';
+import '../../../../core/extensions/buildcontext_extension.dart';
+import '../../../components/custom_button.dart';
+import '../../../services/auth_service.dart';
+import '../../../utils/forgot_pass_util.dart';
+import '../../../utils/text_field_validations.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 

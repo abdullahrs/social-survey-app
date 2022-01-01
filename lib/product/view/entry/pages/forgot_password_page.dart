@@ -1,5 +1,5 @@
-import 'package:anket/product/view/entry/components/fp_page_one.dart';
-import 'package:anket/product/view/entry/components/fp_page_three.dart';
+import '../components/fp_page_one.dart';
+import '../components/fp_page_three.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPassPage extends StatefulWidget {

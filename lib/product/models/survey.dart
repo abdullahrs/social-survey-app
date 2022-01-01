@@ -1,4 +1,4 @@
-import 'package:anket/product/models/question.dart';
+import 'question.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'survey.g.dart';

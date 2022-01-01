@@ -1,7 +1,7 @@
-import 'package:anket/core/extensions/buildcontext_extension.dart';
-import 'package:anket/core/extensions/color_extension.dart';
-import 'package:anket/product/constants/style/colors.dart';
-import 'package:anket/product/models/survey.dart';
+import '../../../../core/extensions/buildcontext_extension.dart';
+import '../../../../core/extensions/color_extension.dart';
+import '../../../constants/style/colors.dart';
+import '../../../models/survey.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 

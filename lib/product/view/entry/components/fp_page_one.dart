@@ -1,8 +1,8 @@
-import 'package:anket/core/extensions/buildcontext_extension.dart';
-import 'package:anket/product/components/custom_button.dart';
-import 'package:anket/product/components/sign_up_text_button.dart';
-import 'package:anket/product/utils/text_field_validations.dart';
-import 'package:anket/product/view/entry/components/custom_text_field.dart';
+import '../../../../core/extensions/buildcontext_extension.dart';
+import '../../../components/custom_button.dart';
+import '../../../components/sign_up_text_button.dart';
+import '../../../utils/text_field_validations.dart';
+import 'custom_text_field.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 

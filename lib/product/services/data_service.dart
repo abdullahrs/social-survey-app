@@ -1,7 +1,7 @@
-import 'package:anket/product/models/category.dart';
-import 'package:anket/product/models/survey.dart';
-import 'package:anket/product/models/token.dart';
-import 'package:anket/product/services/auth_service.dart';
+import '../models/category.dart';
+import '../models/survey.dart';
+import '../models/token.dart';
+import 'auth_service.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
