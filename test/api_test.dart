@@ -16,12 +16,12 @@ void main() {
     test('Sign-up', () async {
       var result = await AuthService.instance.register(
           email: "xy@xy.com", password: "deneme1**", name: 'Deneme Deneme');
-      expect(result.runtimeType, UserModel);
+      expect(result.runtimeType, User);
     });
     test('Log-in', () async {
       var result = await AuthService.instance
           .login(email: "deneme@x.com", password: "deneme1*");
-      expect(result.runtimeType, UserModel);
+      expect(result.runtimeType, User);
     });
 
     test('Log-out', () async {

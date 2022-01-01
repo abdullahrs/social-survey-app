@@ -1,49 +1,19 @@
-import 'package:anket/product/models/token.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-class UserModel {
-  User? user;
+import 'token.dart';
+import 'info.dart';
+
+part 'user.g.dart';
+
+@JsonSerializable(explicitToJson: true)
+class User {
+  Info? user;
   Tokens? tokens;
 
-  UserModel({required this.user, required this.tokens});
+  User({required this.user, required this.tokens});
 
-  UserModel.fromJson(Map<String, dynamic> json) {
-    user = json['user'] != null ? User.fromJson(json['user']) : null;
-    tokens = json['tokens'] != null ? Tokens.fromJson(json['tokens']) : null;
-  }
+  factory User.fromJson(Map<String, dynamic> json) =>
+      _$UserFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    if (user != null) {
-      data['user'] = user!.toJson();
-    }
-    if (tokens != null) {
-      data['tokens'] = tokens!.toJson();
-    }
-    return data;
-  }
-}
-
-class User {
-  String? role;
-  String? name;
-  String? email;
-  String? id;
-
-  User({this.role, this.name, this.email, this.id});
-
-  User.fromJson(Map<String, dynamic> json) {
-    role = json['role'];
-    name = json['name'];
-    email = json['email'];
-    id = json['id'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    data['role'] = role;
-    data['name'] = name;
-    data['email'] = email;
-    data['id'] = id;
-    return data;
-  }
+  Map<String, dynamic> toJson() => _$UserToJson(this);
 }

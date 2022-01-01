@@ -1,8 +1,10 @@
 import 'package:anket/product/constants/app_constants/hive_type_constants.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'token.g.dart';
 
+@JsonSerializable(explicitToJson: true)
 @HiveType(typeId: HiveConstants.tokenTypeID)
 class Tokens {
   @HiveField(0)
@@ -12,20 +14,12 @@ class Tokens {
 
   Tokens({required this.access, required this.refresh});
 
-  Tokens.fromJson(Map<String, dynamic> json) {
-    access = (json['access'] != null ? Access.fromJson(json['access']) : null)!;
-    refresh =
-        (json['refresh'] != null ? Access.fromJson(json['refresh']) : null)!;
-  }
+  factory Tokens.fromJson(Map<String, dynamic> json) => _$TokensFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    data['access'] = access.toJson();
-    data['refresh'] = refresh.toJson();
-    return data;
-  }
+  Map<String, dynamic> toJson() => _$TokensToJson(this);
 }
 
+@JsonSerializable()
 @HiveType(typeId: HiveConstants.accessTypeID)
 class Access {
   @HiveField(0)
@@ -35,15 +29,7 @@ class Access {
 
   Access({required this.token, required this.expires});
 
-  Access.fromJson(Map<String, dynamic> json) {
-    token = json['token'];
-    expires = json['expires'];
-  }
+  factory Access.fromJson(Map<String, dynamic> json) => _$AccessFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    data['token'] = token;
-    data['expires'] = expires;
-    return data;
-  }
+  Map<String, dynamic> toJson() => _$AccessToJson(this);
 }

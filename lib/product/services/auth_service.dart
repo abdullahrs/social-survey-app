@@ -10,7 +10,7 @@ class AuthService {
   static const String baseURL = "https://www.socialsurveyapp.software/api/v1";
 
   // https://fd7a1991-8d21-499f-aa7b-231db6c4d466.mock.pstmn.io//auth/register
-  Future<UserModel?> login(
+  Future<User?> login(
       {required String email, required String password}) async {
     var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
     var request = http.Request('POST', Uri.parse('$baseURL/auth/login'));
@@ -22,10 +22,10 @@ class AuthService {
     // print(jsonString);
     if (response.statusCode == 200) {
       var result = json.decode(jsonString);
-      UserModel user = UserModel.fromJson(result);
+      User user = User.fromJson(result);
       return user;
     } else if (response.statusCode == 401) {
-      UserModel user = UserModel(user: null, tokens: null);
+      User user = User(user: null, tokens: null);
       return user;
     }
     // print(response.reasonPhrase);
@@ -33,7 +33,7 @@ class AuthService {
     return null;
   }
 
-  Future<UserModel?> register(
+  Future<User?> register(
       {required String name,
       required String email,
       required String password}) async {
@@ -48,12 +48,12 @@ class AuthService {
     // Created
     if (response.statusCode == 201) {
       var result = json.decode(jsonString);
-      UserModel user = UserModel.fromJson(result);
+      User user = User.fromJson(result);
       return user;
     }
     // Taken
     else if (response.statusCode == 400) {
-      UserModel user = UserModel(user: null, tokens: null);
+      User user = User(user: null, tokens: null);
       return user;
     }
     // print(response.reasonPhrase);

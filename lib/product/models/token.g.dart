@@ -79,3 +79,27 @@ class AccessAdapter extends TypeAdapter<Access> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+Tokens _$TokensFromJson(Map<String, dynamic> json) => Tokens(
+      access: Access.fromJson(json['access'] as Map<String, dynamic>),
+      refresh: Access.fromJson(json['refresh'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$TokensToJson(Tokens instance) => <String, dynamic>{
+      'access': instance.access.toJson(),
+      'refresh': instance.refresh.toJson(),
+    };
+
+Access _$AccessFromJson(Map<String, dynamic> json) => Access(
+      token: json['token'] as String,
+      expires: json['expires'] as String,
+    );
+
+Map<String, dynamic> _$AccessToJson(Access instance) => <String, dynamic>{
+      'token': instance.token,
+      'expires': instance.expires,
+    };

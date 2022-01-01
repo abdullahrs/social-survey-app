@@ -1,7 +1,7 @@
 import 'package:anket/core/extensions/buildcontext_extension.dart';
 import 'package:anket/core/extensions/color_extension.dart';
 import 'package:anket/product/constants/app_constants/app_categories.dart';
-import 'package:anket/product/models/category_model.dart';
+import 'package:anket/product/models/category.dart';
 import 'package:anket/product/models/survey.dart';
 import 'package:anket/product/services/data_service.dart';
 import 'package:anket/product/utils/token_cache_manager.dart';
@@ -37,7 +37,7 @@ class HomeMainPage extends StatelessWidget {
                   token: TokenCacheManager.instance.getToken()!,
                 ),
                 builder: (BuildContext context,
-                    AsyncSnapshot<List<CategoryModel>> snapshot) {
+                    AsyncSnapshot<List<Category>> snapshot) {
                   if (snapshot.hasData &&
                       snapshot.connectionState == ConnectionState.done) {
                     return ListView.builder(
@@ -99,22 +99,17 @@ class HomeMainPage extends StatelessWidget {
               ],
             ),
           ),
-          ...List<Widget>.generate(
-              5,
-              (index) => Padding(
-                    padding: const EdgeInsets.only(bottom: 20.0),
-                    child: SurveyListItem(
-                      surveyListModel: Survey(
-                          id: "1",
-                          name: "Birinci anket",
-                          description: "İlk deneme anketi",
-                          // status: false,
-                          categoryId: "Genel",
-                          submissionCount: 21, questions: [],
-                          // color: "3a4c93"
-                          ),
-                    ),
-                  )),
+          FutureBuilder(
+              future: DataService.instance.getSurveys(
+                control: TokenCacheManager.instance.checkUserIsLogin(),
+                token: TokenCacheManager.instance.getToken()!,
+              ),
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<Survey>> snapshot) {
+                if (snapshot.hasData &&
+                    snapshot.connectionState == ConnectionState.done) {}
+                return const Center(child: CircularProgressIndicator());
+              }),
         ],
       ),
     );

@@ -1,4 +1,4 @@
-import 'package:anket/product/models/category_model.dart';
+import 'package:anket/product/models/category.dart';
 import 'package:anket/product/models/survey.dart';
 import 'package:anket/product/models/token.dart';
 import 'package:anket/product/services/auth_service.dart';
@@ -14,7 +14,7 @@ class DataService {
   /// [control] Checks if the user is logged in
   ///
   /// [token] Bearer cccess token
-  Future<List<CategoryModel>> getCategories({
+  Future<List<Category>> getCategories({
     required bool? control,
     required Tokens token,
   }) async {
@@ -42,8 +42,8 @@ class DataService {
 
     if (response.statusCode == 200) {
       var jsonResponse = convert.jsonDecode(jsonString);
-      List<CategoryModel> categories = List<CategoryModel>.from(
-          jsonResponse.map((item) => CategoryModel.fromJson(item)).toList());
+      List<Category> categories = List<Category>.from(
+          jsonResponse.map((item) => Category.fromJson(item)).toList());
       return categories;
     } else {}
     return [];
