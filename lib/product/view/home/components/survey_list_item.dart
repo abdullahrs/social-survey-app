@@ -1,12 +1,12 @@
 import 'package:anket/core/extensions/buildcontext_extension.dart';
 import 'package:anket/core/extensions/color_extension.dart';
 import 'package:anket/product/constants/style/colors.dart';
-import 'package:anket/product/models/survey_model.dart';
+import 'package:anket/product/models/survey.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 
 class SurveyListItem extends StatelessWidget {
-  final SurveyModel surveyListModel;
+  final Survey surveyListModel;
   const SurveyListItem({Key? key, required this.surveyListModel})
       : super(key: key);
 
@@ -19,9 +19,10 @@ class SurveyListItem extends StatelessWidget {
         color: AppStyle.surveyListItemBackgroundColor,
         border: Border(
           left: BorderSide(
-            width: 4,
-            color: HexColor.fromHex(surveyListModel.color),
-          ),
+              width: 4,
+              color: HexColor.fromHex(
+                  "3a4c93") // TODO HexColor.fromHex(surveyListModel.color), 3a4c93
+              ),
         ),
       ),
       child: Column(
@@ -36,9 +37,8 @@ class SurveyListItem extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Chip(
                       label: Text(
-                        surveyListModel.status
-                            ? 'completed'.tr()
-                            : 'uncompleted'.tr(),
+                        // TODO: surveyListModel.status
+                        true ? 'completed'.tr() : 'uncompleted'.tr(),
                       ),
                       backgroundColor: Colors.blue,
                     ),
@@ -46,7 +46,7 @@ class SurveyListItem extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Chip(
-                      label: Text(surveyListModel.category),
+                      label: Text(surveyListModel.categoryId),
                       backgroundColor: Colors.green,
                     ),
                   ),
@@ -56,7 +56,7 @@ class SurveyListItem extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 8.0),
                 child: Row(
                   children: [
-                    Text(surveyListModel.numberOfSolve.toString()),
+                    Text(surveyListModel.submissionCount.toString()),
                     const Icon(Icons.check, color: Colors.green)
                   ],
                 ),
@@ -66,7 +66,7 @@ class SurveyListItem extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 8.0, bottom: 8.0),
             child: Text(
-              surveyListModel.title,
+              surveyListModel.name,
               style: context.appTextTheme.headline5!
                   .copyWith(fontWeight: FontWeight.bold),
             ),
@@ -74,7 +74,7 @@ class SurveyListItem extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 8.0, bottom: 8.0),
             child: Text(
-              surveyListModel.desc,
+              surveyListModel.description,
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
               style: context.appTextTheme.subtitle1,

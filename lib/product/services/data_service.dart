@@ -1,9 +1,7 @@
 import 'package:anket/product/models/category_model.dart';
-import 'package:anket/product/models/survey_model.dart';
+import 'package:anket/product/models/survey.dart';
 import 'package:anket/product/models/token.dart';
 import 'package:anket/product/services/auth_service.dart';
-import 'package:anket/product/view/home/components/survey_list_item.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
@@ -11,7 +9,6 @@ class DataService {
   static final DataService instance = DataService._ctor();
 
   DataService._ctor();
-
   static const String baseURL = "socialsurveyapp.software";
 
   /// [control] Checks if the user is logged in
@@ -67,7 +64,7 @@ class DataService {
   /// [limit] Maximum number of surveys
   ///
   /// [page] Page number
-  Future<List<SurveyModel>> getSurveys({
+  Future<List<Survey>> getSurveys({
     required bool? control,
     required Tokens token,
     String? categoryId,
@@ -100,7 +97,7 @@ class DataService {
     };
 
     Uri uri = Uri.https(baseURL, '/api/v1/survey', queryParameters);
-
+    
     var request = http.Request('GET', uri);
 
     request.headers.addAll(headers);
@@ -110,8 +107,8 @@ class DataService {
 
     if (response.statusCode == 200) {
       var jsonResponse = convert.jsonDecode(jsonString);
-      List<SurveyModel> surveys = List<SurveyModel>.from(
-          jsonResponse.map((item) => SurveyModel.fromJson(item)).toList());
+      List<Survey> surveys = List<Survey>.from(
+          jsonResponse['results'].map((item) => Survey.fromJson(item)).toList());
       return surveys;
     } else {}
     return [];

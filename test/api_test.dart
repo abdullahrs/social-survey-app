@@ -1,5 +1,3 @@
-import 'package:anket/product/models/category_model.dart';
-import 'package:anket/product/models/survey_model.dart';
 import 'package:anket/product/models/token.dart';
 import 'package:anket/product/models/user.dart';
 import 'package:anket/product/services/auth_service.dart';
@@ -44,13 +42,13 @@ void main() {
     test('Get survey categories', () async {
       var result =
           await DataService.instance.getCategories(control: true, token: token);
-      expect(result is List<CategoryModel>, true);
+      expect(result.isNotEmpty, true);
     });
 
     test('Get surveys', () async {
       var result =
           await DataService.instance.getSurveys(control: true, token: token);
-      expect(result is List<SurveyModel>, true);
+      expect(result.isNotEmpty, true);
     });
 
     test('Get surveys participated in', () {});
