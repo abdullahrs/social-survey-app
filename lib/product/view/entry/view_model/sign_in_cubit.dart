@@ -50,6 +50,7 @@ class SignInCubit extends Cubit<SignInState> {
   }
 }
 
+@immutable
 abstract class SignInState {}
 
 class LoginInitial extends SignInState {}

@@ -1,3 +1,4 @@
+import '../../../services/auth_service.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +9,7 @@ import '../../../utils/text_field_validations.dart';
 import 'custom_text_field.dart';
 
 class FPPageOne extends StatelessWidget {
-  final TextEditingController _textController;
+  final TextEditingController _mailController;
   final PageController _pageController;
   final GlobalKey<FormState> _mailFormState;
   const FPPageOne(
@@ -16,7 +17,7 @@ class FPPageOne extends StatelessWidget {
       required TextEditingController textEditingController,
       required PageController pageController,
       required GlobalKey<FormState> formState})
-      : _textController = textEditingController,
+      : _mailController = textEditingController,
         _pageController = pageController,
         _mailFormState = formState,
         super(key: key);
@@ -44,13 +45,14 @@ class FPPageOne extends StatelessWidget {
             CustomTextField(
                 prefixIconData: Icons.mail_outline,
                 hintText: 'mail',
-                controller: _textController,
+                controller: _mailController,
                 validator: (String? str) =>
                     getValidator(str, ValidationType.email)),
             SizedBox(height: context.dynamicHeight(0.05)),
             CustomButton(
-              voidCallback: () {
+              voidCallback: () async{
                 if (_mailFormState.currentState!.validate()) {
+                  await AuthService.instance.forgotSendMail(_mailController.text);
                   _pageController.nextPage(
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.bounceOut);

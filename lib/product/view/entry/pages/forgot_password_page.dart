@@ -1,6 +1,5 @@
-import '../components/fp_page_two.dart';
-import '../components/fp_page_one.dart';
-import '../components/fp_page_three.dart';
+import '../components/forgot_password_reset_pass_page.dart';
+import '../components/forgot_password_email_page.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPassPage extends StatefulWidget {
@@ -15,7 +14,7 @@ class ForgotPassPage extends StatefulWidget {
 class _ForgotPassPageState extends State<ForgotPassPage> {
   final PageController _pageController = PageController();
 
-  final TextEditingController _textController = TextEditingController();
+  final TextEditingController _mailController = TextEditingController();
   final TextEditingController _codeController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
   final TextEditingController _repeatController = TextEditingController();
@@ -38,7 +37,7 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
   @override
   void dispose() {
     _pageController.dispose();
-    _textController.dispose();
+    _mailController.dispose();
     _passController.dispose();
     _repeatController.dispose();
     super.dispose();
@@ -56,15 +55,14 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
             children: [
               FPPageOne(
                   formState: _mailFormState,
-                  textEditingController: _textController,
+                  textEditingController: _mailController,
                   pageController: _pageController),
               FPPageTwo(
-                  codeController: _codeController,
-                  pageController: _pageController),
-              FPPageThree(
                 formState: _passFormState,
+                codeController: _codeController,
                 passController: _passController,
                 repeatController: _repeatController,
+                mailController: _mailController,
               ),
             ],
           ),

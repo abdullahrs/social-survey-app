@@ -56,6 +56,7 @@ class RegisterCubit extends Cubit<RegisterState> {
   }
 }
 
+@immutable
 abstract class RegisterState {}
 
 class RegisterInitial extends RegisterState {}

@@ -77,6 +77,22 @@ class SignUpPage extends StatelessWidget {
               SizedBox(height: context.dynamicHeight(0.02)),
               repeatPasswordField(),
               SizedBox(height: context.dynamicHeight(0.05)),
+              Visibility(
+                visible: state is RegisterStatus
+                    ? (state.status == AuthStatuses.unsucsess ? true : false)
+                    : false,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Text('already_taken',
+                            textAlign: TextAlign.left,
+                            style: context.appTextTheme.bodyText2!
+                                .copyWith(color: Colors.red))
+                        .tr(),
+                  ),
+                ),
+              ),
               CustomButton(
                 voidCallback: () async =>
                     await context.read<RegisterCubit>().postUserModel(),
@@ -86,7 +102,7 @@ class SignUpPage extends StatelessWidget {
                     : false,
               ),
               SizedBox(height: context.dynamicHeight(0.02)),
-              SentenceTextButton(text: 'do_have'.tr(), routeName: 'login'),
+              const SentenceTextButton(text: 'do_have', routeName: 'login'),
               SizedBox(height: context.dynamicHeight(0.05)),
             ],
           ),

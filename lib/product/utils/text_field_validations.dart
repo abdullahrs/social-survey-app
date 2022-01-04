@@ -1,6 +1,6 @@
 import 'package:easy_localization/src/public_ext.dart';
 
-enum ValidationType { name, email, password, repeatPassword }
+enum ValidationType { name, email, password, repeatPassword, code }
 
 String? getValidator(String? str, ValidationType type, {String? firstStr}) {
   switch (type) {
@@ -17,7 +17,9 @@ String? getValidator(String? str, ValidationType type, {String? firstStr}) {
         if (str == null || str.isEmpty) return "empty_field".tr();
         RegExp digitExp = RegExp(r'\d+');
         RegExp specialExp = RegExp(r'[^A-Za-z0-9]');
-        if(!digitExp.hasMatch(str) || !specialExp.hasMatch(str)) return 'password_lacking'.tr();
+        if (!digitExp.hasMatch(str) || !specialExp.hasMatch(str)) {
+          return 'password_lacking'.tr();
+        }
         return str.length < 8 ? 'short_password'.tr() : null;
       }
     case ValidationType.repeatPassword:
@@ -26,6 +28,9 @@ String? getValidator(String? str, ValidationType type, {String? firstStr}) {
         return "unmatch_password".tr();
       }
       return str.length < 8 ? 'short_password'.tr() : null;
+    case ValidationType.code:
+      if (str == null || str.isEmpty) return "empty_field".tr();
+      return str.length < 4 ? 'short_password'.tr() : null;
     default:
       return null;
   }

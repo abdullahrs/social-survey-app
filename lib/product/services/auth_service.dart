@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import '../utils/request_creator.dart';
+import '../constants/app_constants/urls.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/token.dart';
@@ -9,19 +11,15 @@ class AuthService {
   static AuthService instance = AuthService._ctor();
   AuthService._ctor();
 
-  static const String baseURL = 'https://socialsurveyapp.software/api/v1';
-
-  // https://fd7a1991-8d21-499f-aa7b-231db6c4d466.mock.pstmn.io//auth/register
-  Future<User?> login(
-      {required String email, required String password}) async {
-    var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-    var request = http.Request('POST', Uri.parse('$baseURL/auth/login'));
-    request.bodyFields = {'email': email, 'password': password};
-    request.headers.addAll(headers);
+  Future<User?> login({required String email, required String password}) async {
+    http.Request request = createRequest(
+      endPoint: RestAPIPoints.login,
+      bodyFields: {'email': email, 'password': password},
+    );
 
     http.StreamedResponse response = await request.send();
     String jsonString = await response.stream.bytesToString();
-    // print(jsonString);
+
     if (response.statusCode == 200) {
       var result = json.decode(jsonString);
       User user = User.fromJson(result);
@@ -30,8 +28,6 @@ class AuthService {
       User user = User(user: null, tokens: null);
       return user;
     }
-    // print(response.reasonPhrase);
-    // throw Exception(response.reasonPhrase);
     return null;
   }
 
@@ -39,65 +35,58 @@ class AuthService {
       {required String name,
       required String email,
       required String password}) async {
-    var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-    var request = http.Request('POST', Uri.parse('$baseURL/auth/register'));
-    request.bodyFields = {'name': name, 'email': email, 'password': password};
-    request.headers.addAll(headers);
+    http.Request request = createRequest(
+      endPoint: RestAPIPoints.register,
+      bodyFields: {'name': name, 'email': email, 'password': password},
+    );
 
     http.StreamedResponse response = await request.send();
     String jsonString = await response.stream.bytesToString();
-    // print(jsonString);
     // Created
     if (response.statusCode == 201) {
       var result = json.decode(jsonString);
       User user = User.fromJson(result);
       return user;
     }
-    // Taken
+    // Email already Taken
     else if (response.statusCode == 400) {
       User user = User(user: null, tokens: null);
       return user;
     }
-    // print(response.reasonPhrase);
-    // throw Exception(response.reasonPhrase);
+
     return null;
   }
 
   Future<bool> logout({required String refreshToken}) async {
-    var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-    var request = http.Request('POST', Uri.parse('$baseURL/auth/logout'));
-    request.bodyFields = {'refreshToken': refreshToken};
-    request.headers.addAll(headers);
+    http.Request request = createRequest(
+      endPoint: RestAPIPoints.logout,
+      bodyFields: {'refreshToken': refreshToken},
+    );
 
     http.StreamedResponse response = await request.send();
-    // String jsonString = await response.stream.bytesToString();
     if (response.statusCode == 204) {
       // Sucsess
       return true;
-    } else if (response.statusCode == 404) {
-      // Not found
     }
     return false;
   }
 
   Future<Tokens?> refreshAcsessToken({required String refreshToken}) async {
-    var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-    var request = http.Request('POST', Uri.parse('$baseURL/auth/register'));
-    request.bodyFields = {'refreshToken': refreshToken};
-    request.headers.addAll(headers);
+    http.Request request = createRequest(
+      endPoint: RestAPIPoints.refresh,
+      bodyFields: {'refreshToken': refreshToken},
+    );
 
     http.StreamedResponse response = await request.send();
     String jsonString = await response.stream.bytesToString();
-    // print(jsonString);
     // Sucsess
     if (response.statusCode == 200) {
       var result = json.decode(jsonString);
       Tokens user = Tokens.fromJson(result);
       return user;
     }
-    // Fail
-    else if (response.statusCode == 401) {}
-    return null;
+    throw Exception(
+        "[ERROR][AuthService][refreshAcsessToken] ${response.stream.bytesToString()}");
   }
 
   /// [control] Checks if the user is logged in
@@ -113,33 +102,39 @@ class AuthService {
     return true;
   }
 
-  Future<String?> forgotSendMail(String email) async {
-    var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-    var request =
-        http.Request('POST', Uri.parse('$baseURL/auth/forgot-password'));
-    request.bodyFields = {'email': email};
-    request.headers.addAll(headers);
+  Future<void> forgotSendMail(String email) async {
+    http.Request request = createRequest(
+      endPoint: RestAPIPoints.forgotPassword,
+      bodyFields: {'email': email},
+    );
 
     http.StreamedResponse response = await request.send();
-    // String jsonString = await response.stream.bytesToString();
-    if (response.statusCode == 204) {
-      // Sucsess
-      return response.stream.bytesToString();
-    } else if (response.statusCode == 404) {
-      // Not found
+    if (!(response.statusCode == 204)) {
+      throw Exception(
+          "[ERROR][AuthService][forgotSendMail] ${response.stream.bytesToString()}");
     }
-    return null;
+    // Sucsess
   }
 
   Future<void> resetPassword(
-      {required String token, required String password}) async {
-    var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-    var request =
-        http.Request('POST', Uri.parse('$baseURL/auth/forgot-password'));
-
-    request.bodyFields = {'password': password};
-    request.headers.addAll(headers);
+      {required String email,
+      required String password,
+      required String code}) async {
+    http.Request request = createRequest(
+      endPoint: RestAPIPoints.resetPassword,
+      bodyFields: {
+        'email': email,
+        'password': password,
+        'code': code,
+      },
+    );
 
     http.StreamedResponse response = await request.send();
+
+    if (!(response.statusCode == 204)) {
+      throw Exception(
+          "[ERROR][AuthService][resetPassword] ${response.stream.bytesToString()}");
+    }
+    // Sucsess
   }
 }

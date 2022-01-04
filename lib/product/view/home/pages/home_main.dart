@@ -1,3 +1,5 @@
+import '../../../constants/app_constants/hive_model_constants.dart';
+import '../../../utils/survey_cache_manager.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -16,6 +18,16 @@ class HomeMainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final SurveyCacheManager surveyCacheManager = SurveyCacheManager();
+    final List<Category>? categoires =
+        (surveyCacheManager.getItem(HiveModelConstants.surveyCategoriesKey) ??
+                [])
+            .cast<Category>();
+    final List<String>? submittedSurveys =
+        (surveyCacheManager.getItem(HiveModelConstants.submittedSurveysKey) ??
+                [])
+            .cast<String>();
+
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,45 +44,26 @@ class HomeMainPage extends StatelessWidget {
             height: context.dynamicHeight(0.125),
             width: context.screenWidth,
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: FutureBuilder(
-                future: DataService.instance.getCategories(
-                  control: TokenCacheManager.instance.checkUserIsLogin(),
-                  token: TokenCacheManager.instance.getToken()!,
-                ),
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<Category>> snapshot) {
-                  if (snapshot.hasData &&
-                      snapshot.connectionState == ConnectionState.done) {
-                    return ListView.builder(
-                      itemCount: snapshot.data!.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (BuildContext context, int index) {
-                        String categoryName = snapshot.data![index].name;
-                        return InkWell(
-                          onTap: () {},
-                          child: Container(
-                            height: context.dynamicHeight(0.125),
-                            width: context.dynamicHeight(0.125),
-                            padding: const EdgeInsets.all(10),
-                            child: Card(
-                              color:
-                                  HexColor.fromHex(snapshot.data![index].color),
-                              child: Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: SvgPicture.asset(
-                                  kCategoryIcons.containsKey(categoryName)
-                                      ? kCategoryIcons[categoryName]!
-                                      : kDefaultIconPath,
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  }
-                  return const Center(child: CircularProgressIndicator());
-                }),
+            child: categoires!.isNotEmpty
+                ? listView(categoires)
+                : FutureBuilder(
+                    future: DataService.instance.getCategories(
+                      control: TokenCacheManager.instance.checkUserIsLogin(),
+                      token: TokenCacheManager.instance.getToken()!,
+                    ),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<Category>> snapshot) {
+                      if (snapshot.hasData &&
+                          snapshot.connectionState == ConnectionState.done) {
+                        WidgetsBinding.instance!
+                            .addPostFrameCallback((_) async {
+                          await surveyCacheManager
+                              .setCategories(snapshot.data!);
+                        });
+                        return listView(snapshot.data!);
+                      }
+                      return const Center(child: CircularProgressIndicator());
+                    }),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
@@ -113,15 +106,48 @@ class HomeMainPage extends StatelessWidget {
                       children: List<Widget>.generate(
                           snapshot.data!.length,
                           (index) => Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10.0),
-                            child: SurveyListItem(
-                                surveyListModel: snapshot.data![index]),
-                          )));
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10.0),
+                                child: SurveyListItem(
+                                  surveyModel: snapshot.data![index],
+                                  submitted: submittedSurveys!
+                                      .contains(snapshot.data![index].id),
+                                ),
+                              )));
                 }
                 return const Center(child: CircularProgressIndicator());
               }),
         ],
       ),
+    );
+  }
+
+  ListView listView(List<Category> data) {
+    return ListView.builder(
+      itemCount: data.length,
+      scrollDirection: Axis.horizontal,
+      itemBuilder: (BuildContext context, int index) {
+        String categoryName = data[index].name;
+        return InkWell(
+          onTap: () {},
+          child: Container(
+            height: context.dynamicHeight(0.125),
+            width: context.dynamicHeight(0.125),
+            padding: const EdgeInsets.all(10),
+            child: Card(
+              color: HexColor.fromHex(data[index].color),
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: SvgPicture.asset(
+                  kCategoryIcons.containsKey(categoryName)
+                      ? kCategoryIcons[categoryName]!
+                      : kDefaultIconPath,
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

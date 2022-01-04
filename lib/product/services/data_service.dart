@@ -1,5 +1,8 @@
 import 'dart:convert' as convert;
 
+import '../utils/request_creator.dart';
+
+import '../constants/app_constants/urls.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/category.dart';
@@ -12,28 +15,8 @@ class DataService {
   static final DataService instance = DataService._ctor();
 
   DataService._ctor();
-  static const String baseURL = "socialsurveyapp.software";
 
   /// Creates http request from given end point and http method
-  http.Request createRequest({
-    required Tokens token,
-    required String endPoint,
-    String method = 'GET',
-  }) {
-    var headers = {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ${token.access.token}',
-    };
-
-    Uri uri = Uri.https(baseURL, endPoint);
-
-    http.Request request = http.Request(method, uri);
-
-    request.headers.addAll(headers);
-
-    return request;
-  }
 
   /// [control] Checks if the user is logged in
   ///
@@ -48,8 +31,12 @@ class DataService {
     if (!res) {
       return [];
     }
-    http.Request request =
-        createRequest(token: token, endPoint: '/api/v1/survey/categories');
+    http.Request request = createRequest(
+        token: token,
+        endPoint: RestAPIPoints.categories,
+        bodyFields: {},
+        method: 'GET',
+        bearerActive: true);
 
     http.StreamedResponse response = await request.send();
     String jsonString = await response.stream.bytesToString();
@@ -65,7 +52,7 @@ class DataService {
 
   /// [control] Checks if the user is logged in
   ///
-  /// [token] Bearer cccess token
+  /// [token] Bearer access token
   ///
   /// [categoryId] categoryId (objectId)
   ///
@@ -110,7 +97,8 @@ class DataService {
       'Authorization': 'Bearer ${token.access.token}',
     };
 
-    Uri uri = Uri.https(baseURL, '/api/v1/survey', queryParameters);
+    Uri uri =
+        Uri.https(RestAPIPoints.baseURL, RestAPIPoints.survey, queryParameters);
 
     var request = http.Request('GET', uri);
 
@@ -135,8 +123,12 @@ class DataService {
   ///
   /// The default number of surveys per page is 10.
   Future<List<int>> getSurveyCountInfo({required Tokens token}) async {
-    http.Request request =
-        createRequest(token: token, endPoint: '/api/v1/survey');
+    http.Request request = createRequest(
+        token: token,
+        endPoint: RestAPIPoints.survey,
+        bodyFields: {},
+        method: 'GET',
+        bearerActive: true);
 
     http.StreamedResponse response = await request.send();
 
@@ -152,10 +144,14 @@ class DataService {
     return [];
   }
 
+  /// Submits the survey
   Future<bool> sendSurveyAnswers(
       {required Tokens token, required Post postModel}) async {
     http.Request request = createRequest(
-        token: token, endPoint: '/api/v1/survey/submit', method: 'POST');
+        token: token,
+        endPoint: RestAPIPoints.submitSurvey,
+        bodyFields: {},
+        bearerActive: true);
     request.body = convert.jsonEncode(postModel.toJson());
     http.StreamedResponse response = await request.send();
 

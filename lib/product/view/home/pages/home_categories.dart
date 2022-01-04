@@ -1,3 +1,4 @@
+import '../../../../core/widgets/loading_widget.dart';
 import '../../../../core/extensions/buildcontext_extension.dart';
 import '../../../../core/extensions/color_extension.dart';
 import '../../../constants/app_constants/app_categories.dart';
@@ -66,8 +67,7 @@ class CategoryPage extends StatelessWidget {
                   ],
                 );
               } else {
-                return const SizedBox(
-                    height: 16, width: 16, child: CircularProgressIndicator());
+                return kLoadingWidget;
               }
             },
           );
