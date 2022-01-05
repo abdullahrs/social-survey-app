@@ -1,18 +1,18 @@
-// import '../view/home/components/survey_list.dart' as survey_list;
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 
+import '../models/survey.dart';
+import '../view/entry/pages/forgot_password_page.dart';
+import '../view/entry/pages/sign_in_page.dart';
+import '../view/entry/pages/sign_up_page.dart';
+import '../view/entry/pages/welcome_page.dart';
+import '../view/home/components/survey_list_page.dart';
+import '../view/home/pages/home.dart';
 import '../view/home/pages/home_categories.dart';
 import '../view/home/pages/home_main.dart';
 import '../view/home/pages/home_participated.dart';
 import '../view/home/pages/home_settings.dart';
-
-import '../view/entry/pages/forgot_password_page.dart';
-import '../view/home/pages/home.dart';
-import 'package:flutter/material.dart';
-
-import '../view/entry/pages/sign_in_page.dart';
-import '../view/entry/pages/sign_up_page.dart';
-import '../view/entry/pages/welcome_page.dart';
-import 'package:auto_route/auto_route.dart';
+import '../view/survey/survey_page.dart';
 
 part 'routes.gr.dart';
 
@@ -26,7 +26,7 @@ part 'routes.gr.dart';
     AutoRoute(page: SignInPage, path: '/login'),
     AutoRoute(page: SignUpPage, path: '/register'),
     AutoRoute(page: ForgotPassPage, path: '/forgot'),
-    // AutoRoute(page: SurveyPage, path: ':survey'),
+    AutoRoute(page: SurveyPage), //  path: '/survey/:survey'
     AutoRoute(
       page: HomePage,
       path: 'home',
@@ -38,7 +38,10 @@ part 'routes.gr.dart';
           page: EmptyRouterPage,
           children: [
             AutoRoute(path: '', page: HomeMainPage),
-            // AutoRoute(path: ':categoryId', page: survey_list.SurveyList),
+            AutoRoute(
+              path: ':categoryId',
+              page: SurveyListPage,
+            ),
           ],
         ),
         AutoRoute(
@@ -47,18 +50,17 @@ part 'routes.gr.dart';
             page: EmptyRouterPage,
             children: [
               AutoRoute(path: '', page: CategoryPage),
-              // AutoRoute(path: ':categoryId', page: survey_list.SurveyList),
+              AutoRoute(
+                path: ':categoryId',
+                page: SurveyListPage,
+              ),
             ]),
         AutoRoute(
-          page: ParticipatedPage,
-          path: 'home-participated',
-          name: 'ParticipatedRouter'
-        ),
+            page: ParticipatedPage,
+            path: 'home-participated',
+            name: 'ParticipatedRouter'),
         AutoRoute(
-          page: SettingsPage,
-          path: 'home-settings',
-          name: 'SettingsRouter'
-        ),
+            page: SettingsPage, path: 'home-settings', name: 'SettingsRouter'),
       ],
     ),
     RedirectRoute(path: '*', redirectTo: '/'),

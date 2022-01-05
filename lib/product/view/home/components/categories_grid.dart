@@ -1,14 +1,13 @@
+import '../../../router/routes.dart';
 import 'package:auto_route/src/router/auto_router_x.dart';
+import 'package:easy_localization/src/public_ext.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/extensions/buildcontext_extension.dart';
 import '../../../../core/extensions/color_extension.dart';
 import '../../../constants/app_constants/app_categories.dart';
 import '../../../models/category.dart';
-import 'package:easy_localization/src/public_ext.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
-import 'survey_list.dart';
 
 class CategoriyGrid extends StatelessWidget {
   final List<Category> data;
@@ -32,9 +31,8 @@ class CategoriyGrid extends StatelessWidget {
         }
         String categoryName = data[index].name;
         return InkWell(
-          onTap: () {
-            context.router.pushWidget(SurveyList(categoryId: data[index].id));
-          },
+          onTap: () =>
+              context.router.push(SurveyListRoute(categoryId: data[index].id)),
           child: Container(
             height: context.dynamicWidth(0.4),
             width: context.dynamicWidth(0.4),

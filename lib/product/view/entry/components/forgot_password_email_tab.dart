@@ -1,10 +1,10 @@
-import '../../../services/auth_service.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/extensions/buildcontext_extension.dart';
 import '../../../components/custom_button.dart';
 import '../../../components/sign_up_text_button.dart';
+import '../../../services/auth_service.dart';
 import '../../../utils/text_field_validations.dart';
 import 'custom_text_field.dart';
 

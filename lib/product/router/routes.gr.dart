@@ -41,6 +41,12 @@ class _$AppRouter extends RootStackRouter {
           child: ForgotPassPage(
               key: args.key, navigateToReset: args.navigateToReset));
     },
+    SurveyRoute.name: (routeData) {
+      final args = routeData.argsAs<SurveyRouteArgs>();
+      return MaterialPageX<dynamic>(
+          routeData: routeData,
+          child: SurveyPage(key: args.key, survey: args.survey));
+    },
     HomeRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const HomePage());
@@ -65,6 +71,15 @@ class _$AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const HomeMainPage());
     },
+    SurveyListRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<SurveyListRouteArgs>(
+          orElse: () => SurveyListRouteArgs(
+              categoryId: pathParams.getString('categoryId')));
+      return MaterialPageX<dynamic>(
+          routeData: routeData,
+          child: SurveyListPage(key: args.key, categoryId: args.categoryId));
+    },
     CategoryRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const CategoryPage());
@@ -77,20 +92,25 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(SignInRoute.name, path: '/login'),
         RouteConfig(SignUpRoute.name, path: '/register'),
         RouteConfig(ForgotPassRoute.name, path: '/forgot'),
+        RouteConfig(SurveyRoute.name, path: '/survey-page'),
         RouteConfig(HomeRoute.name, path: 'home', children: [
           RouteConfig(HomeMainRouter.name,
               path: 'home-main',
               parent: HomeRoute.name,
               children: [
                 RouteConfig(HomeMainRoute.name,
-                    path: '', parent: HomeMainRouter.name)
+                    path: '', parent: HomeMainRouter.name),
+                RouteConfig(SurveyListRoute.name,
+                    path: ':categoryId', parent: HomeMainRouter.name)
               ]),
           RouteConfig(HomeCategoryRouter.name,
               path: 'home-category',
               parent: HomeRoute.name,
               children: [
                 RouteConfig(CategoryRoute.name,
-                    path: '', parent: HomeCategoryRouter.name)
+                    path: '', parent: HomeCategoryRouter.name),
+                RouteConfig(SurveyListRoute.name,
+                    path: ':categoryId', parent: HomeCategoryRouter.name)
               ]),
           RouteConfig(ParticipatedRouter.name,
               path: 'home-participated', parent: HomeRoute.name),
@@ -177,6 +197,30 @@ class ForgotPassRouteArgs {
 }
 
 /// generated route for
+/// [SurveyPage]
+class SurveyRoute extends PageRouteInfo<SurveyRouteArgs> {
+  SurveyRoute({Key? key, required Survey survey})
+      : super(SurveyRoute.name,
+            path: '/survey-page',
+            args: SurveyRouteArgs(key: key, survey: survey));
+
+  static const String name = 'SurveyRoute';
+}
+
+class SurveyRouteArgs {
+  const SurveyRouteArgs({this.key, required this.survey});
+
+  final Key? key;
+
+  final Survey survey;
+
+  @override
+  String toString() {
+    return 'SurveyRouteArgs{key: $key, survey: $survey}';
+  }
+}
+
+/// generated route for
 /// [HomePage]
 class HomeRoute extends PageRouteInfo<void> {
   const HomeRoute({List<PageRouteInfo>? children})
@@ -228,6 +272,31 @@ class HomeMainRoute extends PageRouteInfo<void> {
   const HomeMainRoute() : super(HomeMainRoute.name, path: '');
 
   static const String name = 'HomeMainRoute';
+}
+
+/// generated route for
+/// [SurveyListPage]
+class SurveyListRoute extends PageRouteInfo<SurveyListRouteArgs> {
+  SurveyListRoute({Key? key, required String categoryId})
+      : super(SurveyListRoute.name,
+            path: ':categoryId',
+            args: SurveyListRouteArgs(key: key, categoryId: categoryId),
+            rawPathParams: {'categoryId': categoryId});
+
+  static const String name = 'SurveyListRoute';
+}
+
+class SurveyListRouteArgs {
+  const SurveyListRouteArgs({this.key, required this.categoryId});
+
+  final Key? key;
+
+  final String categoryId;
+
+  @override
+  String toString() {
+    return 'SurveyListRouteArgs{key: $key, categoryId: $categoryId}';
+  }
 }
 
 /// generated route for

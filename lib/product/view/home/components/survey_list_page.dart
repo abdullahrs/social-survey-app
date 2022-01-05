@@ -9,19 +9,19 @@ import '../../../utils/token_cache_manager.dart';
 import 'survey_list_item.dart';
 import 'package:flutter/material.dart';
 
-class SurveyList extends StatefulWidget {
+class SurveyListPage extends StatefulWidget {
   final String categoryId;
-  const SurveyList({
+  const SurveyListPage({
     Key? key,
-    // @PathParam('categoryId') required this.categoryId,
-    required this.categoryId,
+    @PathParam() required this.categoryId,
+    // required this.categoryId,
   }) : super(key: key);
 
   @override
-  _SurveyListState createState() => _SurveyListState();
+  _SurveyListPageState createState() => _SurveyListPageState();
 }
 
-class _SurveyListState extends State<SurveyList> {
+class _SurveyListPageState extends State<SurveyListPage> {
   final ScrollController _scrollController = ScrollController();
 
   @override

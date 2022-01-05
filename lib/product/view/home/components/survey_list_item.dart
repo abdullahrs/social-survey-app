@@ -1,6 +1,5 @@
-import '../../survey/survey_page.dart';
-
-import '../../../utils/survey_cache_manager.dart';
+import '../../../router/routes.dart';
+import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +7,7 @@ import '../../../../core/extensions/buildcontext_extension.dart';
 import '../../../../core/extensions/color_extension.dart';
 import '../../../constants/style/colors.dart';
 import '../../../models/survey.dart';
+import '../../../utils/survey_cache_manager.dart';
 
 class SurveyListItem extends StatelessWidget {
   final Survey surveyModel;
@@ -19,10 +19,7 @@ class SurveyListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => SurveyPage(survey: surveyModel)));
-      },
+      onTap: () => context.router.push(SurveyRoute(survey: surveyModel)),
       child: Container(
         width: context.screenWidth,
         decoration: BoxDecoration(

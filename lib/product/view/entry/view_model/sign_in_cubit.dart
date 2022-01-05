@@ -1,6 +1,3 @@
-import '../../../services/data_service.dart';
-
-import '../../../utils/survey_cache_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,6 +6,8 @@ import '../../../constants/app_constants/hive_model_constants.dart';
 import '../../../constants/enums/auth_statuses.dart';
 import '../../../models/user.dart';
 import '../../../services/auth_service.dart';
+import '../../../services/data_service.dart';
+import '../../../utils/survey_cache_manager.dart';
 
 class SignInCubit extends Cubit<SignInState> {
   final TextEditingController mailController;

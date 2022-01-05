@@ -1,11 +1,11 @@
-import '../../../utils/survey_cache_manager.dart';
+import 'package:flutter/material.dart';
 
-import '../components/categories_grid.dart';
 import '../../../../core/widgets/loading_widget.dart';
 import '../../../models/category.dart';
 import '../../../services/data_service.dart';
+import '../../../utils/survey_cache_manager.dart';
 import '../../../utils/token_cache_manager.dart';
-import 'package:flutter/material.dart';
+import '../components/categories_grid.dart';
 
 class CategoryPage extends StatelessWidget {
   const CategoryPage({Key? key}) : super(key: key);

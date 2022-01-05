@@ -19,7 +19,7 @@ class AuthService {
 
     http.StreamedResponse response = await request.send();
     String jsonString = await response.stream.bytesToString();
-
+    
     if (response.statusCode == 200) {
       var result = json.decode(jsonString);
       User user = User.fromJson(result);

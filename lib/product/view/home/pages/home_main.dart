@@ -18,59 +18,60 @@ class HomeMainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Text(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
                 'categories'.tr(),
                 style: context.appTextTheme.headline5!
                     .copyWith(fontWeight: FontWeight.bold),
               ),
-            ),
-            horizontalCategoryField(context),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'surveys'.tr(),
-                    style: context.appTextTheme.headline5!
-                        .copyWith(fontWeight: FontWeight.bold),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'all'.tr(),
-                          style: context.appTextTheme.headline6!
-                              .copyWith(color: Colors.blue),
-                        ),
-                        const Icon(Icons.keyboard_arrow_right_outlined,
-                            color: Colors.blue)
-                      ],
+              horizontalCategoryField(context),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10.0,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'surveys'.tr(),
+                      style: context.appTextTheme.headline5!
+                          .copyWith(fontWeight: FontWeight.bold),
                     ),
-                  )
-                ],
+                    InkWell(
+                      onTap: () {},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'all'.tr(),
+                            style: context.appTextTheme.headline6!
+                                .copyWith(color: Colors.blue),
+                          ),
+                          const Icon(Icons.keyboard_arrow_right_outlined,
+                              color: Colors.blue)
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-            surveyField(),
-          ],
+              surveyField(),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Container horizontalCategoryField(BuildContext context) {
-    return Container(
+  SizedBox horizontalCategoryField(BuildContext context) {
+    return SizedBox(
       height: context.dynamicHeight(0.125),
       width: context.screenWidth,
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      // padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: SurveyCacheManager.instance.categories.isNotEmpty
           ? HorizontalCategories(data: SurveyCacheManager.instance.categories)
           : FutureBuilder(

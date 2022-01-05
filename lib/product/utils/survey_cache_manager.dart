@@ -1,8 +1,9 @@
-import '../models/category.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
 import '../../core/src/cache_manager.dart';
 import '../constants/app_constants/hive_model_constants.dart';
 import '../constants/app_constants/hive_type_constants.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import '../models/category.dart';
 
 class SurveyCacheManager extends ModelCacheManager {
   SurveyCacheManager({String boxKey = HiveModelConstants.surveyStorageKey})
