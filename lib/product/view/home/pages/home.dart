@@ -1,3 +1,5 @@
+import '../../../utils/routes.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,16 +10,14 @@ import 'home_main.dart';
 import 'home_participated.dart';
 import 'home_settings.dart';
 
-class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<Home> createState() => _HomeState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomeState extends State<Home> {
-  int selectedIndex = 0;
-
+class _HomePageState extends State<HomePage> {
   List<GButton> get tabs => [
         GButton(
           icon: CupertinoIcons.home,
@@ -51,24 +51,23 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(),
-        bottomNavigationBar: GNav(
-          selectedIndex: selectedIndex,
-          iconSize: 24,
-          tabBackgroundColor: Colors.teal.withOpacity(0.1),
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-          duration: const Duration(milliseconds: 500),
-          onTabChange: (index) {
-            setState(() {
-              selectedIndex = index;
-            });
-          },
-          tabs: tabs,
-        ),
-        body: AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          child: pages[selectedIndex],
-        ));
+    return AutoTabsScaffold(
+      // appBar: AppBar(),
+      routes: const [
+        HomeMainRouter(),
+        HomeCategoryRouter(),
+        ParticipatedRouter(),
+        SettingsRouter(),
+      ],
+      bottomNavigationBuilder: (context, router) => GNav(
+        selectedIndex: router.activeIndex,
+        iconSize: 24,
+        tabBackgroundColor: Colors.teal.withOpacity(0.1),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        duration: const Duration(milliseconds: 500),
+        onTabChange: router.setActiveIndex,
+        tabs: tabs,
+      ),
+    );
   }
 }

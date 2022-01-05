@@ -1,7 +1,5 @@
-import 'package:anket/product/view/survey/survey_page.dart';
+import '../../survey/survey_page.dart';
 
-import '../../../constants/app_constants/hive_model_constants.dart';
-import '../../../models/category.dart';
 import '../../../utils/survey_cache_manager.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
@@ -20,11 +18,6 @@ class SurveyListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SurveyCacheManager surveyCacheManager = SurveyCacheManager();
-    final List<Category>? categoires =
-        (surveyCacheManager.getItem(HiveModelConstants.surveyCategoriesKey) ??
-                [])
-            .cast<Category>();
     return InkWell(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
@@ -37,7 +30,7 @@ class SurveyListItem extends StatelessWidget {
           border: Border(
             left: BorderSide(
                 width: 4,
-                color: HexColor.fromHex(categoires!
+                color: HexColor.fromHex(SurveyCacheManager.instance.categories
                     .where((element) => element.id == surveyModel.categoryId)
                     .first
                     .color)),
@@ -63,7 +56,7 @@ class SurveyListItem extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Chip(
-                        label: Text(categoires
+                        label: Text(SurveyCacheManager.instance.categories
                                 .where((element) =>
                                     element.id == surveyModel.categoryId)
                                 .first

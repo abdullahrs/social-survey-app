@@ -1,5 +1,5 @@
-import '../components/forgot_password_reset_pass_page.dart';
-import '../components/forgot_password_email_page.dart';
+import '../components/forgot_password_reset_pass_tab.dart';
+import '../components/forgot_password_email_tab.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPassPage extends StatefulWidget {
@@ -53,11 +53,11 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
             controller: _pageController,
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              FPPageOne(
+              MailTab(
                   formState: _mailFormState,
                   textEditingController: _mailController,
                   pageController: _pageController),
-              FPPageTwo(
+              PasswordResetTab(
                 formState: _passFormState,
                 codeController: _codeController,
                 passController: _passController,

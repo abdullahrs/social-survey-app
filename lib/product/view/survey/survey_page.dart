@@ -1,4 +1,4 @@
-import 'package:anket/product/models/survey.dart';
+import '../../models/survey.dart';
 import 'package:flutter/material.dart';
 
 class SurveyPage extends StatelessWidget {

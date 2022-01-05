@@ -1,9 +1,9 @@
-import '../../core/extensions/buildcontext_extension.dart';
-import '../constants/style/colors.dart';
-import '../view/entry/pages/sign_in_page.dart';
-import '../view/entry/pages/sign_up_page.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
+
+import '../../core/extensions/buildcontext_extension.dart';
+import '../constants/style/colors.dart';
 
 class SentenceTextButton extends StatelessWidget {
   final String text;
@@ -19,15 +19,9 @@ class SentenceTextButton extends StatelessWidget {
       children: [
         Text(text, style: context.appTextTheme.bodyText2).tr(),
         InkWell(
-            onTap: () {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) =>
-                          routeName == 'login' ? SignInPage() : SignUpPage()));
-            },
+            onTap: () => context.router.navigateNamed(routeName),
             child: Text(
-              routeName,
+              routeName.substring(1),
               style: const TextStyle(color: AppStyle.textButtonColor),
             ).tr()),
       ],

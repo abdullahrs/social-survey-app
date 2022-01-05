@@ -1,3 +1,6 @@
+import '../../../services/data_service.dart';
+import '../../../utils/survey_cache_manager.dart';
+import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,7 +11,6 @@ import '../../../components/sign_up_text_button.dart';
 import '../../../constants/enums/auth_statuses.dart';
 import '../../../utils/text_field_validations.dart';
 import '../../../utils/token_cache_manager.dart';
-import '../../home/pages/home.dart';
 import '../components/custom_text_field.dart';
 import '../view_model/sign_up_cubit.dart';
 
@@ -34,12 +36,14 @@ class SignUpPage extends StatelessWidget {
           cacheManager: userStatus,
         ),
         child: BlocConsumer<RegisterCubit, RegisterState>(
-          listener: (context, state) {
+          listener: (context, state) async {
             if (state is RegisterValidationState && state.registerValidation) {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (_) => const Home()),
-                  (_) => false);
+              var data = await DataService.instance.getCategories(
+                control: true,
+                token: TokenCacheManager.instance.getToken()!,
+              );
+              await SurveyCacheManager.instance.setCategories(data);
+              context.router.navigateNamed('home');
             }
           },
           builder: (context, state) {
@@ -102,7 +106,7 @@ class SignUpPage extends StatelessWidget {
                     : false,
               ),
               SizedBox(height: context.dynamicHeight(0.02)),
-              const SentenceTextButton(text: 'do_have', routeName: 'login'),
+              const SentenceTextButton(text: 'do_have', routeName: '/login'),
               SizedBox(height: context.dynamicHeight(0.05)),
             ],
           ),

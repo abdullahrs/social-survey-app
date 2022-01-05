@@ -1,14 +1,13 @@
 import 'dart:convert' as convert;
 
-import '../utils/request_creator.dart';
-
-import '../constants/app_constants/urls.dart';
 import 'package:http/http.dart' as http;
 
+import '../constants/app_constants/urls.dart';
 import '../models/category.dart';
+import '../models/post.dart';
 import '../models/survey.dart';
 import '../models/token.dart';
-import '../models/post.dart';
+import '../utils/request_creator.dart';
 import 'auth_service.dart';
 
 class DataService {

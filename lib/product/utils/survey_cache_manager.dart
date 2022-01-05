@@ -7,6 +7,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 class SurveyCacheManager extends ModelCacheManager {
   SurveyCacheManager({String boxKey = HiveModelConstants.surveyStorageKey})
       : super(boxKey);
+
   /// Single instance
   static SurveyCacheManager? _instance;
 
@@ -15,22 +16,26 @@ class SurveyCacheManager extends ModelCacheManager {
     return _instance!;
   }
 
-  static late List<Category> _categories;
+  static List<Category>? _categories;
 
-  List<Category> get categories => _categories;
+  List<Category> get categories => _categories ?? <Category>[];
 
   Future<void> setCategories(List<Category> cats) async {
     _categories = cats;
     await putItem(HiveModelConstants.surveyCategoriesKey, _categories);
   }
 
+  static List<String>? _submittedSurveys;
 
-  static late List<String> _submittedSurveys;
+  List<String> get submittedSurveys => _submittedSurveys ?? [];
 
-  List<String> get submittedSurveys => _submittedSurveys;
+  Future<void> setSubmittedSurveys(List<String> surveyIds) async {
+    _submittedSurveys = surveyIds;
+  }
 
   Future<void> submitSurvey(String surveyId) async {
-    _submittedSurveys.add(surveyId);
+    _submittedSurveys ??= [];
+    _submittedSurveys!.add(surveyId);
     await putItem(HiveModelConstants.submittedSurveysKey, _submittedSurveys);
   }
 

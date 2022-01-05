@@ -1,8 +1,9 @@
+import '../../../services/data_service.dart';
+import '../../../utils/survey_cache_manager.dart';
+import 'package:auto_route/auto_route.dart';
+
 import '../../../../core/extensions/buildcontext_extension.dart';
 import '../../../utils/token_cache_manager.dart';
-import 'sign_in_page.dart';
-import 'sign_up_page.dart';
-import '../../home/pages/home.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -38,15 +39,17 @@ class WelcomePage extends StatelessWidget {
             button(
                 context: context,
                 text: "login",
-                function: () {
+                function: () async {
                   bool? control = TokenCacheManager().checkUserIsLogin();
                   if (control ?? false) {
-                    Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (_) => const Home()),
-                        (_) => false);
+                    var data = await DataService.instance.getCategories(
+                      control: control,
+                      token: TokenCacheManager.instance.getToken()!,
+                    );
+                    await SurveyCacheManager.instance.setCategories(data);
+                    context.router.replaceNamed('home');
                   } else {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (_) => SignInPage()));
+                    context.router.pushNamed('/login');
                   }
                 }),
             const SizedBox(height: 10),
@@ -54,8 +57,7 @@ class WelcomePage extends StatelessWidget {
                 context: context,
                 text: "register",
                 function: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (_) => SignUpPage()));
+                  context.router.pushNamed('/register');
                 }),
             const Spacer(flex: 2),
           ],

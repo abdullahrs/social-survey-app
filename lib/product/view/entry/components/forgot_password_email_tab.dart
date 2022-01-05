@@ -8,11 +8,11 @@ import '../../../components/sign_up_text_button.dart';
 import '../../../utils/text_field_validations.dart';
 import 'custom_text_field.dart';
 
-class FPPageOne extends StatelessWidget {
+class MailTab extends StatelessWidget {
   final TextEditingController _mailController;
   final PageController _pageController;
   final GlobalKey<FormState> _mailFormState;
-  const FPPageOne(
+  const MailTab(
       {Key? key,
       required TextEditingController textEditingController,
       required PageController pageController,
@@ -63,7 +63,7 @@ class FPPageOne extends StatelessWidget {
             SizedBox(height: context.dynamicHeight(0.05)),
             const SentenceTextButton(
               text: 'dont_have',
-              routeName: 'register',
+              routeName: '/register',
             ),
           ],
         ),

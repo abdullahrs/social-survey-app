@@ -1,6 +1,7 @@
-import '../constants/app_constants/hive_type_constants.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import '../constants/app_constants/hive_type_constants.dart';
 
 part 'token.g.dart';
 

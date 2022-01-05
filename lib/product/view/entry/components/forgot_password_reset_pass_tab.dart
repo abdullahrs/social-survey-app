@@ -1,20 +1,20 @@
-import '../../../services/auth_service.dart';
-import '../../../utils/text_field_validations.dart';
-
-import '../../../../core/extensions/buildcontext_extension.dart';
-import '../../../components/custom_button.dart';
+import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/extensions/buildcontext_extension.dart';
+import '../../../components/custom_button.dart';
+import '../../../services/auth_service.dart';
+import '../../../utils/text_field_validations.dart';
 import 'custom_text_field.dart';
 
-class FPPageTwo extends StatefulWidget {
+class PasswordResetTab extends StatefulWidget {
   final GlobalKey<FormState> _passFormState;
   final TextEditingController _passController;
   final TextEditingController _repeatController;
   final TextEditingController _codeController;
   final TextEditingController mailController;
-  const FPPageTwo(
+  const PasswordResetTab(
       {Key? key,
       required GlobalKey<FormState> formState,
       required TextEditingController codeController,
@@ -28,10 +28,10 @@ class FPPageTwo extends StatefulWidget {
         super(key: key);
 
   @override
-  State<FPPageTwo> createState() => _FPPageTwoState();
+  State<PasswordResetTab> createState() => _PasswordResetTabState();
 }
 
-class _FPPageTwoState extends State<FPPageTwo> {
+class _PasswordResetTabState extends State<PasswordResetTab> {
   final FocusNode inputNode = FocusNode();
 
   String codeString = "";
@@ -91,7 +91,7 @@ class _FPPageTwoState extends State<FPPageTwo> {
                         email: widget.mailController.text,
                         password: widget._passController.text,
                         code: widget._codeController.text);
-                    Navigator.of(context).pop();
+                    context.router.pop();
                   }
                 },
                 text: "next"),

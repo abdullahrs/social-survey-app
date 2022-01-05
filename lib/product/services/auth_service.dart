@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import '../utils/request_creator.dart';
-import '../constants/app_constants/urls.dart';
 import 'package:http/http.dart' as http;
 
+import '../constants/app_constants/urls.dart';
 import '../models/token.dart';
 import '../models/user.dart';
+import '../utils/request_creator.dart';
 
 class AuthService {
   static AuthService instance = AuthService._ctor();
@@ -25,7 +25,7 @@ class AuthService {
       User user = User.fromJson(result);
       return user;
     } else if (response.statusCode == 401) {
-      User user = User(user: null, tokens: null);
+      User user = User(user: null, tokens: null, submittedSurveys: null);
       return user;
     }
     return null;
@@ -50,7 +50,7 @@ class AuthService {
     }
     // Email already Taken
     else if (response.statusCode == 400) {
-      User user = User(user: null, tokens: null);
+      User user = User(user: null, tokens: null, submittedSurveys: null);
       return user;
     }
 

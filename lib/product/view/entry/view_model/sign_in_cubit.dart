@@ -1,3 +1,6 @@
+import '../../../services/data_service.dart';
+
+import '../../../utils/survey_cache_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,8 +28,8 @@ class SignInCubit extends Cubit<SignInState> {
   Future<void> postUserModel() async {
     if (formKey.currentState!.validate()) {
       emit(SignInStatus(AuthStatuses.started));
-      User? sucsess = await AuthService.instance.login(
-          email: mailController.text, password: passwordController.text);
+      User? sucsess = await AuthService.instance
+          .login(email: mailController.text, password: passwordController.text);
       AuthStatuses authStatus = sucsess == null
           ? AuthStatuses.error
           : sucsess.tokens == null
@@ -38,8 +41,15 @@ class SignInCubit extends Cubit<SignInState> {
       });
 
       if (sucsess?.tokens != null) {
+        await SurveyCacheManager.instance
+            .setSubmittedSurveys(sucsess!.submittedSurveys ?? []);
         await cacheManager.putItem(
-            HiveModelConstants.tokenKey, sucsess!.tokens!);
+            HiveModelConstants.tokenKey, sucsess.tokens!);
+        var data = await DataService.instance.getCategories(
+          control: true,
+          token: sucsess.tokens!,
+        );
+        await SurveyCacheManager.instance.setCategories(data);
       }
 
       isLoginFailed = !(sucsess?.tokens != null);

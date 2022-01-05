@@ -11,28 +11,30 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-        child: Column(
-      children: [
-        ListTile(
-          title: Text('logout'.tr()),
-          leading: const Icon(Icons.logout),
-          onTap: () async {
-            TokenCacheManager cacheManager = TokenCacheManager();
-            var token = cacheManager.getItem(HiveModelConstants.tokenKey);
-            await AuthService.instance.logout(refreshToken: token!.refresh.token)
-                .then((value) async {
-              if (value) {
-                await cacheManager.removeItem(HiveModelConstants.tokenKey);
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (_) => const WelcomePage()),
-                    (_) => true);
-              }
-            });
-          },
-        ),
-      ],
-    ));
+    return SafeArea(
+      child: SingleChildScrollView(
+          child: Column(
+        children: [
+          ListTile(
+            title: Text('logout'.tr()),
+            leading: const Icon(Icons.logout),
+            onTap: () async {
+              TokenCacheManager cacheManager = TokenCacheManager();
+              var token = cacheManager.getItem(HiveModelConstants.tokenKey);
+              await AuthService.instance.logout(refreshToken: token!.refresh.token)
+                  .then((value) async {
+                if (value) {
+                  await cacheManager.removeItem(HiveModelConstants.tokenKey);
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (_) => const WelcomePage()),
+                      (_) => true);
+                }
+              });
+            },
+          ),
+        ],
+      )),
+    );
   }
 }

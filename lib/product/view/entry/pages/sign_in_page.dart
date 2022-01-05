@@ -1,3 +1,8 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/src/public_ext.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../core/extensions/buildcontext_extension.dart';
 import '../../../components/custom_button.dart';
 import '../../../components/sign_up_text_button.dart';
@@ -7,12 +12,6 @@ import '../../../utils/text_field_validations.dart';
 import '../../../utils/token_cache_manager.dart';
 import '../components/custom_text_field.dart';
 import '../view_model/sign_in_cubit.dart';
-import '../../home/pages/home.dart';
-import 'package:easy_localization/src/public_ext.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'forgot_password_page.dart';
 
 class SignInPage extends StatelessWidget {
   SignInPage({Key? key}) : super(key: key);
@@ -34,10 +33,9 @@ class SignInPage extends StatelessWidget {
         child: BlocConsumer<SignInCubit, SignInState>(
           listener: (context, state) {
             if (state is SignInValidationState && !state.isValidate) {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (_) => const Home()),
-                  (_) => false);
+              AutoRouter.of(context).pop();
+              AutoRouter.of(context).pop();
+              context.router.replaceNamed('home');
             }
           },
           builder: (context, state) {
@@ -89,7 +87,7 @@ class SignInPage extends StatelessWidget {
               SizedBox(height: context.dynamicHeight(0.02)),
               const SentenceTextButton(
                 text: 'dont_have',
-                routeName: 'register',
+                routeName: '/register',
               ),
             ],
           ),
@@ -135,8 +133,7 @@ class SignInPage extends StatelessWidget {
     return Align(
         alignment: Alignment.centerRight,
         child: TextButton(
-            onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const ForgotPassPage())),
+            onPressed: () => context.router.pushNamed('/forgot'),
             child: Text(
               'forgot_pass'.tr() + "?",
               style: const TextStyle(color: AppStyle.textButtonColor),
