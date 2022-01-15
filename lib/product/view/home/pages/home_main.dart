@@ -9,7 +9,6 @@ import '../components/survey_list_item.dart';
 import '../../../models/category.dart';
 import '../../../models/survey.dart';
 import '../../../services/data_service.dart';
-import '../../../utils/token_cache_manager.dart';
 
 class HomeMainPage extends StatelessWidget {
   const HomeMainPage({Key? key}) : super(key: key);
@@ -75,10 +74,7 @@ class HomeMainPage extends StatelessWidget {
       child: SurveyCacheManager.instance.categories.isNotEmpty
           ? HorizontalCategories(data: SurveyCacheManager.instance.categories)
           : FutureBuilder(
-              future: DataService.instance.getCategories(
-                control: TokenCacheManager.instance.checkUserIsLogin(),
-                token: TokenCacheManager.instance.getToken()!,
-              ),
+              future: DataService.instance.getCategories(),
               builder: (BuildContext context,
                   AsyncSnapshot<List<Category>> snapshot) {
                 if (snapshot.hasData &&
@@ -92,10 +88,7 @@ class HomeMainPage extends StatelessWidget {
 
   FutureBuilder<List<Survey>> surveyField() {
     return FutureBuilder(
-        future: DataService.instance.getSurveys(
-          control: TokenCacheManager.instance.checkUserIsLogin(),
-          token: TokenCacheManager.instance.getToken()!,
-        ),
+        future: DataService.instance.getSurveys(),
         builder: (BuildContext context, AsyncSnapshot<List<Survey>> snapshot) {
           if (snapshot.hasData &&
               snapshot.connectionState == ConnectionState.done) {

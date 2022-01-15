@@ -1,11 +1,9 @@
-
 import 'package:auto_route/annotations.dart';
 
 import '../../../../core/widgets/loading_widget.dart';
 import '../../../models/survey.dart';
 import '../../../services/data_service.dart';
 import '../../../utils/survey_cache_manager.dart';
-import '../../../utils/token_cache_manager.dart';
 import 'survey_list_item.dart';
 import 'package:flutter/material.dart';
 
@@ -34,29 +32,36 @@ class _SurveyListPageState extends State<SurveyListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: FutureBuilder(
-          future: DataService.instance.getSurveys(
-            control: TokenCacheManager().checkUserIsLogin(),
-            token: TokenCacheManager().getToken()!,
-            categoryId: widget.categoryId,
-            limit: 10,
-          ),
-          builder: (context, AsyncSnapshot<List<Survey>> snapshot) {
-            if (snapshot.hasData &&
-                snapshot.connectionState == ConnectionState.done) {
-              return ListView.builder(
-                  controller: _scrollController,
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (_, int index) => SurveyListItem(
-                      surveyModel: snapshot.data![index],
-                      submitted: SurveyCacheManager
-                              .instance.submittedSurveys.isNotEmpty
-                          ? SurveyCacheManager.instance.submittedSurveys
-                              .contains(snapshot.data![index].id)
-                          : false));
-            }
-            return kLoadingWidget;
-          }),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
+          child: FutureBuilder(
+              future: DataService.instance.getSurveys(
+                categoryId: widget.categoryId,
+                limit: 10,
+              ),
+              builder: (context, AsyncSnapshot<List<Survey>> snapshot) {
+                if (snapshot.hasData &&
+                    snapshot.connectionState == ConnectionState.done) {
+                  return ListView.builder(
+                      controller: _scrollController,
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (_, int index) => Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10.0),
+                            child: SurveyListItem(
+                                surveyModel: snapshot.data![index],
+                                submitted: SurveyCacheManager
+                                        .instance.submittedSurveys.isNotEmpty
+                                    ? SurveyCacheManager
+                                        .instance.submittedSurveys
+                                        .contains(snapshot.data![index].id)
+                                    : false),
+                          ));
+                }
+                return kLoadingWidget;
+              }),
+        ),
+      ),
     );
   }
 }

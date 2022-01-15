@@ -47,6 +47,12 @@ class _$AppRouter extends RootStackRouter {
           routeData: routeData,
           child: SurveyPage(key: args.key, survey: args.survey));
     },
+    ResultRoute.name: (routeData) {
+      final args = routeData.argsAs<ResultRouteArgs>();
+      return MaterialPageX<dynamic>(
+          routeData: routeData,
+          child: ResultPage(key: args.key, url: args.url));
+    },
     HomeRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const HomePage());
@@ -93,6 +99,7 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(SignUpRoute.name, path: '/register'),
         RouteConfig(ForgotPassRoute.name, path: '/forgot'),
         RouteConfig(SurveyRoute.name, path: '/survey-page'),
+        RouteConfig(ResultRoute.name, path: '/result-page'),
         RouteConfig(HomeRoute.name, path: 'home', children: [
           RouteConfig(HomeMainRouter.name,
               path: 'home-main',
@@ -217,6 +224,29 @@ class SurveyRouteArgs {
   @override
   String toString() {
     return 'SurveyRouteArgs{key: $key, survey: $survey}';
+  }
+}
+
+/// generated route for
+/// [ResultPage]
+class ResultRoute extends PageRouteInfo<ResultRouteArgs> {
+  ResultRoute({Key? key, required String url})
+      : super(ResultRoute.name,
+            path: '/result-page', args: ResultRouteArgs(key: key, url: url));
+
+  static const String name = 'ResultRoute';
+}
+
+class ResultRouteArgs {
+  const ResultRouteArgs({this.key, required this.url});
+
+  final Key? key;
+
+  final String url;
+
+  @override
+  String toString() {
+    return 'ResultRouteArgs{key: $key, url: $url}';
   }
 }
 

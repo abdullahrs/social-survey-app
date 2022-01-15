@@ -4,7 +4,6 @@ import '../../../../core/widgets/loading_widget.dart';
 import '../../../models/category.dart';
 import '../../../services/data_service.dart';
 import '../../../utils/survey_cache_manager.dart';
-import '../../../utils/token_cache_manager.dart';
 import '../components/categories_grid.dart';
 
 class CategoryPage extends StatelessWidget {
@@ -19,10 +18,7 @@ class CategoryPage extends StatelessWidget {
 
   FutureBuilder<List<Category>> futureBuilder() {
     return FutureBuilder<List<Category>>(
-        future: DataService.instance.getCategories(
-          control: TokenCacheManager.instance.checkUserIsLogin(),
-          token: TokenCacheManager.instance.getToken()!,
-        ),
+        future: DataService.instance.getCategories(),
         builder: (context, snapshot) {
           if (snapshot.hasData &&
               snapshot.connectionState == ConnectionState.done) {

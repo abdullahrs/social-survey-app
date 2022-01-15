@@ -40,15 +40,13 @@ class SignInCubit extends Cubit<SignInState> {
       });
 
       if (sucsess?.tokens != null) {
-        await SurveyCacheManager.instance
-            .setSubmittedSurveys(sucsess!.submittedSurveys ?? []);
         await cacheManager.putItem(
-            HiveModelConstants.tokenKey, sucsess.tokens!);
-        var data = await DataService.instance.getCategories(
-          control: true,
-          token: sucsess.tokens!,
-        );
+            HiveModelConstants.tokenKey, sucsess!.tokens!);
+        var data = await DataService.instance.getCategories();
+        await SurveyCacheManager.instance
+            .setSubmittedSurveys(sucsess.submittedSurveys ?? []);
         await SurveyCacheManager.instance.setCategories(data);
+        await SurveyCacheManager.instance.setUserID(sucsess.user!.id!);
       }
 
       isLoginFailed = !(sucsess?.tokens != null);

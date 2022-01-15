@@ -1,16 +1,20 @@
+import '../../../utils/survey_cache_manager.dart';
+import '../../../models/post.dart';
+import '../../../services/data_service.dart';
+import '../../../utils/token_cache_manager.dart';
 import 'package:auto_route/src/router/auto_router_x.dart';
 
-import '../../constants/style/colors.dart';
+import '../../../constants/style/colors.dart';
 
-import '../../../core/extensions/buildcontext_extension.dart';
+import '../../../../core/extensions/buildcontext_extension.dart';
 import 'package:easy_localization/src/public_ext.dart';
 
-import '../../models/survey.dart';
+import '../../../models/survey.dart';
 import 'package:flutter/material.dart';
 
-import 'components/answer_button.dart';
-import 'components/question_field.dart';
-import 'components/step_bars.dart';
+import '../components/answer_button.dart';
+import '../components/question_field.dart';
+import '../components/step_bars.dart';
 
 class SurveyPage extends StatefulWidget {
   final Survey survey;
@@ -31,6 +35,9 @@ class _SurveyPageState extends State<SurveyPage> {
 
   int pageIndex = 0;
   int? answerIndex;
+  int? answerUIIndex;
+  // [[questionId,answerId],[...]]
+  List<List<int>> answerIDs = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,17 +78,24 @@ class _SurveyPageState extends State<SurveyPage> {
                                 (ansIndex) => AnswerButton(
                                       text: widget.survey.questions[index]
                                           .answers[ansIndex].answerText,
-                                      borderColor: answerIndex == ansIndex
+                                      borderColor: answerUIIndex == ansIndex
                                           ? AppStyle.customButtonColor
                                           : AppStyle.textButtonColor,
-                                      textColor: answerIndex == ansIndex
+                                      textColor: answerUIIndex == ansIndex
                                           ? Colors.white
                                           : AppStyle.textButtonColor,
-                                      backgroundColor: answerIndex == ansIndex
+                                      backgroundColor: answerUIIndex == ansIndex
                                           ? AppStyle.customButtonColor
                                           : null,
                                       callback: () {
-                                        setState(() => answerIndex = ansIndex);
+                                        setState(() {
+                                          answerUIIndex = ansIndex;
+                                          answerIndex = widget
+                                              .survey
+                                              .questions[index]
+                                              .answers[ansIndex]
+                                              .answerId;
+                                        });
                                       },
                                     ))
                           ],
@@ -93,7 +107,43 @@ class _SurveyPageState extends State<SurveyPage> {
             width: context.screenWidth,
             height: context.dynamicHeight(0.1),
             child: ElevatedButton(
-              onPressed: () => context.router.pop(),
+              onPressed: () async {
+                if (pageIndex == numberOfPages - 1) {
+                  answerIDs.add([
+                    widget.survey.questions[pageIndex].questionId,
+                    answerIndex!
+                  ]);
+                  try {
+                    await DataService.instance.sendSurveyAnswers(
+                      token: TokenCacheManager().getToken()!,
+                      postModel: Post(
+                          surveyId: widget.survey.id,
+                          answers: List<UserAnswer>.generate(
+                              answerIDs.length,
+                              (index) => UserAnswer(
+                                  questionId: answerIDs[index][0],
+                                  answerId: answerIDs[index][1])),
+                          location: UserLocation(lat: 1.0, long: 1.0)),
+                    );
+                    await SurveyCacheManager.instance
+                        .submitSurvey(widget.survey.id);
+                  } catch (e) {
+                    // TODO: snackbar hata mesaj
+                  }
+
+                  context.router.pop();
+                } else {
+                  answerIDs.add([
+                    widget.survey.questions[pageIndex].questionId,
+                    answerIndex!
+                  ]);
+                  answerIndex = null;
+                  answerUIIndex = null;
+                  _pageController.nextPage(
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.bounceIn);
+                }
+              },
               child: Text(
                 (pageIndex == numberOfPages - 1)
                     ? 'end-survey'.tr()

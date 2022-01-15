@@ -38,10 +38,7 @@ class SignUpPage extends StatelessWidget {
         child: BlocConsumer<RegisterCubit, RegisterState>(
           listener: (context, state) async {
             if (state is RegisterValidationState && state.registerValidation) {
-              var data = await DataService.instance.getCategories(
-                control: true,
-                token: TokenCacheManager.instance.getToken()!,
-              );
+              var data = await DataService.instance.getCategories();
               await SurveyCacheManager.instance.setCategories(data);
               context.router.navigateNamed('home');
             }

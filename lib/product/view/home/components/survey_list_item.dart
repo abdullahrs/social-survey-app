@@ -19,7 +19,15 @@ class SurveyListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => context.router.push(SurveyRoute(survey: surveyModel)),
+      onTap: () {
+        if (!submitted) {
+          context.router.push(SurveyRoute(survey: surveyModel));
+        } else {
+          context.router.push(ResultRoute(
+              url:
+                  "https://socialsurveyapp.software/api/static/results.html?surveyId=${surveyModel.id}"));
+        }
+      },
       child: Container(
         width: context.screenWidth,
         decoration: BoxDecoration(

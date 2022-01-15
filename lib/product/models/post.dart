@@ -28,7 +28,7 @@ class UserLocation {
   Map<String, dynamic> toJson() => _$UserLocationToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class UserAnswer {
   final int questionId;
   final int answerId;

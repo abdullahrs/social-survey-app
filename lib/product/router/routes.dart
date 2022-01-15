@@ -1,3 +1,4 @@
+import '../view/survey/pages/result_page.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,7 @@ import '../view/home/pages/home_categories.dart';
 import '../view/home/pages/home_main.dart';
 import '../view/home/pages/home_participated.dart';
 import '../view/home/pages/home_settings.dart';
-import '../view/survey/survey_page.dart';
+import '../view/survey/pages/survey_page.dart';
 
 part 'routes.gr.dart';
 
@@ -26,7 +27,8 @@ part 'routes.gr.dart';
     AutoRoute(page: SignInPage, path: '/login'),
     AutoRoute(page: SignUpPage, path: '/register'),
     AutoRoute(page: ForgotPassPage, path: '/forgot'),
-    AutoRoute(page: SurveyPage), //  path: '/survey/:survey'
+    AutoRoute(page: SurveyPage), 
+    AutoRoute(page: ResultPage), 
     AutoRoute(
       page: HomePage,
       path: 'home',

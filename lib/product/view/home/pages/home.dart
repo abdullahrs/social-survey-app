@@ -7,7 +7,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 
 import 'home_categories.dart';
 import 'home_main.dart';
-import 'home_participated.dart';
+// import 'home_participated.dart';
 import 'home_settings.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,12 +29,12 @@ class _HomePageState extends State<HomePage> {
           text: ' ' + 'categories'.tr(),
           borderRadius: BorderRadius.circular(10),
         ),
-        GButton(
-          icon: CupertinoIcons.add_circled,
-          text: ' ' + 'participated'.tr(),
-          borderRadius: BorderRadius.circular(10),
-          margin: const EdgeInsets.all(4),
-        ),
+        // GButton(
+        //   icon: CupertinoIcons.add_circled,
+        //   text: ' ' + 'participated'.tr(),
+        //   borderRadius: BorderRadius.circular(10),
+        //   margin: const EdgeInsets.all(4),
+        // ),
         GButton(
           icon: Icons.settings,
           text: ' ' + 'settings'.tr(),
@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
   List<Widget> get pages => const [
         HomeMainPage(),
         CategoryPage(),
-        ParticipatedPage(),
+        // ParticipatedPage(),
         SettingsPage(),
       ];
 
@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
       routes: const [
         HomeMainRouter(),
         HomeCategoryRouter(),
-        ParticipatedRouter(),
+        // ParticipatedRouter(),
         SettingsRouter(),
       ],
       bottomNavigationBuilder: (context, router) => GNav(

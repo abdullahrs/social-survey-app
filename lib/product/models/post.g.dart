@@ -32,12 +32,12 @@ Map<String, dynamic> _$UserLocationToJson(UserLocation instance) =>
     };
 
 UserAnswer _$UserAnswerFromJson(Map<String, dynamic> json) => UserAnswer(
-      questionId: json['questionId'] as int,
-      answerId: json['answerId'] as int,
+      questionId: json['question_id'] as int,
+      answerId: json['answer_id'] as int,
     );
 
 Map<String, dynamic> _$UserAnswerToJson(UserAnswer instance) =>
     <String, dynamic>{
-      'questionId': instance.questionId,
-      'answerId': instance.answerId,
+      'question_id': instance.questionId,
+      'answer_id': instance.answerId,
     };

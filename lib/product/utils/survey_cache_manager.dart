@@ -32,6 +32,7 @@ class SurveyCacheManager extends ModelCacheManager {
 
   Future<void> setSubmittedSurveys(List<String> surveyIds) async {
     _submittedSurveys = surveyIds;
+    await putItem(HiveModelConstants.submittedSurveysKey, _submittedSurveys);
   }
 
   Future<void> submitSurvey(String surveyId) async {
@@ -39,6 +40,10 @@ class SurveyCacheManager extends ModelCacheManager {
     _submittedSurveys!.add(surveyId);
     await putItem(HiveModelConstants.submittedSurveysKey, _submittedSurveys);
   }
+
+  String get userID => getItem(HiveModelConstants.userIDKey);
+  Future<void> setUserID(String id) async =>
+      putItem(HiveModelConstants.userIDKey, id);
 
   @override
   void registerAdapters() {

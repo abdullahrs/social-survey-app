@@ -1,29 +1,54 @@
 import 'package:http/http.dart';
 
 import '../constants/app_constants/urls.dart';
-import '../models/token.dart';
+import 'token_cache_manager.dart';
 
-Request createRequest({
-    Tokens? token,
-    required String endPoint,
-    required Map<String, String> bodyFields,
-    String method = 'POST',
-    bool bearerActive = false,
-  }) {
-    Map<String, String> headers = {
-     'Content-Type': 'application/x-www-form-urlencoded',
-    };
+enum RequestClient { auth, data }
 
-    if (bearerActive && token != null) {
-      headers['Authorization'] = 'Bearer ${token.access.token}';
-    }
+Future<Response> createRequestAndSend({
+  RequestClient client = RequestClient.data,
+  required String endPoint,
+  Map<String, String>? bodyFields,
+  String? body,
+  Map<String, dynamic>? queryParams,
+  String method = 'POST',
+  bool bearerActive = false,
 
-    Uri uri = Uri.https(RestAPIPoints.baseURL, endPoint);
+  /// Test ederken TokenCacheManager'den dolayi hata almamak icin
+  String? testRefreshToken,
+}) async {
+  Map<String, String> headers = {
+    'Content-Type':
+        'application/${client == RequestClient.data ? "json" : "x-www-form-urlencoded"}', // "x-www-form-urlencoded"
+  };
 
-    Request request = Request(method, uri);
-
-    request.bodyFields = bodyFields;
-    request.headers.addAll(headers);
-
-    return request;
+  if (bearerActive) {
+    headers['Authorization'] =
+        'Bearer ${testRefreshToken ?? TokenCacheManager().getToken()!.access.token}';
   }
+
+  Uri uri;
+
+  if (queryParams != null) {
+    uri = Uri.https(RestAPIPoints.baseURL, endPoint, queryParams);
+  } else {
+    uri = Uri.https(RestAPIPoints.baseURL, endPoint);
+  }
+
+  Request request = Request(method, uri);
+  if (bodyFields != null) {
+    request.bodyFields = bodyFields;
+  }
+  if (body != null) {
+    request.body = body;
+  }
+  request.headers.addAll(headers);
+
+  try {
+    StreamedResponse streamedResponse = await request.send();
+    Response response = await Response.fromStream(streamedResponse);
+    return response;
+  } catch (e) {
+    throw Exception(e);
+  }
+}
