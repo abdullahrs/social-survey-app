@@ -24,7 +24,7 @@ class AuthService {
       User user = User.fromJson(result);
       return user;
     } else if (response.statusCode == 401) {
-      User user = User(user: null, tokens: null, submittedSurveys: null);
+      User user = User(user: null, tokens: null);
       return user;
     }
     return null;
@@ -48,7 +48,7 @@ class AuthService {
     }
     // Email already Taken
     else if (response.statusCode == 400) {
-      User user = User(user: null, tokens: null, submittedSurveys: null);
+      User user = User(user: null, tokens: null);
       return user;
     }
 

@@ -44,7 +44,7 @@ class SignInCubit extends Cubit<SignInState> {
             HiveModelConstants.tokenKey, sucsess!.tokens!);
         var data = await DataService.instance.getCategories();
         await SurveyCacheManager.instance
-            .setSubmittedSurveys(sucsess.submittedSurveys ?? []);
+            .setSubmittedSurveys(sucsess.user!.submittedSurveys ?? []);
         await SurveyCacheManager.instance.setCategories(data);
         await SurveyCacheManager.instance.setUserID(sucsess.user!.id!);
       }

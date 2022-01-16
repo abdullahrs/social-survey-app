@@ -40,6 +40,7 @@ class _SurveyPageState extends State<SurveyPage> {
   List<List<int>> answerIDs = [];
   @override
   Widget build(BuildContext context) {
+    widget.survey;
     return Scaffold(
         body: SafeArea(
       bottom: false,
@@ -54,6 +55,7 @@ class _SurveyPageState extends State<SurveyPage> {
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: PageView(
                 controller: _pageController,
+                physics: const NeverScrollableScrollPhysics(),
                 onPageChanged: (int? index) {
                   if (index != null) {
                     pageIndex = index;

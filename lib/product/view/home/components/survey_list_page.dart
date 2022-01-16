@@ -43,6 +43,7 @@ class _SurveyListPageState extends State<SurveyListPage> {
               builder: (context, AsyncSnapshot<List<Survey>> snapshot) {
                 if (snapshot.hasData &&
                     snapshot.connectionState == ConnectionState.done) {
+                  SurveyCacheManager.instance.submittedSurveys;
                   return ListView.builder(
                       controller: _scrollController,
                       itemCount: snapshot.data!.length,

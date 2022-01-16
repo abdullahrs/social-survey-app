@@ -42,12 +42,10 @@ class WelcomePage extends StatelessWidget {
                 function: () async {
                   bool? control = TokenCacheManager().checkUserIsLogin();
                   if (control ?? false) {
-                    var token = TokenCacheManager.instance.getToken()!;
                     var data = await DataService.instance.getCategories();
                     await SurveyCacheManager.instance.setCategories(data);
-                    var submits = await DataService.instance.getSubmits(
-                        token: token,
-                        userID: SurveyCacheManager.instance.userID);
+                    var submits = await DataService.instance
+                        .getSubmits(userID: SurveyCacheManager.instance.userID);
                     if (submits != null) {
                       await SurveyCacheManager.instance
                           .setSubmittedSurveys(submits);

@@ -11,6 +11,10 @@ Info _$InfoFromJson(Map<String, dynamic> json) => Info(
       name: json['name'] as String?,
       email: json['email'] as String?,
       id: json['id'] as String?,
+      isEmailVerified: json['isEmailVerified'] as bool,
+      submittedSurveys: (json['submittedSurveys'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
     );
 
 Map<String, dynamic> _$InfoToJson(Info instance) => <String, dynamic>{
@@ -18,4 +22,6 @@ Map<String, dynamic> _$InfoToJson(Info instance) => <String, dynamic>{
       'name': instance.name,
       'email': instance.email,
       'id': instance.id,
+      'isEmailVerified': instance.isEmailVerified,
+      'submittedSurveys': instance.submittedSurveys,
     };

@@ -21,7 +21,8 @@ class SettingsPage extends StatelessWidget {
             onTap: () async {
               TokenCacheManager cacheManager = TokenCacheManager();
               var token = cacheManager.getItem(HiveModelConstants.tokenKey);
-              await AuthService.instance.logout(refreshToken: token!.refresh.token)
+              await AuthService.instance
+                  .logout(refreshToken: token!.refresh.token)
                   .then((value) async {
                 if (value) {
                   await cacheManager.removeItem(HiveModelConstants.tokenKey);
@@ -33,17 +34,7 @@ class SettingsPage extends StatelessWidget {
           ListTile(
             title: Text('edit_info'.tr()),
             leading: const Icon(Icons.edit),
-            onTap: () async {
-              TokenCacheManager cacheManager = TokenCacheManager();
-              var token = cacheManager.getItem(HiveModelConstants.tokenKey);
-              await AuthService.instance.logout(refreshToken: token!.refresh.token)
-                  .then((value) async {
-                if (value) {
-                  await cacheManager.removeItem(HiveModelConstants.tokenKey);
-                  context.router.pop();
-                }
-              });
-            },
+            onTap: () async {},
           ),
         ],
       )),

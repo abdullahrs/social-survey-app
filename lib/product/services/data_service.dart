@@ -117,17 +117,16 @@ class DataService {
   }
 
   Future<List<String>?> getSubmits(
-      {required Tokens token,
-      required String userID,
-      String? testToken}) async {
+      {required String userID, String? testToken}) async {
     http.Response response = await createRequestAndSend(
         endPoint: RestAPIPoints.user + '/' + userID,
         method: 'GET',
         bearerActive: true,
         testRefreshToken: testToken);
+
     var result = convert.json.decode(convert.utf8.decode(response.bodyBytes));
-    if (response.statusCode == 204) {
-      return convert.jsonDecode(result['submittedSurveys']);
+    if (response.statusCode == 200) {
+      return List<String>.from(result['submittedSurveys'] ?? []);
     }
     throw FetchDataException(
         statusCode: response.statusCode, message: response.body);
