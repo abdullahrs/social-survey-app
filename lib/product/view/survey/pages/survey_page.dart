@@ -1,14 +1,15 @@
-import '../../../utils/survey_cache_manager.dart';
-import '../../../models/post.dart';
+import 'dart:developer';
+
 import '../../../services/data_service.dart';
-import '../../../utils/token_cache_manager.dart';
+import '../../../utils/survey_cache_manager.dart';
+
+import '../../../models/post.dart' show Post, UserAnswer, UserLocation;
 import 'package:auto_route/src/router/auto_router_x.dart';
 
 import '../../../constants/style/colors.dart';
 
 import '../../../../core/extensions/buildcontext_extension.dart';
 import 'package:easy_localization/src/public_ext.dart';
-
 import '../../../models/survey.dart';
 import 'package:flutter/material.dart';
 
@@ -116,23 +117,22 @@ class _SurveyPageState extends State<SurveyPage> {
                     answerIndex!
                   ]);
                   try {
-                    await DataService.instance.sendSurveyAnswers(
-                      token: TokenCacheManager().getToken()!,
-                      postModel: Post(
-                          surveyId: widget.survey.id,
-                          answers: List<UserAnswer>.generate(
-                              answerIDs.length,
-                              (index) => UserAnswer(
-                                  questionId: answerIDs[index][0],
-                                  answerId: answerIDs[index][1])),
-                          location: UserLocation(lat: 1.0, long: 1.0)),
+                    Post post = Post(
+                      surveyId: widget.survey.id,
+                      answers: List<UserAnswer>.generate(
+                          answerIDs.length,
+                          (index) => UserAnswer(
+                              questionId: answerIDs[index][0],
+                              answerId: answerIDs[index][1])),
+                      location: UserLocation(lat: 1.0, long: 1.0),
                     );
+                    await DataService.instance
+                        .sendSurveyAnswers(postModel: post);
                     await SurveyCacheManager.instance
-                        .submitSurvey(widget.survey.id);
+                        .submitSurvey(post.surveyId);
                   } catch (e) {
-                    // TODO: snackbar hata mesaj
+                    log("$e");
                   }
-
                   context.router.pop();
                 } else {
                   answerIDs.add([

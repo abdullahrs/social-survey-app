@@ -1,9 +1,10 @@
+import '../../../utils/custom_exception.dart';
+
 import '../../../services/data_service.dart';
 import '../../../utils/survey_cache_manager.dart';
 import 'package:auto_route/auto_route.dart';
 
 import '../../../../core/extensions/buildcontext_extension.dart';
-import '../../../utils/token_cache_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -40,19 +41,15 @@ class WelcomePage extends StatelessWidget {
                 context: context,
                 text: "login",
                 function: () async {
-                  bool? control = TokenCacheManager().checkUserIsLogin();
-                  if (control ?? false) {
-                    var data = await DataService.instance.getCategories();
-                    await SurveyCacheManager.instance.setCategories(data);
-                    var submits = await DataService.instance
-                        .getSubmits(userID: SurveyCacheManager.instance.userID);
-                    if (submits != null) {
-                      await SurveyCacheManager.instance
-                          .setSubmittedSurveys(submits);
-                    }
+                  try {
+                    await login();
                     context.router.replaceNamed('home');
-                  } else {
-                    context.router.pushNamed('/login');
+                  } catch (e) {
+                    if (e is FetchDataException && e.statusCode == -1) {
+                      await login();
+                    } else {
+                      context.router.pushNamed('/login');
+                    }
                   }
                 }),
             const SizedBox(height: 10),
@@ -67,6 +64,16 @@ class WelcomePage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> login() async {
+    var data = await DataService.instance.getCategories();
+    await SurveyCacheManager.instance.setCategories(data);
+    var submits = await DataService.instance
+        .getSubmits(userID: SurveyCacheManager.instance.userID);
+    if (submits != null) {
+      await SurveyCacheManager.instance.setSubmittedSurveys(submits);
+    }
   }
 
   SizedBox button(

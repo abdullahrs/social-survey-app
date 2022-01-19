@@ -5,7 +5,7 @@ import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/extensions/buildcontext_extension.dart';
-import '../components/survey_list_item.dart';
+import '../../survey/components/survey_list_item.dart';
 import '../../../models/category.dart';
 import '../../../models/survey.dart';
 import '../../../services/data_service.dart';
@@ -92,20 +92,28 @@ class HomeMainPage extends StatelessWidget {
         builder: (BuildContext context, AsyncSnapshot<List<Survey>> snapshot) {
           if (snapshot.hasData &&
               snapshot.connectionState == ConnectionState.done) {
-            return Column(
+            return ValueListenableBuilder(
+              valueListenable:
+                  SurveyCacheManager.instance.submittedSurveysListener,
+              builder:
+                  (BuildContext context, int? value, Widget? child) =>
+                      Column(
                 children: List<Widget>.generate(
-                    snapshot.data!.length,
-                    (index) => Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10.0),
-                          child: SurveyListItem(
-                            surveyModel: snapshot.data![index],
-                            submitted: SurveyCacheManager
-                                    .instance.submittedSurveys.isNotEmpty
-                                ? SurveyCacheManager.instance.submittedSurveys
-                                    .contains(snapshot.data![index].id)
-                                : false,
-                          ),
-                        )));
+                  snapshot.data!.length,
+                  (index) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: SurveyListItem(
+                      surveyModel: snapshot.data![index],
+                      submitted: SurveyCacheManager
+                              .instance.submittedSurveys.isNotEmpty
+                          ? SurveyCacheManager.instance.submittedSurveys
+                              .contains(snapshot.data![index].id)
+                          : false,
+                    ),
+                  ),
+                ),
+              ),
+            );
           }
           return const Center(child: CircularProgressIndicator());
         });

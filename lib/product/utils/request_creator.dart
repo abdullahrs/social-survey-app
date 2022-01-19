@@ -1,3 +1,6 @@
+import '../models/token.dart';
+import '../services/auth_service.dart';
+import 'custom_exception.dart';
 import 'package:http/http.dart';
 
 import '../constants/app_constants/urls.dart';
@@ -17,6 +20,8 @@ Future<Response> createRequestAndSend({
   /// Test ederken TokenCacheManager'den dolayi hata almamak icin
   String? testRefreshToken,
 }) async {
+  TokenCacheManager manager = TokenCacheManager();
+  Tokens? token = manager.getToken();
   Map<String, String> headers = {
     'Content-Type':
         'application/${client == RequestClient.data ? "json" : "x-www-form-urlencoded"}', // "x-www-form-urlencoded"
@@ -24,7 +29,7 @@ Future<Response> createRequestAndSend({
 
   if (bearerActive) {
     headers['Authorization'] =
-        'Bearer ${testRefreshToken ?? TokenCacheManager().getToken()!.access.token}';
+        'Bearer ${testRefreshToken ?? token!.access.token}';
   }
 
   Uri uri;
@@ -47,6 +52,16 @@ Future<Response> createRequestAndSend({
   try {
     StreamedResponse streamedResponse = await request.send();
     Response response = await Response.fromStream(streamedResponse);
+    if (response.statusCode == 401) {
+      bool? control = manager.checkUserIsLogin(token);
+      if (control != null && !control) {
+        await AuthService.instance
+            .refreshAcsessToken(refreshToken: token!.refresh.token);
+        throw FetchDataException(message: response.body, statusCode: -1);
+      }
+      throw FetchDataException(
+          message: response.body, statusCode: response.statusCode);
+    }
     return response;
   } catch (e) {
     throw Exception(e);

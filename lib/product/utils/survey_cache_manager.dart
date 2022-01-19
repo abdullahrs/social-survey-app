@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../core/src/cache_manager.dart';
@@ -30,6 +33,11 @@ class SurveyCacheManager extends ModelCacheManager {
 
   List<String> get submittedSurveys => _submittedSurveys ?? [];
 
+  static final ValueNotifier<int> _submittedSurveysListener =
+      ValueNotifier<int>(0);
+
+  ValueNotifier<int> get submittedSurveysListener => _submittedSurveysListener;
+
   Future<void> setSubmittedSurveys(List<String> surveyIds) async {
     _submittedSurveys = surveyIds;
     await putItem(HiveModelConstants.submittedSurveysKey, _submittedSurveys);
@@ -39,6 +47,7 @@ class SurveyCacheManager extends ModelCacheManager {
     _submittedSurveys ??= [];
     _submittedSurveys!.add(surveyId);
     await putItem(HiveModelConstants.submittedSurveysKey, _submittedSurveys);
+    _submittedSurveysListener.value += 1;
   }
 
   String get userID => getItem(HiveModelConstants.userIDKey);

@@ -7,7 +7,6 @@ import '../constants/app_constants/urls.dart';
 import '../models/category.dart';
 import '../models/post.dart';
 import '../models/survey.dart';
-import '../models/token.dart';
 import '../utils/request_creator.dart';
 
 class DataService {
@@ -101,7 +100,7 @@ class DataService {
 
   /// Submits the survey
   Future<void> sendSurveyAnswers(
-      {required Tokens token,
+      {
       required Post postModel,
       String? testToken}) async {
     http.Response response = await createRequestAndSend(

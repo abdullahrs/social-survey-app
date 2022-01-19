@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
@@ -18,18 +20,7 @@ class SettingsPage extends StatelessWidget {
           ListTile(
             title: Text('logout'.tr()),
             leading: const Icon(Icons.logout),
-            onTap: () async {
-              TokenCacheManager cacheManager = TokenCacheManager();
-              var token = cacheManager.getItem(HiveModelConstants.tokenKey);
-              await AuthService.instance
-                  .logout(refreshToken: token!.refresh.token)
-                  .then((value) async {
-                if (value) {
-                  await cacheManager.removeItem(HiveModelConstants.tokenKey);
-                  context.router.pop();
-                }
-              });
-            },
+            onTap: () => onPress(context),
           ),
           ListTile(
             title: Text('edit_info'.tr()),
@@ -39,5 +30,23 @@ class SettingsPage extends StatelessWidget {
         ],
       )),
     );
+  }
+
+  Future<void> onPress(BuildContext context) async {
+    try {
+      TokenCacheManager cacheManager = TokenCacheManager();
+      var token = cacheManager.getItem(HiveModelConstants.tokenKey);
+      bool value =
+          await AuthService.instance.logout(refreshToken: token!.refresh.token);
+      if (value) {
+        await cacheManager.removeItem(HiveModelConstants.tokenKey);
+        context.router.pop();
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('[home_settings][onTap] ERROR : $e'),
+      ));
+      // context.router.pop();
+    }
   }
 }

@@ -7,7 +7,7 @@ import '../view/entry/pages/forgot_password_page.dart';
 import '../view/entry/pages/sign_in_page.dart';
 import '../view/entry/pages/sign_up_page.dart';
 import '../view/entry/pages/welcome_page.dart';
-import '../view/home/components/survey_list_page.dart';
+import '../view/survey/pages/survey_list_page.dart';
 import '../view/home/pages/home.dart';
 import '../view/home/pages/home_categories.dart';
 import '../view/home/pages/home_main.dart';

@@ -103,7 +103,7 @@ void main() {
       // Already submitted hatasi cikmali
       expect(
           () async => await DataService.instance.sendSurveyAnswers(
-              token: token, postModel: post, testToken: token.access.token),
+               postModel: post, testToken: token.access.token),
           throwsA(isA<FetchDataException>()));
     });
   });

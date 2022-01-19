@@ -26,8 +26,7 @@ class TokenCacheManager extends ModelCacheManager<Tokens> {
     }
   }
 
-  bool? checkUserIsLogin() {
-    Tokens? token = getToken();
+  bool? checkUserIsLogin(Tokens? token) {
     // Login olmasi gerekiyor
     if (token == null) return null;
 

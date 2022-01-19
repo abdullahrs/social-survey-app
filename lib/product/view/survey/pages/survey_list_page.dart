@@ -4,7 +4,7 @@ import '../../../../core/widgets/loading_widget.dart';
 import '../../../models/survey.dart';
 import '../../../services/data_service.dart';
 import '../../../utils/survey_cache_manager.dart';
-import 'survey_list_item.dart';
+import '../components/survey_list_item.dart';
 import 'package:flutter/material.dart';
 
 class SurveyListPage extends StatefulWidget {
@@ -43,21 +43,27 @@ class _SurveyListPageState extends State<SurveyListPage> {
               builder: (context, AsyncSnapshot<List<Survey>> snapshot) {
                 if (snapshot.hasData &&
                     snapshot.connectionState == ConnectionState.done) {
-                  SurveyCacheManager.instance.submittedSurveys;
-                  return ListView.builder(
-                      controller: _scrollController,
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (_, int index) => Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10.0),
-                            child: SurveyListItem(
-                                surveyModel: snapshot.data![index],
-                                submitted: SurveyCacheManager
-                                        .instance.submittedSurveys.isNotEmpty
-                                    ? SurveyCacheManager
-                                        .instance.submittedSurveys
-                                        .contains(snapshot.data![index].id)
-                                    : false),
-                          ));
+                  return ValueListenableBuilder(
+                    valueListenable:
+                        SurveyCacheManager.instance.submittedSurveysListener,
+                    builder: (BuildContext context, value, Widget? child) =>
+                        ListView.builder(
+                            controller: _scrollController,
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (_, int index) => Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 10.0),
+                                  child: SurveyListItem(
+                                      surveyModel: snapshot.data![index],
+                                      submitted: SurveyCacheManager.instance
+                                              .submittedSurveys.isNotEmpty
+                                          ? SurveyCacheManager
+                                              .instance.submittedSurveys
+                                              .contains(
+                                                  snapshot.data![index].id)
+                                          : false),
+                                )),
+                  );
                 }
                 return kLoadingWidget;
               }),
