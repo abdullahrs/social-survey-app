@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';

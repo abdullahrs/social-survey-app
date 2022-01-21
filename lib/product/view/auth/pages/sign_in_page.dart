@@ -72,7 +72,7 @@ class SignInPage extends StatelessWidget {
               SizedBox(height: context.dynamicHeight(0.05)),
               Visibility(
                 visible: state is SignInStatus
-                    ? (state.status == AuthStatuses.unsucsess ? true : false)
+                    ? (state.status == AuthStatuses.error ? true : false)
                     : false,
                 child: warningField(),
               ),

@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
   # State Management
   bloc: ^8.0.2
-  flutter_bloc: ^8.0.0
+  flutter_bloc: ^8.0.1
   # API
   http: ^0.13.4
   json_annotation: ^4.4.0

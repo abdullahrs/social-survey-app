@@ -1,3 +1,4 @@
+import '../../../constants/enums/genders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,6 +18,9 @@ class RegisterCubit extends Cubit<RegisterState> {
 
   bool isRegisterFailed = false;
 
+  Gender? gender;
+  DateTime? birthDate;
+
   RegisterCubit(
       {required this.nameController,
       required this.mailController,
@@ -27,6 +31,10 @@ class RegisterCubit extends Cubit<RegisterState> {
       : super(RegisterInitial());
 
   Future<void> postUserModel() async {
+    if (birthDate == null || gender == null) {
+      emit(RegisterStatus(AuthStatuses.error));
+      return;
+    }
     if (formKey.currentState!.validate()) {
       emit(RegisterStatus(AuthStatuses.started));
       User? sucsess = await AuthService.instance.register(
@@ -46,6 +54,11 @@ class RegisterCubit extends Cubit<RegisterState> {
       if (sucsess?.tokens != null) {
         await cacheManager.putItem(
             HiveModelConstants.tokenKey, sucsess!.tokens!);
+        await AuthService.instance.updateUser(
+            userID: sucsess.user!.id!,
+            gender: gender.toString().split(".")[1],
+            date: birthDate.toString(),
+            refreshToken: sucsess.tokens!.refresh.token);
       }
 
       isRegisterFailed = !(sucsess?.tokens != null);
@@ -54,6 +67,9 @@ class RegisterCubit extends Cubit<RegisterState> {
     }
     emit(RegisterValidationState(!isRegisterFailed));
   }
+
+  void getGender(g) => gender = g;
+  void getDate(d) => birthDate = d;
 }
 
 @immutable

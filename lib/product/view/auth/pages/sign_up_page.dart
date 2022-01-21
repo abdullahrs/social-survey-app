@@ -1,3 +1,8 @@
+// ignore_for_file: unnecessary_import
+
+import '../components/sign_up_date_selection.dart';
+import '../components/sign_up_gender_selection.dart';
+
 import '../../../services/data_service.dart';
 import '../../../utils/survey_cache_manager.dart';
 import 'package:auto_route/src/router/auto_router_x.dart';
@@ -22,6 +27,7 @@ class SignUpPage extends StatelessWidget {
   final TextEditingController _repeatPassController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey();
   final TokenCacheManager userStatus = TokenCacheManager();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +71,7 @@ class SignUpPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: context.dynamicHeight(0.05)),
+              SizedBox(height: context.dynamicHeight(0.02)),
               Center(
                   child: Text('register', style: context.appTextTheme.headline2)
                       .tr()),
@@ -77,7 +83,37 @@ class SignUpPage extends StatelessWidget {
               passwordField(),
               SizedBox(height: context.dynamicHeight(0.02)),
               repeatPasswordField(),
-              SizedBox(height: context.dynamicHeight(0.05)),
+              SizedBox(height: context.dynamicHeight(0.02)),
+              DateSelector(
+                dateCallback: context.read<RegisterCubit>().getDate,
+              ),
+              SizedBox(height: context.dynamicHeight(0.02)),
+              SizedBox(
+                height: context.dynamicHeight(0.075),
+                child: GenderSelection(
+                    callback: context.read<RegisterCubit>().getGender),
+              ),
+              Visibility(
+                  visible: (state is RegisterStatus
+                      ? (state.status == AuthStatuses.error ? true : false)
+                      : false),
+                  child: Column(
+                    children: [
+                      Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.only(left: 4, top: 10),
+                            child: Text(
+                              'empty_field'.tr(),
+                              style: context.appTextTheme.bodyText2!
+                                  .copyWith(color: Colors.red),
+                            ),
+                          )),
+                      SizedBox(height: context.dynamicHeight(0.02)),
+                    ],
+                  )),
+              SizedBox(height: context.dynamicHeight(0.02)),
               Visibility(
                 visible: state is RegisterStatus
                     ? (state.status == AuthStatuses.unsucsess ? true : false)

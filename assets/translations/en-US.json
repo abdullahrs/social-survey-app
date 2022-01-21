@@ -37,5 +37,8 @@
     "politics": "Politics",
     "end-survey": "End Survey",
     "continue": "Continue",
-    "edit_info": "Edit information"
+    "edit_info": "Edit information",
+    "female":"Female",
+    "male":"Male",
+    "birth_date":"Birth Date"
 }
