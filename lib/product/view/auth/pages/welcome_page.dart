@@ -1,15 +1,33 @@
-import '../../../utils/custom_exception.dart';
-
-import '../../../services/data_service.dart';
-import '../../../utils/survey_cache_manager.dart';
+import '../../../../core/widgets/loading_widget.dart';
+import '../components/border_button.dart';
+import '../view_model/initializer.dart';
 import 'package:auto_route/auto_route.dart';
 
 import '../../../../core/extensions/buildcontext_extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-class WelcomePage extends StatelessWidget {
+class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);
+
+  @override
+  State<WelcomePage> createState() => _WelcomePageState();
+}
+
+class _WelcomePageState extends State<WelcomePage> {
+  bool? isLoggedIn;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      InitializeValues initializeValues = InitializeValues();
+      bool result = await initializeValues.setup(context);
+      setState(() {
+        isLoggedIn = result;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,64 +55,27 @@ class WelcomePage extends StatelessWidget {
                   .tr(),
             ),
             const Spacer(),
-            button(
-                context: context,
-                text: "login",
-                function: () async {
-                  try {
-                    await login();
-                    context.router.replaceNamed('home');
-                  } catch (e) {
-                    if (e is FetchDataException && e.statusCode == -1) {
-                      await login();
-                    } else {
-                      context.router.pushNamed('/login');
-                    }
-                  }
-                }),
-            const SizedBox(height: 10),
-            button(
-                context: context,
-                text: "register",
-                function: () {
-                  context.router.pushNamed('/register');
-                }),
+            isLoggedIn == null
+                ? kLoadingWidget
+                : Column(
+                    children: [
+                      BorderButton(
+                        text: 'login',
+                        function: () {
+                          context.router.pushNamed('/login');
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      BorderButton(
+                        text: 'register',
+                        function: () {
+                          context.router.pushNamed('/register');
+                        },
+                      ),
+                    ],
+                  ),
             const Spacer(flex: 2),
           ],
-        ),
-      ),
-    );
-  }
-
-  Future<void> login() async {
-    var data = await DataService.instance.getCategories();
-    await SurveyCacheManager.instance.setCategories(data);
-    var submits = await DataService.instance
-        .getSubmits(userID: SurveyCacheManager.instance.userID);
-    if (submits != null) {
-      await SurveyCacheManager.instance.setSubmittedSurveys(submits);
-    }
-  }
-
-  SizedBox button(
-      {required BuildContext context,
-      required String text,
-      required VoidCallback function}) {
-    return SizedBox(
-      width: context.screenWidth,
-      child: ElevatedButton(
-        onPressed: function,
-        child: Text(text, style: context.appTextTheme.bodyText2).tr(),
-        style: ButtonStyle(
-          minimumSize: MaterialStateProperty.all<Size>(
-              Size(double.infinity, context.dynamicHeight(0.055))),
-          backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
-          shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
-          elevation: MaterialStateProperty.all<double>(0),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              const RoundedRectangleBorder(
-            side: BorderSide(color: Colors.black),
-          )),
         ),
       ),
     );
