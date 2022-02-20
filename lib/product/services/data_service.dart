@@ -14,7 +14,7 @@ import '../models/post.dart';
 import '../models/survey.dart';
 
 class DataService extends ApiServiceManager {
-  DataService(
+  DataService._ctor(
       {required String tokenKey,
       required String baseURL,
       required ModelCacheManager manager})
@@ -27,7 +27,7 @@ class DataService extends ApiServiceManager {
     if (_instance == null) {
       if (tokenKey != null && baseURL != null && manager != null) {
         _instance =
-            DataService(tokenKey: tokenKey, baseURL: baseURL, manager: manager);
+            DataService._ctor(tokenKey: tokenKey, baseURL: baseURL, manager: manager);
         return _instance!;
       }
       throw Exception(

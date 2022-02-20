@@ -14,7 +14,7 @@ import '../models/token.dart';
 import '../models/user.dart';
 
 class AuthService extends ApiServiceManager {
-  AuthService(
+  AuthService._ctor(
       {required String tokenKey,
       required String baseURL,
       required ModelCacheManager manager})
@@ -26,8 +26,8 @@ class AuthService extends ApiServiceManager {
       {String? tokenKey, String? baseURL, ModelCacheManager? manager}) {
     if (_instance == null) {
       if (tokenKey != null && baseURL != null && manager != null) {
-        _instance =
-            AuthService(tokenKey: tokenKey, baseURL: baseURL, manager: manager);
+        _instance = AuthService._ctor(
+            tokenKey: tokenKey, baseURL: baseURL, manager: manager);
         return _instance!;
       }
       throw Exception(
