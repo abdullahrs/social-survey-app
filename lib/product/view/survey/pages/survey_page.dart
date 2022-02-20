@@ -126,8 +126,7 @@ class _SurveyPageState extends State<SurveyPage> {
                               answerId: answerIDs[index][1])),
                       location: UserLocation(lat: 1.0, long: 1.0),
                     );
-                    await DataService.instance
-                        .sendSurveyAnswers(postModel: post);
+                    await DataService.instance.sendSurveyAnswers(post);
                     await SurveyCacheManager.instance
                         .submitSurvey(post.surveyId);
                   } catch (e) {

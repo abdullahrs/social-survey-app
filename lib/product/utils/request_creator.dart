@@ -16,9 +16,6 @@ Future<Response> createRequestAndSend({
   Map<String, dynamic>? queryParams,
   String method = 'POST',
   bool bearerActive = false,
-
-  /// Test ederken TokenCacheManager'den dolayi hata almamak icin
-  String? testRefreshToken,
 }) async {
   TokenCacheManager manager = TokenCacheManager();
   Tokens? token = manager.getToken();
@@ -29,7 +26,7 @@ Future<Response> createRequestAndSend({
 
   if (bearerActive) {
     headers['Authorization'] =
-        'Bearer ${testRefreshToken ?? token!.access.token}';
+        'Bearer ${token!.access.token}';
   }
 
   Uri uri;
@@ -57,7 +54,7 @@ Future<Response> createRequestAndSend({
       if (control != null && !control) {
         await AuthService.instance
             .refreshAcsessToken(refreshToken: token!.refresh.token);
-        throw FetchDataException(message: response.body, statusCode: -1);
+        throw FetchDataException(message: response.body, statusCode: 401);
       }
       throw FetchDataException(
           message: response.body, statusCode: response.statusCode);

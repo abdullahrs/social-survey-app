@@ -1,3 +1,4 @@
+import '../../../utils/custom_exception.dart';
 import 'package:auto_route/src/router/auto_router_x.dart';
 
 import '../../../services/data_service.dart';
@@ -9,7 +10,11 @@ class InitializeValues {
 
   Future<bool> setup(BuildContext context) async {
     try {
-      await init();
+      bool? result = await init();
+      result ??= await init();
+      if (result == null || !result) {
+        return false;
+      }
       context.router.replaceNamed('home');
       return true;
     } catch (e) {
@@ -17,13 +22,21 @@ class InitializeValues {
     }
   }
 
-  Future<void> init() async {
-    var data = await DataService.instance.getCategories();
-    await SurveyCacheManager.instance.setCategories(data);
-    var submits = await DataService.instance
-        .getSubmits(userID: SurveyCacheManager.instance.userID);
-    if (submits != null) {
-      await SurveyCacheManager.instance.setSubmittedSurveys(submits);
+  Future<bool?> init() async {
+    try {
+      var data = await DataService.instance.getCategories();
+      await SurveyCacheManager.instance.setCategories(data);
+      var submits = await DataService.instance
+          .getSubmits(SurveyCacheManager.instance.userID);
+      if (submits != null) {
+        await SurveyCacheManager.instance.setSubmittedSurveys(submits);
+      }
+      return true;
+    } catch (e) {
+      if (e is FetchDataException && e.statusCode == 401) {
+        return null;
+      }
+      return false;
     }
   }
 }

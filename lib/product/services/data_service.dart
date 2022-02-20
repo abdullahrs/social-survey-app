@@ -14,12 +14,12 @@ class DataService {
 
   DataService._ctor();
 
-  Future<List<Category>> getCategories({String? testToken}) async {
+  Future<List<Category>> getCategories() async {
     http.Response response = await createRequestAndSend(
-        endPoint: RestAPIPoints.categories,
-        method: 'GET',
-        bearerActive: true,
-        testRefreshToken: testToken);
+      endPoint: RestAPIPoints.categories,
+      method: 'GET',
+      bearerActive: true,
+    );
 
     if (response.statusCode == 200) {
       var result = convert.json.decode(convert.utf8.decode(response.bodyBytes));
@@ -49,7 +49,6 @@ class DataService {
     bool? searchForName,
     int limit = 5,
     int page = 1,
-    String? testToken,
   }) async {
     Map<String, dynamic> queryParameters = {
       'categoryId': categoryId,
@@ -62,11 +61,11 @@ class DataService {
     queryParameters.removeWhere((key, value) => value == null);
 
     http.Response response = await createRequestAndSend(
-        endPoint: RestAPIPoints.survey,
-        method: 'GET',
-        bearerActive: true,
-        queryParams: queryParameters,
-        testRefreshToken: testToken);
+      endPoint: RestAPIPoints.survey,
+      method: 'GET',
+      bearerActive: true,
+      queryParams: queryParameters,
+    );
 
     if (response.statusCode == 200) {
       var result = convert.json.decode(convert.utf8.decode(response.bodyBytes));
@@ -83,12 +82,12 @@ class DataService {
   /// x: number of surveys, y: number of pages
   ///
   /// The default number of surveys per page is 10.
-  Future<List<int>> getSurveyCountInfo({String? testToken}) async {
+  Future<List<int>> getSurveyCountInfo() async {
     http.Response response = await createRequestAndSend(
-        endPoint: RestAPIPoints.survey,
-        method: 'GET',
-        bearerActive: true,
-        testRefreshToken: testToken);
+      endPoint: RestAPIPoints.survey,
+      method: 'GET',
+      bearerActive: true,
+    );
 
     if (response.statusCode == 200) {
       var result = convert.json.decode(convert.utf8.decode(response.bodyBytes));
@@ -99,15 +98,12 @@ class DataService {
   }
 
   /// Submits the survey
-  Future<void> sendSurveyAnswers(
-      {
-      required Post postModel,
-      String? testToken}) async {
+  Future<void> sendSurveyAnswers(Post postModel) async {
     http.Response response = await createRequestAndSend(
-        endPoint: RestAPIPoints.submitSurvey,
-        body: convert.jsonEncode(postModel.toJson()),
-        bearerActive: true,
-        testRefreshToken: testToken);
+      endPoint: RestAPIPoints.submitSurvey,
+      body: convert.jsonEncode(postModel.toJson()),
+      bearerActive: true,
+    );
 
     if (!(response.statusCode == 204)) {
       throw FetchDataException(
@@ -115,13 +111,12 @@ class DataService {
     }
   }
 
-  Future<List<String>?> getSubmits(
-      {required String userID, String? testToken}) async {
+  Future<List<String>?> getSubmits(String userID) async {
     http.Response response = await createRequestAndSend(
-        endPoint: RestAPIPoints.user + '/' + userID,
-        method: 'GET',
-        bearerActive: true,
-        testRefreshToken: testToken);
+      endPoint: RestAPIPoints.user + '/' + userID,
+      method: 'GET',
+      bearerActive: true,
+    );
 
     var result = convert.json.decode(convert.utf8.decode(response.bodyBytes));
     if (response.statusCode == 200) {

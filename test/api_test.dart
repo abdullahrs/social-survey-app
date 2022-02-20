@@ -42,35 +42,33 @@ void main() {
 
   group('[Data service tests]', () {
     test('Get survey categories', () async {
-      categories = await DataService.instance.getCategories(
-        testToken: token.access.token,
-      );
+      categories = await DataService.instance.getCategories();
       expect(categories.isNotEmpty, true);
     });
 
     test('Get surveys', () async {
-      surveys =
-          await DataService.instance.getSurveys(testToken: token.access.token);
+      surveys = await DataService.instance.getSurveys();
       expect(surveys.isNotEmpty, true);
       expect(surveys.first.questions.isNotEmpty, true);
     });
 
     test('Search by exact match ', () async {
-      var searchByExactMatch = await DataService.instance
-          .getSurveys(name: surveys.first.name, testToken: token.access.token);
+      var searchByExactMatch = await DataService.instance.getSurveys(
+        name: surveys.first.name,
+      );
       expect(searchByExactMatch.length == 1, true);
     });
 
     test('Get survey count info', () async {
-      var surveyCountInfo = await DataService.instance
-          .getSurveyCountInfo(testToken: token.access.token);
+      var surveyCountInfo = await DataService.instance.getSurveyCountInfo();
       expect(surveyCountInfo.isNotEmpty, true);
     });
 
     test('Get survey by category id', () async {
       String categoryId = categories.first.id;
-      var result = await DataService.instance
-          .getSurveys(categoryId: categoryId, testToken: token.access.token);
+      var result = await DataService.instance.getSurveys(
+        categoryId: categoryId,
+      );
 
       expect(result.first.categoryId == categoryId, true);
     });
@@ -78,7 +76,9 @@ void main() {
     test('Search with regex', () async {
       String str = "question";
       var searchByName = await DataService.instance.getSurveys(
-          name: str, searchForName: true, testToken: token.access.token);
+        name: str,
+        searchForName: true,
+      );
       int count =
           surveys.where((e) => e.name.toLowerCase().contains(str)).length;
       expect(searchByName.length == count, true);
@@ -86,8 +86,9 @@ void main() {
 
     test('Get surveys with limit', () async {
       int limit = 3;
-      var result = await DataService.instance
-          .getSurveys(limit: limit, testToken: token.access.token);
+      var result = await DataService.instance.getSurveys(
+        limit: limit,
+      );
       expect(result.length == 3, true);
     });
 
@@ -101,9 +102,7 @@ void main() {
                 answerId: 1)
           ]);
       // Already submitted hatasi cikmali
-      expect(
-          () async => await DataService.instance.sendSurveyAnswers(
-               postModel: post, testToken: token.access.token),
+      expect(() async => await DataService.instance.sendSurveyAnswers(post),
           throwsA(isA<FetchDataException>()));
     });
   });

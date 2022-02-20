@@ -55,25 +55,27 @@ class _WelcomePageState extends State<WelcomePage> {
                   .tr(),
             ),
             const Spacer(),
-            isLoggedIn == null
-                ? kLoadingWidget
-                : Column(
-                    children: [
-                      BorderButton(
-                        text: 'login',
-                        function: () {
-                          context.router.pushNamed('/login');
-                        },
-                      ),
-                      const SizedBox(height: 10),
-                      BorderButton(
-                        text: 'register',
-                        function: () {
-                          context.router.pushNamed('/register');
-                        },
-                      ),
-                    ],
+            Visibility(
+              visible: ((isLoggedIn != null) && (!isLoggedIn!)),
+              child: Column(
+                children: [
+                  BorderButton(
+                    text: 'login',
+                    function: () {
+                      context.router.pushNamed('/login');
+                    },
                   ),
+                  const SizedBox(height: 10),
+                  BorderButton(
+                    text: 'register',
+                    function: () {
+                      context.router.pushNamed('/register');
+                    },
+                  ),
+                ],
+              ),
+            ),
+            Visibility(visible: isLoggedIn == null, child: kLoadingWidget),
             const Spacer(flex: 2),
           ],
         ),
