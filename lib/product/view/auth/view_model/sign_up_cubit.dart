@@ -4,7 +4,6 @@ import '../../../constants/enums/genders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/src/cache_manager.dart';
 import '../../../constants/app_constants/hive_model_constants.dart';
 import '../../../constants/enums/auth_statuses.dart';
 import '../../../models/user.dart';

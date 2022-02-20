@@ -17,17 +17,29 @@ class DataService extends ApiServiceManager {
   DataService._ctor(
       {required String tokenKey,
       required String baseURL,
-      required ModelCacheManager manager})
-      : super(tokenKey: tokenKey, baseURL: baseURL, modelCacheManager: manager);
+      required ModelCacheManager manager,
+      required String refreshURL})
+      : super(
+            tokenKey: tokenKey,
+            baseURL: baseURL,
+            modelCacheManager: manager,
+            refreshURL: refreshURL);
 
   static DataService? _instance;
 
   factory DataService.fromCache(
-      {String? tokenKey, String? baseURL, ModelCacheManager? manager}) {
+      {String? tokenKey,
+      String? baseURL,
+      ModelCacheManager? manager,
+      String? refreshURL}) {
     if (_instance == null) {
-      if (tokenKey != null && baseURL != null && manager != null) {
-        _instance =
-            DataService._ctor(tokenKey: tokenKey, baseURL: baseURL, manager: manager);
+      if (tokenKey != null && baseURL != null 
+        && manager != null && refreshURL != null) {
+        _instance = DataService._ctor(
+            tokenKey: tokenKey,
+            baseURL: baseURL,
+            manager: manager,
+            refreshURL: refreshURL);
         return _instance!;
       }
       throw Exception(

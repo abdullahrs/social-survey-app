@@ -32,11 +32,13 @@ class InitializeValues {
       DataService _dataService = DataService.fromCache(
           tokenKey: HiveModelConstants.tokenKey,
           baseURL: RestAPIPoints.baseURL,
-          manager: TokenCacheManager());
+          manager: TokenCacheManager(),
+          refreshURL: RestAPIPoints.refresh);
       AuthService.fromCache(
           tokenKey: HiveModelConstants.tokenKey,
           baseURL: RestAPIPoints.baseURL,
-          manager: TokenCacheManager());
+          manager: TokenCacheManager(),
+          refreshURL: RestAPIPoints.refresh);
       var data = await _dataService.getCategories();
       await SurveyCacheManager.instance.setCategories(data);
       var submits =

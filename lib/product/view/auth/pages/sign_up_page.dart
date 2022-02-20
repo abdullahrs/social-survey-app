@@ -1,8 +1,3 @@
-// ignore_for_file: unnecessary_import
-
-import 'package:anket/product/constants/app_constants/hive_model_constants.dart';
-import 'package:anket/product/constants/app_constants/urls.dart';
-
 import '../components/sign_up_date_selection.dart';
 import '../components/sign_up_gender_selection.dart';
 
@@ -18,7 +13,6 @@ import '../../../components/custom_button.dart';
 import '../../../components/sign_up_text_button.dart';
 import '../../../constants/enums/auth_statuses.dart';
 import '../../../utils/text_field_validations.dart';
-import '../../../utils/token_cache_manager.dart';
 import '../components/custom_text_field.dart';
 import '../view_model/sign_up_cubit.dart';
 

@@ -24,11 +24,13 @@ void main() {
     dataService = DataService.fromCache(
         tokenKey: HiveModelConstants.tokenKey,
         baseURL: RestAPIPoints.baseURL,
-        manager: mockTokenCacheManager);
+        manager: mockTokenCacheManager,
+        refreshURL: RestAPIPoints.refresh);
     authService = AuthService.fromCache(
         tokenKey: HiveModelConstants.tokenKey,
         baseURL: RestAPIPoints.baseURL,
-        manager: mockTokenCacheManager);
+        manager: mockTokenCacheManager,
+        refreshURL: RestAPIPoints.refresh);
   });
 
   group('[Authentication tests]', () {
@@ -44,9 +46,21 @@ void main() {
           email: "xyz@xy.com", password: "deneme1**", name: 'Deneme Deneme');
       expect(result.runtimeType, User);
     });
-    test('Forgot Password', () async {});
+    test('Forgot password send email', () async {
+      var result =
+          await authService.forgotSendMail("abdullahrsimsek@gmail.com");
+      expect(result, isTrue);
+    });
+    test('Forgot password send code', () async {
+      expect(
+          () async => await authService.resetPassword(
+              email: "abdullahrsimsek@gmail.com",
+              password: "password",
+              code: "code"),
+          throwsA(isA<FetchDataException>()));
+    });
 
-    test('[Authentication tests] Log-out', () async {
+    test('Log-out', () async {
       bool? logoutResult =
           await authService.logout(refreshToken: token.refresh.token);
       expect(logoutResult, true);

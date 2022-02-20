@@ -1,7 +1,6 @@
 import 'dart:convert';
 
-import 'package:anket/product/constants/app_constants/hive_model_constants.dart';
-
+import '../constants/app_constants/hive_model_constants.dart';
 import '../constants/enums/request_info.dart';
 import '../../core/src/api_service_manager.dart';
 import '../../core/src/cache_manager.dart';
@@ -10,24 +9,28 @@ import '../utils/custom_exception.dart';
 import 'package:http/http.dart' as http;
 
 import '../constants/app_constants/urls.dart';
-import '../models/token.dart';
 import '../models/user.dart';
 
 class AuthService extends ApiServiceManager {
   AuthService._ctor(
       {required String tokenKey,
       required String baseURL,
-      required ModelCacheManager manager})
-      : super(tokenKey: tokenKey, baseURL: baseURL, modelCacheManager: manager);
+      required ModelCacheManager manager,
+      required String refreshURL})
+      : super(
+            tokenKey: tokenKey,
+            baseURL: baseURL,
+            modelCacheManager: manager,
+            refreshURL: refreshURL);
 
   static AuthService? _instance;
 
   factory AuthService.fromCache(
-      {String? tokenKey, String? baseURL, ModelCacheManager? manager}) {
+      {String? tokenKey, String? baseURL, ModelCacheManager? manager, String? refreshURL}) {
     if (_instance == null) {
-      if (tokenKey != null && baseURL != null && manager != null) {
+      if (tokenKey != null && baseURL != null && manager != null && refreshURL != null) {
         _instance = AuthService._ctor(
-            tokenKey: tokenKey, baseURL: baseURL, manager: manager);
+            tokenKey: tokenKey, baseURL: baseURL, manager: manager,refreshURL: refreshURL);
         return _instance!;
       }
       throw Exception(
@@ -113,24 +116,7 @@ class AuthService extends ApiServiceManager {
     return false;
   }
 
-  Future<Tokens?> refreshAcsessToken({required String refreshToken}) async {
-    http.Response response = await createRequestAndSend(
-        endPoint: RestAPIPoints.refresh,
-        bodyFields: {'refreshToken': refreshToken},
-        client: RequestClient.auth,
-        method: RequestType.POST);
-
-    // Sucsess
-    if (response.statusCode == 200) {
-      var result = json.decode(utf8.decode(response.bodyBytes));
-      Tokens user = Tokens.fromJson(result);
-      return user;
-    }
-    throw FetchDataException(
-        statusCode: response.statusCode, message: response.body);
-  }
-
-  Future<void> forgotSendMail(String email) async {
+  Future<bool> forgotSendMail(String email) async {
     http.Response response = await createRequestAndSend(
         endPoint: RestAPIPoints.forgotPassword,
         bodyFields: {'email': email},
@@ -142,9 +128,10 @@ class AuthService extends ApiServiceManager {
           statusCode: response.statusCode, message: response.body);
     }
     // Sucsess
+    return true;
   }
 
-  Future<void> resetPassword(
+  Future<bool> resetPassword(
       {required String email,
       required String password,
       required String code}) async {
@@ -162,5 +149,6 @@ class AuthService extends ApiServiceManager {
           statusCode: response.statusCode, message: response.body);
     }
     // Sucsess
+    return true;
   }
 }

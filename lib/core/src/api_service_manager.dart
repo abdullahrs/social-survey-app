@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:anket/product/utils/custom_exception.dart';
 import 'package:http/http.dart';
 
 import '../../product/constants/enums/request_info.dart';
@@ -7,15 +9,18 @@ import 'cache_manager.dart';
 abstract class ApiServiceManager {
   final String _tokenKey;
   final String _baseURL;
+  final String _refreshURL;
   final ModelCacheManager cacheManager;
 
   ApiServiceManager(
       {required String tokenKey,
       required String baseURL,
-      required ModelCacheManager modelCacheManager})
+      required ModelCacheManager modelCacheManager,
+      required String refreshURL})
       : _tokenKey = tokenKey,
         cacheManager = modelCacheManager,
-        _baseURL = baseURL;
+        _baseURL = baseURL,
+        _refreshURL = refreshURL;
 
   Future<Response> createRequestAndSend({
     RequestClient client = RequestClient.data,
@@ -58,9 +63,40 @@ abstract class ApiServiceManager {
       StreamedResponse streamedResponse = await request.send();
       Response response = await Response.fromStream(streamedResponse);
       if (response.statusCode == 401) {
-        // TODO:
+        bool control = await refreshToken();
+        if (control) {
+          return await createRequestAndSend(
+              endPoint: endPoint,
+              method: method,
+              client: client,
+              bodyFields: bodyFields,
+              body: body,
+              queryParams: queryParams,
+              bearerActive: bearerActive);
+        }
+        throw FetchDataException(message: response.body, statusCode: 401);
       }
       return response;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<bool> refreshToken() async {
+    Tokens? token = cacheManager.getItem(_tokenKey);
+    try {
+      Response response = await createRequestAndSend(
+          endPoint: _refreshURL,
+          method: RequestType.POST,
+          client: RequestClient.auth,
+          bodyFields: {'refreshToken': token!.refresh.token});
+      if (response.statusCode == 200) {
+        var result = json.decode(utf8.decode(response.bodyBytes));
+        Tokens newToken = Tokens.fromJson(result);
+        await cacheManager.putItem(_tokenKey, newToken);
+        return true;
+      }
+      return false;
     } catch (e) {
       throw Exception(e);
     }
