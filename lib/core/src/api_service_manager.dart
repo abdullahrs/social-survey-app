@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:anket/product/utils/custom_exception.dart';
+import '../../product/utils/custom_exception.dart';
 import 'package:http/http.dart';
 
 import '../../product/constants/enums/request_info.dart';
