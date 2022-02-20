@@ -7,14 +7,14 @@ import 'cache_manager.dart';
 abstract class ApiServiceManager {
   final String _tokenKey;
   final String _baseURL;
-  final ModelCacheManager _cacheManager;
+  final ModelCacheManager cacheManager;
 
   ApiServiceManager(
       {required String tokenKey,
       required String baseURL,
       required ModelCacheManager modelCacheManager})
       : _tokenKey = tokenKey,
-        _cacheManager = modelCacheManager,
+        cacheManager = modelCacheManager,
         _baseURL = baseURL;
 
   Future<Response> createRequestAndSend({
@@ -27,7 +27,7 @@ abstract class ApiServiceManager {
     bool bearerActive = false,
   }) async {
     Tokens? token =
-        _cacheManager.getItem(_tokenKey); // HiveModelConstants.tokenKey
+        cacheManager.getItem(_tokenKey); // HiveModelConstants.tokenKey
     Map<String, String> headers = {
       'Content-Type':
           'application/${client == RequestClient.data ? "json" : "x-www-form-urlencoded"}', // "x-www-form-urlencoded"

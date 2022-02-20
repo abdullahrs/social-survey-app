@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:anket/product/constants/app_constants/hive_model_constants.dart';
+
 import '../constants/enums/request_info.dart';
 import '../../core/src/api_service_manager.dart';
 import '../../core/src/cache_manager.dart';
@@ -45,6 +47,7 @@ class AuthService extends ApiServiceManager {
       if (response.statusCode == 200) {
         var result = json.decode(utf8.decode(response.bodyBytes));
         User user = User.fromJson(result);
+        await cacheManager.putItem(HiveModelConstants.tokenKey, user.tokens!);
         return user;
       } else if (response.statusCode == 401) {
         User user = User(user: null, tokens: null);

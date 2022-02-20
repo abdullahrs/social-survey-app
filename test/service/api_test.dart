@@ -1,3 +1,5 @@
+import 'package:anket/product/constants/app_constants/hive_model_constants.dart';
+import 'package:anket/product/constants/app_constants/urls.dart';
 import 'package:anket/product/models/category.dart';
 import 'package:anket/product/models/post.dart';
 import 'package:anket/product/models/survey.dart';
@@ -8,77 +10,83 @@ import 'package:anket/product/services/data_service.dart';
 import 'package:anket/product/utils/custom_exception.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../mocks/mock_token_cache_manager.dart';
+
 void main() {
   late Tokens token;
   late List<Survey> surveys;
   late List<Category> categories;
+  late DataService dataService;
+  late AuthService authService;
+  final MockTokenCacheManager mockTokenCacheManager = MockTokenCacheManager();
 
-  setUp(() async {
-    var result = await AuthService.instance
-        .login(email: "abdullahrsimsek@gmail.com", password: "deneme1*");
-    token = result!.tokens!;
+  setUp(() {
+    dataService = DataService.fromCache(
+        tokenKey: HiveModelConstants.tokenKey,
+        baseURL: RestAPIPoints.baseURL,
+        manager: mockTokenCacheManager);
+    authService = AuthService.fromCache(
+        tokenKey: HiveModelConstants.tokenKey,
+        baseURL: RestAPIPoints.baseURL,
+        manager: mockTokenCacheManager);
   });
 
   group('[Authentication tests]', () {
-    test('Sign-up', () async {
-      var result = await AuthService.instance.register(
-          email: "xy@xy.com", password: "deneme1**", name: 'Deneme Deneme');
-      expect(result.runtimeType, User);
-    });
     test('Log-in', () async {
-      var result = await AuthService.instance
-          .login(email: "deneme@x.com", password: "deneme1*");
+      var result = await authService.login(
+          email: "abdullahrsimsek@gmail.com", password: "deneme1*");
       expect(result.runtimeType, User);
+      if (result != null) token = result.tokens!;
     });
 
-    test('Log-out', () async {
+    test('Sign-up', () async {
+      var result = await authService.register(
+          email: "xyz@xy.com", password: "deneme1**", name: 'Deneme Deneme');
+      expect(result.runtimeType, User);
+    });
+    test('Forgot Password', () async {});
+
+    test('[Authentication tests] Log-out', () async {
       bool? logoutResult =
-          await AuthService.instance.logout(refreshToken: token.refresh.token);
+          await authService.logout(refreshToken: token.refresh.token);
       expect(logoutResult, true);
     });
-
-    test('Forgot Password', () async {});
   });
 
   group('[Data service tests]', () {
     test('Get survey categories', () async {
-      categories = await DataService.instance.getCategories();
+      categories = await dataService.getCategories();
       expect(categories.isNotEmpty, true);
     });
 
     test('Get surveys', () async {
-      surveys = await DataService.instance.getSurveys();
+      surveys = await dataService.getSurveys();
       expect(surveys.isNotEmpty, true);
       expect(surveys.first.questions.isNotEmpty, true);
     });
 
     test('Search by exact match ', () async {
-      var searchByExactMatch = await DataService.instance.getSurveys(
-        name: surveys.first.name,
-      );
+      var searchByExactMatch =
+          await dataService.getSurveys(name: surveys.first.name);
       expect(searchByExactMatch.length == 1, true);
     });
 
     test('Get survey count info', () async {
-      var surveyCountInfo = await DataService.instance.getSurveyCountInfo();
+      var surveyCountInfo = await dataService.getSurveyCountInfo();
       expect(surveyCountInfo.isNotEmpty, true);
     });
 
     test('Get survey by category id', () async {
       String categoryId = categories.first.id;
-      var result = await DataService.instance.getSurveys(
-        categoryId: categoryId,
-      );
+      var result = await dataService.getSurveys(categoryId: categoryId);
 
       expect(result.first.categoryId == categoryId, true);
     });
 
     test('Search with regex', () async {
       String str = "question";
-      var searchByName = await DataService.instance.getSurveys(
-        name: str,
-        searchForName: true,
-      );
+      var searchByName =
+          await dataService.getSurveys(name: str, searchForName: true);
       int count =
           surveys.where((e) => e.name.toLowerCase().contains(str)).length;
       expect(searchByName.length == count, true);
@@ -86,9 +94,7 @@ void main() {
 
     test('Get surveys with limit', () async {
       int limit = 3;
-      var result = await DataService.instance.getSurveys(
-        limit: limit,
-      );
+      var result = await dataService.getSurveys(limit: limit);
       expect(result.length == 3, true);
     });
 
@@ -102,7 +108,7 @@ void main() {
                 answerId: 1)
           ]);
       // Already submitted hatasi cikmali
-      expect(() async => await DataService.instance.sendSurveyAnswers(post),
+      expect(() async => await dataService.sendSurveyAnswers(post),
           throwsA(isA<FetchDataException>()));
     });
   });
