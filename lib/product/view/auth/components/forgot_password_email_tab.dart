@@ -4,21 +4,19 @@ import 'package:flutter/material.dart';
 import '../../../../core/extensions/buildcontext_extension.dart';
 import '../../../components/custom_button.dart';
 import '../../../components/sign_up_text_button.dart';
-import '../../../services/auth_service.dart';
 import '../../../utils/text_field_validations.dart';
 import 'custom_text_field.dart';
 
 class MailTab extends StatelessWidget {
   final TextEditingController _mailController;
-  final PageController _pageController;
   final GlobalKey<FormState> _mailFormState;
+  final Future<void> Function() onPressed;
   const MailTab(
       {Key? key,
       required TextEditingController textEditingController,
-      required PageController pageController,
-      required GlobalKey<FormState> formState})
+      required GlobalKey<FormState> formState,
+      required this.onPressed})
       : _mailController = textEditingController,
-        _pageController = pageController,
         _mailFormState = formState,
         super(key: key);
 
@@ -50,14 +48,7 @@ class MailTab extends StatelessWidget {
                     getValidator(str, ValidationType.email)),
             SizedBox(height: context.dynamicHeight(0.05)),
             CustomButton(
-              voidCallback: () async{
-                if (_mailFormState.currentState!.validate()) {
-                  await AuthService.instance.forgotSendMail(_mailController.text);
-                  _pageController.nextPage(
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.bounceOut);
-                }
-              },
+              voidCallback: () async => await onPressed(),
               text: 'next',
             ),
             SizedBox(height: context.dynamicHeight(0.05)),

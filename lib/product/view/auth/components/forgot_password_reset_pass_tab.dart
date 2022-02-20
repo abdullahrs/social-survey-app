@@ -1,10 +1,8 @@
-import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/extensions/buildcontext_extension.dart';
 import '../../../components/custom_button.dart';
-import '../../../services/auth_service.dart';
 import '../../../utils/text_field_validations.dart';
 import 'custom_text_field.dart';
 
@@ -14,13 +12,15 @@ class PasswordResetTab extends StatefulWidget {
   final TextEditingController _repeatController;
   final TextEditingController _codeController;
   final TextEditingController mailController;
+  final Future<void> Function() onPressed;
   const PasswordResetTab(
       {Key? key,
       required GlobalKey<FormState> formState,
       required TextEditingController codeController,
       required TextEditingController passController,
       required TextEditingController repeatController,
-      required this.mailController})
+      required this.mailController,
+      required this.onPressed})
       : _codeController = codeController,
         _passFormState = formState,
         _passController = passController,
@@ -85,15 +85,7 @@ class _PasswordResetTabState extends State<PasswordResetTab> {
                     firstStr: widget._passController.text)),
             SizedBox(height: context.dynamicHeight(0.075)),
             CustomButton(
-                voidCallback: () async {
-                  if (widget._passFormState.currentState!.validate()) {
-                    await AuthService.instance.resetPassword(
-                        email: widget.mailController.text,
-                        password: widget._passController.text,
-                        code: widget._codeController.text);
-                    context.router.pop();
-                  }
-                },
+                voidCallback: () async => await widget.onPressed(),
                 text: "next"),
           ],
         ),

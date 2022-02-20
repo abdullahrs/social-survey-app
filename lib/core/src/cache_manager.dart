@@ -1,6 +1,6 @@
 import 'package:hive_flutter/adapters.dart';
 
-abstract class ModelCacheManager<T> {
+abstract class ModelCacheManager {
   final String boxKey;
 
   ModelCacheManager(this.boxKey);
@@ -14,12 +14,11 @@ abstract class ModelCacheManager<T> {
 
   void registerAdapters();
 
-  Future<void> putItem(String key, T item) => _box!.put(key, item);
+  Future<void> putItem(String key, item) => _box!.put(key, item);
 
-  T? getItem(String key) => _box!.get(key);
+  dynamic getItem(String key) => _box!.get(key);
 
   Future<void> removeItem(String key) => _box!.delete(key);
-  Future<void> clearAll() async => await _box?.clear();
 
   listen() => _box!.listenable();
 }

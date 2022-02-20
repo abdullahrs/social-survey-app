@@ -75,7 +75,7 @@ class _$AppRouter extends RootStackRouter {
     },
     HomeMainRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
-          routeData: routeData, child: const HomeMainPage());
+          routeData: routeData, child: HomeMainPage());
     },
     SurveyListRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;

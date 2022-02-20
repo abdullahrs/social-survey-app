@@ -1,11 +1,11 @@
 import 'package:auto_route/annotations.dart';
+import 'package:flutter/material.dart';
 
 import '../../../../core/widgets/loading_widget.dart';
 import '../../../models/survey.dart';
 import '../../../services/data_service.dart';
 import '../../../utils/survey_cache_manager.dart';
 import '../components/survey_list_item.dart';
-import 'package:flutter/material.dart';
 
 class SurveyListPage extends StatefulWidget {
   final String categoryId;
@@ -21,7 +21,7 @@ class SurveyListPage extends StatefulWidget {
 
 class _SurveyListPageState extends State<SurveyListPage> {
   final ScrollController _scrollController = ScrollController();
-
+  final DataService _dataService = DataService.fromCache();
   @override
   void dispose() {
     _scrollController.dispose();
@@ -36,7 +36,7 @@ class _SurveyListPageState extends State<SurveyListPage> {
         child: Padding(
           padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
           child: FutureBuilder(
-              future: DataService.instance.getSurveys(
+              future: _dataService.getSurveys(
                 categoryId: widget.categoryId,
                 limit: 10,
               ),

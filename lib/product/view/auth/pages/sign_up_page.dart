@@ -1,5 +1,8 @@
 // ignore_for_file: unnecessary_import
 
+import 'package:anket/product/constants/app_constants/hive_model_constants.dart';
+import 'package:anket/product/constants/app_constants/urls.dart';
+
 import '../components/sign_up_date_selection.dart';
 import '../components/sign_up_gender_selection.dart';
 
@@ -26,7 +29,7 @@ class SignUpPage extends StatelessWidget {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _repeatPassController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey();
-  final TokenCacheManager userStatus = TokenCacheManager();
+  final DataService _dataService = DataService.fromCache();
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +42,11 @@ class SignUpPage extends StatelessWidget {
           mailController: _mailController,
           passwordController: _passwordController,
           repeatPassController: _repeatPassController,
-          cacheManager: userStatus,
         ),
         child: BlocConsumer<RegisterCubit, RegisterState>(
           listener: (context, state) async {
             if (state is RegisterValidationState && state.registerValidation) {
-              var data = await DataService.instance.getCategories();
+              var data = await _dataService.getCategories();
               await SurveyCacheManager.instance.setCategories(data);
               context.router.navigateNamed('home');
             }
@@ -102,8 +104,7 @@ class SignUpPage extends StatelessWidget {
                       Align(
                           alignment: Alignment.centerLeft,
                           child: Padding(
-                            padding:
-                                const EdgeInsets.only(left: 4, top: 10),
+                            padding: const EdgeInsets.only(left: 4, top: 10),
                             child: Text(
                               'empty_field'.tr(),
                               style: context.appTextTheme.bodyText2!

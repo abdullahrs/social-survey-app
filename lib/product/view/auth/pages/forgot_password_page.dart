@@ -1,6 +1,9 @@
+import 'package:auto_route/src/router/auto_router_x.dart';
+import 'package:flutter/material.dart';
+
 import '../components/forgot_password_reset_pass_tab.dart';
 import '../components/forgot_password_email_tab.dart';
-import 'package:flutter/material.dart';
+import '../../../services/auth_service.dart';
 
 class ForgotPassPage extends StatefulWidget {
   final bool navigateToReset;
@@ -54,15 +57,33 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
             physics: const NeverScrollableScrollPhysics(),
             children: [
               MailTab(
-                  formState: _mailFormState,
-                  textEditingController: _mailController,
-                  pageController: _pageController),
+                formState: _mailFormState,
+                textEditingController: _mailController,
+                onPressed: () async {
+                  if (_mailFormState.currentState!.validate()) {
+                    await AuthService.fromCache()
+                        .forgotSendMail(_mailController.text);
+                    _pageController.nextPage(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.bounceOut);
+                  }
+                },
+              ),
               PasswordResetTab(
                 formState: _passFormState,
                 codeController: _codeController,
                 passController: _passController,
                 repeatController: _repeatController,
                 mailController: _mailController,
+                onPressed: () async {
+                  if (_passFormState.currentState!.validate()) {
+                    await AuthService.fromCache().resetPassword(
+                        email: _mailController.text,
+                        password: _passController.text,
+                        code: _codeController.text);
+                    context.router.pop();
+                  }
+                },
               ),
             ],
           ),

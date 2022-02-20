@@ -8,7 +8,7 @@ import '../components/categories_grid.dart';
 
 class CategoryPage extends StatelessWidget {
   const CategoryPage({Key? key}) : super(key: key);
-
+  
   @override
   Widget build(BuildContext context) {
     return SurveyCacheManager.instance.categories.isEmpty
@@ -17,8 +17,9 @@ class CategoryPage extends StatelessWidget {
   }
 
   FutureBuilder<List<Category>> futureBuilder() {
+    final DataService dataService = DataService.fromCache();
     return FutureBuilder<List<Category>>(
-        future: DataService.instance.getCategories(),
+        future: dataService.getCategories(),
         builder: (context, snapshot) {
           if (snapshot.hasData &&
               snapshot.connectionState == ConnectionState.done) {

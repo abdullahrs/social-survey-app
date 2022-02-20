@@ -1,3 +1,8 @@
+import '../../../constants/app_constants/hive_model_constants.dart';
+import '../../../constants/app_constants/urls.dart';
+import '../../../services/auth_service.dart';
+import '../../../utils/token_cache_manager.dart';
+
 import '../../../utils/custom_exception.dart';
 import 'package:auto_route/src/router/auto_router_x.dart';
 
@@ -24,10 +29,18 @@ class InitializeValues {
 
   Future<bool?> init() async {
     try {
-      var data = await DataService.instance.getCategories();
+      DataService _dataService = DataService.fromCache(
+          tokenKey: HiveModelConstants.tokenKey,
+          baseURL: RestAPIPoints.baseURL,
+          manager: TokenCacheManager());
+      AuthService.fromCache(
+          tokenKey: HiveModelConstants.tokenKey,
+          baseURL: RestAPIPoints.baseURL,
+          manager: TokenCacheManager());
+      var data = await _dataService.getCategories();
       await SurveyCacheManager.instance.setCategories(data);
-      var submits = await DataService.instance
-          .getSubmits(SurveyCacheManager.instance.userID);
+      var submits =
+          await _dataService.getSubmits(SurveyCacheManager.instance.userID);
       if (submits != null) {
         await SurveyCacheManager.instance.setSubmittedSurveys(submits);
       }

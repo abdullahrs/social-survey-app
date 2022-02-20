@@ -33,9 +33,9 @@ class SettingsPage extends StatelessWidget {
   Future<void> onPress(BuildContext context) async {
     try {
       TokenCacheManager cacheManager = TokenCacheManager();
+      AuthService authService = AuthService.fromCache();
       var token = cacheManager.getItem(HiveModelConstants.tokenKey);
-      bool value =
-          await AuthService.instance.logout(refreshToken: token!.refresh.token);
+      bool value = await authService.logout(refreshToken: token!.refresh.token);
       if (value) {
         await cacheManager.removeItem(HiveModelConstants.tokenKey);
         context.router.pop();

@@ -1,16 +1,38 @@
 import 'dart:convert';
 
+import '../constants/enums/request_info.dart';
+import '../../core/src/api_service_manager.dart';
+import '../../core/src/cache_manager.dart';
+
 import '../utils/custom_exception.dart';
 import 'package:http/http.dart' as http;
 
 import '../constants/app_constants/urls.dart';
 import '../models/token.dart';
 import '../models/user.dart';
-import '../utils/request_creator.dart';
 
-class AuthService {
-  static AuthService instance = AuthService._ctor();
-  AuthService._ctor();
+class AuthService extends ApiServiceManager {
+  AuthService(
+      {required String tokenKey,
+      required String baseURL,
+      required ModelCacheManager manager})
+      : super(tokenKey: tokenKey, baseURL: baseURL, modelCacheManager: manager);
+
+  static AuthService? _instance;
+
+  factory AuthService.fromCache(
+      {String? tokenKey, String? baseURL, ModelCacheManager? manager}) {
+    if (_instance == null) {
+      if (tokenKey != null && baseURL != null && manager != null) {
+        _instance =
+            AuthService(tokenKey: tokenKey, baseURL: baseURL, manager: manager);
+        return _instance!;
+      }
+      throw Exception(
+          "[ERROR][AuthService.fromCache] The instance is null, you must fill all of the optional parameters");
+    }
+    return _instance!;
+  }
 
   Future<User?> login({required String email, required String password}) async {
     try {

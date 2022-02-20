@@ -9,7 +9,6 @@ import '../../../components/sign_up_text_button.dart';
 import '../../../constants/enums/auth_statuses.dart';
 import '../../../constants/style/colors.dart';
 import '../../../utils/text_field_validations.dart';
-import '../../../utils/token_cache_manager.dart';
 import '../components/custom_text_field.dart';
 import '../view_model/sign_in_cubit.dart';
 
@@ -18,7 +17,6 @@ class SignInPage extends StatelessWidget {
   final TextEditingController _mailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey();
-  final TokenCacheManager userStatus = TokenCacheManager();
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +24,10 @@ class SignInPage extends StatelessWidget {
       appBar: AppBar(),
       body: BlocProvider(
         create: (context) => SignInCubit(
-            mailController: _mailController,
-            passwordController: _passwordController,
-            formKey: _formKey,
-            cacheManager: userStatus),
+          mailController: _mailController,
+          passwordController: _passwordController,
+          formKey: _formKey,
+        ),
         child: BlocConsumer<SignInCubit, SignInState>(
           listener: (context, state) {
             if (state is SignInValidationState && !state.isValidate) {

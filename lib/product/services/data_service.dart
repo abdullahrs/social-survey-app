@@ -1,5 +1,10 @@
 import 'dart:convert' as convert;
 
+import '../constants/enums/request_info.dart';
+
+import '../../core/src/api_service_manager.dart';
+import '../../core/src/cache_manager.dart';
+
 import '../utils/custom_exception.dart';
 import 'package:http/http.dart' as http;
 
@@ -7,12 +12,29 @@ import '../constants/app_constants/urls.dart';
 import '../models/category.dart';
 import '../models/post.dart';
 import '../models/survey.dart';
-import '../utils/request_creator.dart';
 
-class DataService {
-  static final DataService instance = DataService._ctor();
+class DataService extends ApiServiceManager {
+  DataService(
+      {required String tokenKey,
+      required String baseURL,
+      required ModelCacheManager manager})
+      : super(tokenKey: tokenKey, baseURL: baseURL, modelCacheManager: manager);
 
-  DataService._ctor();
+  static DataService? _instance;
+
+  factory DataService.fromCache(
+      {String? tokenKey, String? baseURL, ModelCacheManager? manager}) {
+    if (_instance == null) {
+      if (tokenKey != null && baseURL != null && manager != null) {
+        _instance =
+            DataService(tokenKey: tokenKey, baseURL: baseURL, manager: manager);
+        return _instance!;
+      }
+      throw Exception(
+          "[ERROR][DataService.fromCache] The instance is null, you must fill all of the optional parameters");
+    }
+    return _instance!;
+  }
 
   Future<List<Category>> getCategories() async {
     http.Response response = await createRequestAndSend(

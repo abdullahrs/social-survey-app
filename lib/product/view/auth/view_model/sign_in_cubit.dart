@@ -1,7 +1,7 @@
+import '../../../utils/token_cache_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/src/cache_manager.dart';
 import '../../../constants/app_constants/hive_model_constants.dart';
 import '../../../constants/enums/auth_statuses.dart';
 import '../../../models/user.dart';
@@ -13,21 +13,22 @@ class SignInCubit extends Cubit<SignInState> {
   final TextEditingController mailController;
   final TextEditingController passwordController;
   final GlobalKey<FormState> formKey;
-  final ModelCacheManager cacheManager;
+  final TokenCacheManager cacheManager = TokenCacheManager();
+  final DataService _dataService = DataService.fromCache();
+  final AuthService _authService = AuthService.fromCache();
 
   bool isLoginFailed = false;
 
-  SignInCubit(
-      {required this.mailController,
-      required this.passwordController,
-      required this.formKey,
-      required this.cacheManager})
-      : super(LoginInitial());
+  SignInCubit({
+    required this.mailController,
+    required this.passwordController,
+    required this.formKey,
+  }) : super(LoginInitial());
 
   Future<void> postUserModel() async {
     if (formKey.currentState!.validate()) {
       emit(SignInStatus(AuthStatuses.started));
-      User? sucsess = await AuthService.instance
+      User? sucsess = await _authService
           .login(email: mailController.text, password: passwordController.text);
       AuthStatuses authStatus = sucsess == null
           ? AuthStatuses.error
@@ -42,7 +43,7 @@ class SignInCubit extends Cubit<SignInState> {
       if (sucsess?.tokens != null) {
         await cacheManager.putItem(
             HiveModelConstants.tokenKey, sucsess!.tokens!);
-        var data = await DataService.instance.getCategories();
+        var data = await _dataService.getCategories();
         await SurveyCacheManager.instance
             .setSubmittedSurveys(sucsess.user!.submittedSurveys ?? []);
         await SurveyCacheManager.instance.setCategories(data);

@@ -1,10 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
 import 'product/constants/style/theme.dart';
 import 'product/router/routes.dart';
 import 'product/utils/survey_cache_manager.dart';
 import 'product/utils/token_cache_manager.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

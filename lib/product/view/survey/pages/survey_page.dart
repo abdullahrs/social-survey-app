@@ -111,6 +111,7 @@ class _SurveyPageState extends State<SurveyPage> {
             height: context.dynamicHeight(0.1),
             child: ElevatedButton(
               onPressed: () async {
+                final DataService _dataService = DataService.fromCache();
                 if (pageIndex == numberOfPages - 1) {
                   answerIDs.add([
                     widget.survey.questions[pageIndex].questionId,
@@ -126,7 +127,7 @@ class _SurveyPageState extends State<SurveyPage> {
                               answerId: answerIDs[index][1])),
                       location: UserLocation(lat: 1.0, long: 1.0),
                     );
-                    await DataService.instance.sendSurveyAnswers(post);
+                    await _dataService.sendSurveyAnswers(post);
                     await SurveyCacheManager.instance
                         .submitSurvey(post.surveyId);
                   } catch (e) {

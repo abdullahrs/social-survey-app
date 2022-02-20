@@ -1,18 +1,17 @@
-import '../components/categories_horizontal_list.dart';
-
-import '../../../utils/survey_cache_manager.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/extensions/buildcontext_extension.dart';
-import '../../survey/components/survey_list_item.dart';
 import '../../../models/category.dart';
 import '../../../models/survey.dart';
 import '../../../services/data_service.dart';
+import '../../../utils/survey_cache_manager.dart';
+import '../../survey/components/survey_list_item.dart';
+import '../components/categories_horizontal_list.dart';
 
 class HomeMainPage extends StatelessWidget {
-  const HomeMainPage({Key? key}) : super(key: key);
-
+  HomeMainPage({Key? key}) : super(key: key);
+  final DataService dataService = DataService.fromCache();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -74,7 +73,7 @@ class HomeMainPage extends StatelessWidget {
       child: SurveyCacheManager.instance.categories.isNotEmpty
           ? HorizontalCategories(data: SurveyCacheManager.instance.categories)
           : FutureBuilder(
-              future: DataService.instance.getCategories(),
+              future: dataService.getCategories(),
               builder: (BuildContext context,
                   AsyncSnapshot<List<Category>> snapshot) {
                 if (snapshot.hasData &&
@@ -88,7 +87,7 @@ class HomeMainPage extends StatelessWidget {
 
   FutureBuilder<List<Survey>> surveyField() {
     return FutureBuilder(
-        future: DataService.instance.getSurveys(),
+        future: dataService.getSurveys(),
         builder: (BuildContext context, AsyncSnapshot<List<Survey>> snapshot) {
           if (snapshot.hasData &&
               snapshot.connectionState == ConnectionState.done) {

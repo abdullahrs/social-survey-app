@@ -42,11 +42,11 @@ class _HomePageState extends State<HomePage> {
         ),
       ];
 
-  List<Widget> get pages => const [
+  List<Widget> get pages => [
         HomeMainPage(),
-        CategoryPage(),
+        const CategoryPage(),
         // ParticipatedPage(),
-        SettingsPage(),
+        const SettingsPage(),
       ];
 
   @override
