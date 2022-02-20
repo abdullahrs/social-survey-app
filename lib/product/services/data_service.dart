@@ -17,7 +17,7 @@ class DataService {
   Future<List<Category>> getCategories() async {
     http.Response response = await createRequestAndSend(
       endPoint: RestAPIPoints.categories,
-      method: 'GET',
+      method: RequestType.GET,
       bearerActive: true,
     );
 
@@ -62,7 +62,7 @@ class DataService {
 
     http.Response response = await createRequestAndSend(
       endPoint: RestAPIPoints.survey,
-      method: 'GET',
+      method: RequestType.GET,
       bearerActive: true,
       queryParams: queryParameters,
     );
@@ -85,7 +85,7 @@ class DataService {
   Future<List<int>> getSurveyCountInfo() async {
     http.Response response = await createRequestAndSend(
       endPoint: RestAPIPoints.survey,
-      method: 'GET',
+      method: RequestType.GET,
       bearerActive: true,
     );
 
@@ -100,10 +100,10 @@ class DataService {
   /// Submits the survey
   Future<void> sendSurveyAnswers(Post postModel) async {
     http.Response response = await createRequestAndSend(
-      endPoint: RestAPIPoints.submitSurvey,
-      body: convert.jsonEncode(postModel.toJson()),
-      bearerActive: true,
-    );
+        endPoint: RestAPIPoints.submitSurvey,
+        body: convert.jsonEncode(postModel.toJson()),
+        bearerActive: true,
+        method: RequestType.POST);
 
     if (!(response.statusCode == 204)) {
       throw FetchDataException(
@@ -114,7 +114,7 @@ class DataService {
   Future<List<String>?> getSubmits(String userID) async {
     http.Response response = await createRequestAndSend(
       endPoint: RestAPIPoints.user + '/' + userID,
-      method: 'GET',
+      method: RequestType.GET,
       bearerActive: true,
     );
 

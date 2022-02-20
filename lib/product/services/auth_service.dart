@@ -17,7 +17,8 @@ class AuthService {
       http.Response response = await createRequestAndSend(
           endPoint: RestAPIPoints.login,
           bodyFields: {'email': email, 'password': password},
-          client: RequestClient.auth);
+          client: RequestClient.auth,
+          method: RequestType.POST);
 
       if (response.statusCode == 200) {
         var result = json.decode(utf8.decode(response.bodyBytes));
@@ -39,7 +40,8 @@ class AuthService {
     http.Response response = await createRequestAndSend(
         endPoint: RestAPIPoints.register,
         bodyFields: {'name': name, 'email': email, 'password': password},
-        client: RequestClient.auth);
+        client: RequestClient.auth,
+        method: RequestType.POST);
 
     // Created
     if (response.statusCode == 201) {
@@ -64,7 +66,7 @@ class AuthService {
     http.Response response = await createRequestAndSend(
         endPoint: RestAPIPoints.updateUser + '/' + userID,
         bodyFields: {'refreshToken': refreshToken},
-        method: 'PATCH',
+        method: RequestType.PATCH,
         client: RequestClient.auth);
     if (response.statusCode == 200) {
       // Sucsess
@@ -77,7 +79,8 @@ class AuthService {
     http.Response response = await createRequestAndSend(
         endPoint: RestAPIPoints.logout,
         bodyFields: {'refreshToken': refreshToken},
-        client: RequestClient.auth);
+        client: RequestClient.auth,
+        method: RequestType.POST);
     if (response.statusCode == 204) {
       // Sucsess
       return true;
@@ -89,7 +92,8 @@ class AuthService {
     http.Response response = await createRequestAndSend(
         endPoint: RestAPIPoints.refresh,
         bodyFields: {'refreshToken': refreshToken},
-        client: RequestClient.auth);
+        client: RequestClient.auth,
+        method: RequestType.POST);
 
     // Sucsess
     if (response.statusCode == 200) {
@@ -105,7 +109,8 @@ class AuthService {
     http.Response response = await createRequestAndSend(
         endPoint: RestAPIPoints.forgotPassword,
         bodyFields: {'email': email},
-        client: RequestClient.auth);
+        client: RequestClient.auth,
+        method: RequestType.POST);
 
     if (!(response.statusCode == 204)) {
       throw FetchDataException(
@@ -125,7 +130,8 @@ class AuthService {
           'password': password,
           'code': code,
         },
-        client: RequestClient.auth);
+        client: RequestClient.auth,
+        method: RequestType.POST);
     if (!(response.statusCode == 204)) {
       throw FetchDataException(
           statusCode: response.statusCode, message: response.body);

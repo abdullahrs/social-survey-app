@@ -7,6 +7,8 @@ import '../constants/app_constants/urls.dart';
 import 'token_cache_manager.dart';
 
 enum RequestClient { auth, data }
+// ignore: constant_identifier_names
+enum RequestType {GET, POST, UPDATE, PATCH}
 
 Future<Response> createRequestAndSend({
   RequestClient client = RequestClient.data,
@@ -14,7 +16,7 @@ Future<Response> createRequestAndSend({
   Map<String, String>? bodyFields,
   String? body,
   Map<String, dynamic>? queryParams,
-  String method = 'POST',
+  required RequestType method,
   bool bearerActive = false,
 }) async {
   TokenCacheManager manager = TokenCacheManager();
@@ -37,7 +39,7 @@ Future<Response> createRequestAndSend({
     uri = Uri.https(RestAPIPoints.baseURL, endPoint);
   }
 
-  Request request = Request(method, uri);
+  Request request = Request(method.name, uri);
   if (bodyFields != null) {
     request.bodyFields = bodyFields;
   }
