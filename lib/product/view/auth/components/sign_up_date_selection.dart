@@ -44,7 +44,7 @@ class _DateSelectorState extends State<DateSelector> {
                       ),
                       Expanded(
                         child: TextButton(
-                          child: const Text('ok').tr(),
+                          child: const Text('save').tr(),
                           onPressed: () => Navigator.of(context).pop(),
                         ),
                       ),

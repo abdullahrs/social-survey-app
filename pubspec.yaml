@@ -12,7 +12,6 @@ dependencies:
   flutter:
     sdk: flutter
   # State Management
-  bloc: ^8.0.2
   flutter_bloc: ^8.0.1
   # API
   http: ^0.13.4
@@ -29,6 +28,7 @@ dependencies:
   auto_route: ^3.2.1
   webview_flutter: ^3.0.0
   geolocator: ^8.0.3
+  equatable: ^2.0.3
   
 
 dev_dependencies:

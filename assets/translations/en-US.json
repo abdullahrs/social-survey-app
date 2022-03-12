@@ -6,7 +6,7 @@
     "logout": "Sign out",
     "register": "Sign up",
     "forgot_pass": "Forgot Password",
-    "code":"Code",
+    "code": "Code",
     "dont_have": "Don't have an account?",
     "do_have": "Alreay have an account?",
     "mail": "Mail address",
@@ -18,7 +18,7 @@
     "short_password": "Password is too short",
     "unmatch_password": "Passwords unmatched",
     "wrong_morp": "Wrong mail or password",
-    "already_taken":"Email already taken",
+    "already_taken": "Email already taken",
     "next": "Next",
     "forgot_pass_desc": "Please enter your email, we will send you a verification code",
     "home": "Home",
@@ -27,7 +27,7 @@
     "settings": "Settings",
     "surveys": "Surveys",
     "all": "All",
-    "completed" : "Completed",
+    "completed": "Completed",
     "uncompleted": "Uncompleted",
     "password_lacking": "Password must contain at least 1 special character and 1 number",
     "current": "Current",
@@ -38,7 +38,8 @@
     "end-survey": "End Survey",
     "continue": "Continue",
     "edit_info": "Edit information",
-    "female":"Female",
-    "male":"Male",
-    "birth_date":"Birth Date"
+    "female": "Female",
+    "male": "Male",
+    "birth_date": "Birth Date",
+    "save": "Save"
 }

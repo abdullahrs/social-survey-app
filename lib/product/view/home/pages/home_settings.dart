@@ -38,7 +38,11 @@ class SettingsPage extends StatelessWidget {
       bool value = await authService.logout(refreshToken: token!.refresh.token);
       if (value) {
         await cacheManager.removeItem(HiveModelConstants.tokenKey);
-        context.router.pop();
+        if (context.router.isRoot) {
+          context.router.replaceNamed('/');
+        } else {
+          context.router.pop();
+        }
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

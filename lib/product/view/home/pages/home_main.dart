@@ -1,12 +1,17 @@
+import '../../../utils/survey_list_view_model/list_viewmodel_export.dart';
+
+import '../../../../core/widgets/loading_widget.dart';
+import '../../../utils/survey_list_view_model/list_viewmodel.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../components/survey_list.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/extensions/buildcontext_extension.dart';
 import '../../../models/category.dart';
-import '../../../models/survey.dart';
 import '../../../services/data_service.dart';
 import '../../../utils/survey_cache_manager.dart';
-import '../../survey/components/survey_list_item.dart';
 import '../components/categories_horizontal_list.dart';
 
 class HomeMainPage extends StatelessWidget {
@@ -15,51 +20,74 @@ class HomeMainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'categories'.tr(),
-                style: context.appTextTheme.headline5!
-                    .copyWith(fontWeight: FontWeight.bold),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'categories'.tr(),
+              style: context.appTextTheme.headline5!
+                  .copyWith(fontWeight: FontWeight.bold),
+            ),
+            horizontalCategoryField(context),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 10.0,
               ),
-              horizontalCategoryField(context),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 10.0,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'surveys'.tr(),
-                      style: context.appTextTheme.headline5!
-                          .copyWith(fontWeight: FontWeight.bold),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'surveys'.tr(),
+                    style: context.appTextTheme.headline5!
+                        .copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'all'.tr(),
+                          style: context.appTextTheme.headline6!
+                              .copyWith(color: Colors.blue),
+                        ),
+                        const Icon(Icons.keyboard_arrow_right_outlined,
+                            color: Colors.blue)
+                      ],
                     ),
-                    InkWell(
-                      onTap: () {},
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'all'.tr(),
-                            style: context.appTextTheme.headline6!
-                                .copyWith(color: Colors.blue),
-                          ),
-                          const Icon(Icons.keyboard_arrow_right_outlined,
-                              color: Colors.blue)
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                  )
+                ],
               ),
-              surveyField(),
-            ],
-          ),
+            ),
+            Expanded(
+              child: BlocProvider.value(
+                  value: kSurveyListViewModel..fetchSurveys(null),
+                  child: BlocBuilder<SurveyListViewModel, ListState>(
+                      builder: (context, listState) {
+                    switch (listState.state) {
+                      case ListStatus.initial:
+                      case ListStatus.loading:
+                        return kLoadingWidget;
+                      case ListStatus.error:
+                        return Center(
+                          child: Text(listState.message!),
+                        );
+                      case ListStatus.updated:
+                      case ListStatus.loaded:
+                        {
+                          return SurveyListPage(
+                            surveys: listState.surveys!,
+                            scrollCallback: (int i) {
+                              //TODO
+                            },
+                          );
+                        }
+                    }
+                  })),
+            ),
+          ],
         ),
       ),
     );
@@ -83,38 +111,5 @@ class HomeMainPage extends StatelessWidget {
                 return const Center(child: CircularProgressIndicator());
               }),
     );
-  }
-
-  FutureBuilder<List<Survey>> surveyField() {
-    return FutureBuilder(
-        future: dataService.getSurveys(),
-        builder: (BuildContext context, AsyncSnapshot<List<Survey>> snapshot) {
-          if (snapshot.hasData &&
-              snapshot.connectionState == ConnectionState.done) {
-            return ValueListenableBuilder(
-              valueListenable:
-                  SurveyCacheManager.instance.submittedSurveysListener,
-              builder:
-                  (BuildContext context, int? value, Widget? child) =>
-                      Column(
-                children: List<Widget>.generate(
-                  snapshot.data!.length,
-                  (index) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0),
-                    child: SurveyListItem(
-                      surveyModel: snapshot.data![index],
-                      submitted: SurveyCacheManager
-                              .instance.submittedSurveys.isNotEmpty
-                          ? SurveyCacheManager.instance.submittedSurveys
-                              .contains(snapshot.data![index].id)
-                          : false,
-                    ),
-                  ),
-                ),
-              ),
-            );
-          }
-          return const Center(child: CircularProgressIndicator());
-        });
   }
 }

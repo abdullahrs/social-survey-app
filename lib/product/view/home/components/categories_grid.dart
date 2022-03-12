@@ -32,7 +32,7 @@ class CategoriyGrid extends StatelessWidget {
         String categoryName = data[index].name;
         return InkWell(
           onTap: () =>
-              context.router.push(SurveyListRoute(categoryId: data[index].id)),
+              context.router.push(CategoryListRoute(categoryId: data[index].id)),
           child: Container(
             height: context.dynamicWidth(0.4),
             width: context.dynamicWidth(0.4),

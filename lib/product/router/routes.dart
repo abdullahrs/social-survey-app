@@ -1,3 +1,4 @@
+import '../view/home/pages/home_nested_list_page.dart';
 import '../view/auth/pages/forgot_password_page.dart';
 import '../view/auth/pages/sign_in_page.dart';
 import '../view/auth/pages/sign_up_page.dart';
@@ -8,7 +9,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../models/survey.dart';
-import '../view/survey/pages/survey_list_page.dart';
 import '../view/home/pages/home.dart';
 import '../view/home/pages/home_categories.dart';
 import '../view/home/pages/home_main.dart';
@@ -43,7 +43,7 @@ part 'routes.gr.dart';
             AutoRoute(path: '', page: HomeMainPage),
             AutoRoute(
               path: ':categoryId',
-              page: SurveyListPage,
+              page: CategoryListPage,
             ),
           ],
         ),
@@ -55,7 +55,7 @@ part 'routes.gr.dart';
               AutoRoute(path: '', page: CategoryPage),
               AutoRoute(
                 path: ':categoryId',
-                page: SurveyListPage,
+                page: CategoryListPage,
               ),
             ]),
         AutoRoute(

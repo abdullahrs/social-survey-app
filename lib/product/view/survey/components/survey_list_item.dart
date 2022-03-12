@@ -1,13 +1,13 @@
-import '../../../router/routes.dart';
 import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/extensions/buildcontext_extension.dart';
 import '../../../../core/extensions/color_extension.dart';
+import '../../../utils/survey_cache_manager.dart';
 import '../../../constants/style/colors.dart';
 import '../../../models/survey.dart';
-import '../../../utils/survey_cache_manager.dart';
+import '../../../router/routes.dart';
 
 class SurveyListItem extends StatelessWidget {
   final Survey surveyModel;
@@ -25,7 +25,7 @@ class SurveyListItem extends StatelessWidget {
         } else {
           context.router.push(ResultRoute(
               url:
-                  "https://socialsurveyapp.software/api/static/results.html?surveyId=${surveyModel.id}"));
+                  "https://socialsurveyapp.software/results.html?surveyId=${surveyModel.id}"));
         }
       },
       child: Container(

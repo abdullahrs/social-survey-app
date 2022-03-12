@@ -14,7 +14,7 @@ import '../../../components/sign_up_text_button.dart';
 import '../../../constants/enums/auth_statuses.dart';
 import '../../../utils/text_field_validations.dart';
 import '../components/custom_text_field.dart';
-import '../view_model/sign_up_cubit.dart';
+import '../view_model/register_cubit.dart';
 
 class SignUpPage extends StatelessWidget {
   SignUpPage({Key? key}) : super(key: key);

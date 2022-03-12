@@ -40,5 +40,6 @@
     "edit_info": "Bilgileri düzenle",
     "female":"Kadın",
     "male":"Erkek",
-    "birth_date":"Doğum tarihi"
+    "birth_date":"Doğum tarihi",
+    "save": "Kaydet"
 }

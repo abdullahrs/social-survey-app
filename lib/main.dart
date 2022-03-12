@@ -1,10 +1,13 @@
+import 'product/utils/survey_list_view_model/list_viewmodel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'product/constants/style/theme.dart';
 import 'product/router/routes.dart';
 import 'product/utils/survey_cache_manager.dart';
+import 'product/utils/survey_list_view_model/list_viewmodel_export.dart';
 import 'product/utils/token_cache_manager.dart';
 
 Future<void> main() async {
@@ -26,14 +29,21 @@ class SurveyApp extends StatelessWidget {
   final _appRouter = AppRouter();
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      theme: lightTheme,
-      routerDelegate: _appRouter.delegate(),
-      routeInformationParser: _appRouter.defaultRouteParser(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<SurveyListViewModel>(
+          create: (BuildContext context) => kSurveyListViewModel,
+        )
+      ],
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        theme: lightTheme,
+        routerDelegate: _appRouter.delegate(),
+        routeInformationParser: _appRouter.defaultRouteParser(),
+      ),
     );
   }
 }

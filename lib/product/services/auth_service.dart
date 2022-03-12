@@ -26,11 +26,20 @@ class AuthService extends ApiServiceManager {
   static AuthService? _instance;
 
   factory AuthService.fromCache(
-      {String? tokenKey, String? baseURL, ModelCacheManager? manager, String? refreshURL}) {
+      {String? tokenKey,
+      String? baseURL,
+      ModelCacheManager? manager,
+      String? refreshURL}) {
     if (_instance == null) {
-      if (tokenKey != null && baseURL != null && manager != null && refreshURL != null) {
+      if (tokenKey != null &&
+          baseURL != null &&
+          manager != null &&
+          refreshURL != null) {
         _instance = AuthService._ctor(
-            tokenKey: tokenKey, baseURL: baseURL, manager: manager,refreshURL: refreshURL);
+            tokenKey: tokenKey,
+            baseURL: baseURL,
+            manager: manager,
+            refreshURL: refreshURL);
         return _instance!;
       }
       throw Exception(
@@ -86,18 +95,18 @@ class AuthService extends ApiServiceManager {
     return null;
   }
 
-  Future<bool> updateUser(
-      {required String userID,
-      required String gender,
-      required String date,
-      required String refreshToken}) async {
+  Future<bool> updateUser({
+    required String userID,
+    required String gender,
+    required String date,
+  }) async {
     http.Response response = await createRequestAndSend(
         endPoint: RestAPIPoints.updateUser + '/' + userID,
-        bodyFields: {'refreshToken': refreshToken},
+        bodyFields: {'gender': gender, 'birthdate': date},
         method: RequestType.PATCH,
-        client: RequestClient.auth);
+        client: RequestClient.auth,
+        bearerActive: true);
     if (response.statusCode == 200) {
-      // Sucsess
       return true;
     }
     return false;

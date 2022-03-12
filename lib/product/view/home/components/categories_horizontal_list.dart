@@ -22,7 +22,7 @@ class HorizontalCategories extends StatelessWidget {
         String categoryName = data[index].name;
         return InkWell(
           onTap: () =>
-              context.router.push(SurveyListRoute(categoryId: data[index].id)),
+              context.router.push(CategoryListRoute(categoryId: data[index].id)),
           child: Container(
             height: context.dynamicHeight(0.125),
             width: context.dynamicHeight(0.125),

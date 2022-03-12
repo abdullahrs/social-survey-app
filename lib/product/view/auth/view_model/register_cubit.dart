@@ -55,10 +55,10 @@ class RegisterCubit extends Cubit<RegisterState> {
         await cacheManager.putItem(
             HiveModelConstants.tokenKey, sucsess!.tokens!);
         await _authService.updateUser(
-            userID: sucsess.user!.id!,
-            gender: gender.toString().split(".")[1],
-            date: birthDate.toString(),
-            refreshToken: sucsess.tokens!.refresh.token);
+          userID: sucsess.user!.id!,
+          gender: gender.toString().split(".")[1],
+          date: birthDate.toString(),
+        );
       }
 
       isRegisterFailed = !(sucsess?.tokens != null);
