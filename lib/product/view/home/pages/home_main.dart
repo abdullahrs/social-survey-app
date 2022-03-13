@@ -1,3 +1,6 @@
+import '../../../router/routes.dart';
+import 'package:auto_route/src/router/auto_router_x.dart';
+
 import '../../../utils/survey_list_view_model/list_viewmodel_export.dart';
 
 import '../../../../core/widgets/loading_widget.dart';
@@ -44,7 +47,9 @@ class HomeMainPage extends StatelessWidget {
                         .copyWith(fontWeight: FontWeight.bold),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () =>
+                      context.router.push(CategoryListRoute(categoryId: null))
+                    ,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -80,7 +85,7 @@ class HomeMainPage extends StatelessWidget {
                           return SurveyListPage(
                             surveys: listState.surveys!,
                             scrollCallback: (int i) {
-                              //TODO
+                              // TODO
                             },
                           );
                         }
@@ -97,7 +102,6 @@ class HomeMainPage extends StatelessWidget {
     return SizedBox(
       height: context.dynamicHeight(0.125),
       width: context.screenWidth,
-      // padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: SurveyCacheManager.instance.categories.isNotEmpty
           ? HorizontalCategories(data: SurveyCacheManager.instance.categories)
           : FutureBuilder(

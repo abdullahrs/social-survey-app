@@ -9,7 +9,7 @@ import '../../../components/survey_list.dart';
 import 'package:flutter/material.dart';
 
 class CategoryListPage extends StatefulWidget {
-  final String categoryId;
+  final String? categoryId;
   const CategoryListPage({
     Key? key,
     @PathParam() required this.categoryId,

@@ -83,7 +83,7 @@ class _$AppRouter extends RootStackRouter {
       final pathParams = routeData.inheritedPathParams;
       final args = routeData.argsAs<CategoryListRouteArgs>(
           orElse: () => CategoryListRouteArgs(
-              categoryId: pathParams.getString('categoryId')));
+              categoryId: pathParams.optString('categoryId')));
       return MaterialPageX<dynamic>(
           routeData: routeData,
           child: CategoryListPage(key: args.key, categoryId: args.categoryId));
@@ -321,7 +321,7 @@ class HomeMainRouteArgs {
 /// generated route for
 /// [CategoryListPage]
 class CategoryListRoute extends PageRouteInfo<CategoryListRouteArgs> {
-  CategoryListRoute({Key? key, required String categoryId})
+  CategoryListRoute({Key? key, required String? categoryId})
       : super(CategoryListRoute.name,
             path: ':categoryId',
             args: CategoryListRouteArgs(key: key, categoryId: categoryId),
@@ -335,7 +335,7 @@ class CategoryListRouteArgs {
 
   final Key? key;
 
-  final String categoryId;
+  final String? categoryId;
 
   @override
   String toString() {
