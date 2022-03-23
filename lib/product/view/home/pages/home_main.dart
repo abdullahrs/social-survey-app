@@ -47,9 +47,8 @@ class HomeMainPage extends StatelessWidget {
                         .copyWith(fontWeight: FontWeight.bold),
                   ),
                   InkWell(
-                    onTap: () =>
-                      context.router.push(CategoryListRoute(categoryId: null))
-                    ,
+                    onTap: () => context.router
+                        .push(CategoryListRoute(categoryId: null)),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -84,9 +83,7 @@ class HomeMainPage extends StatelessWidget {
                         {
                           return SurveyListPage(
                             surveys: listState.surveys!,
-                            scrollCallback: (int i) {
-                              // TODO
-                            },
+                            scrollCallback: (int i) {},
                           );
                         }
                     }

@@ -19,11 +19,26 @@ class SurveyListPage extends StatefulWidget {
 
 class _SurveyListPageState extends State<SurveyListPage> {
   final ScrollController _scrollController = ScrollController();
-
+  int _page = 1;
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(() {});
+    _scrollController.addListener(() async{
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        _page++;
+        var result = await widget.scrollCallback(_page);
+        if(result){
+          _page--;
+        }
+      }
+      if (_scrollController.position.pixels ==
+              _scrollController.position.minScrollExtent &&
+          _page > 1) {
+        _page--;
+        widget.scrollCallback(_page);
+      }
+    });
   }
 
   @override
@@ -37,6 +52,7 @@ class _SurveyListPageState extends State<SurveyListPage> {
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
       child: ListView.builder(
+        controller: _scrollController,
         itemCount: widget.surveys.length,
         itemBuilder: (context, index) {
           return Padding(

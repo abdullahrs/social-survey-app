@@ -53,8 +53,10 @@ class _CategoryListPageState extends State<CategoryListPage> {
                 case ListStatus.loaded:
                   return SurveyListPage(
                     surveys: listState.surveys!,
-                    scrollCallback: (int i) {
-                      //TODO
+                    scrollCallback: (int i) async {
+                      int len = kSurveyListViewModel.state.surveys?.length ?? 0;
+                      await kSurveyListViewModel.loadMoreSurvey(5, i);
+                      return kSurveyListViewModel.state.surveys?.length == len;
                     },
                   );
               }

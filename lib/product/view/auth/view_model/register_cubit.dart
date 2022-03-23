@@ -43,14 +43,6 @@ class RegisterCubit extends Cubit<RegisterState> {
         password: passwordController.text,
       );
 
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
-        emit(RegisterStatus(sucsess == null
-            ? AuthStatuses.error
-            : sucsess.tokens == null
-                ? AuthStatuses.unsucsess
-                : AuthStatuses.sucsess));
-      });
-
       if (sucsess?.tokens != null) {
         await cacheManager.putItem(
             HiveModelConstants.tokenKey, sucsess!.tokens!);
@@ -60,6 +52,14 @@ class RegisterCubit extends Cubit<RegisterState> {
           date: birthDate.toString(),
         );
       }
+
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        emit(RegisterStatus(sucsess == null
+            ? AuthStatuses.error
+            : sucsess.tokens == null
+                ? AuthStatuses.unsucsess
+                : AuthStatuses.sucsess));
+      });
 
       isRegisterFailed = !(sucsess?.tokens != null);
     } else {

@@ -31,6 +31,27 @@ class SurveyListViewModel extends Cubit<ListState> {
     }
   }
 
+  Future<void> loadMoreSurvey(int limit, int page) async {
+    // emit(state.copyWith(state: ListStatus.loading));
+    try {
+      print("$limit $page");
+      final surveys = await _dataService.getSurveys(
+        categoryId: categoryID,
+        limit: limit,
+        page: page,
+      );
+      if (surveys.isNotEmpty) {
+        emit(state.copyWith(
+            state: ListStatus.loaded,
+            surveys: [...state.surveys!, ...surveys]));
+      }
+    } catch (e) {
+      if (e is FetchDataException) {
+        emit(state.copyWith(state: ListStatus.loading, message: e.message));
+      }
+    }
+  }
+
   void updateState() {
     emit(state.copyWith(state: ListStatus.updated));
   }
