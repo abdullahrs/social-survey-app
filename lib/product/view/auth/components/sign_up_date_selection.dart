@@ -67,7 +67,7 @@ class _DateSelectorState extends State<DateSelector> {
             Padding(
               padding: const EdgeInsets.only(left: 12.0),
               child: Text(
-                _chosenDateTime == null ? 'birth_date'.tr() : _chosenDateTime.toString().substring(0,10),
+                _chosenDateTime == null ? 'birth-date'.tr() : _chosenDateTime.toString().substring(0,10),
                 style: context.appTextTheme.subtitle1!
                     .copyWith(color: Colors.grey[700]),
               ),

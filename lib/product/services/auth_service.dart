@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'data_service.dart';
+
 import '../constants/app_constants/hive_model_constants.dart';
 import '../constants/enums/request_info.dart';
 import '../../core/src/api_service_manager.dart';
@@ -59,6 +61,7 @@ class AuthService extends ApiServiceManager {
       if (response.statusCode == 200) {
         var result = json.decode(utf8.decode(response.bodyBytes));
         User user = User.fromJson(result);
+        DataService.authUser = user.user;
         await cacheManager.putItem(HiveModelConstants.tokenKey, user.tokens!);
         return user;
       } else if (response.statusCode == 401) {
@@ -97,19 +100,30 @@ class AuthService extends ApiServiceManager {
 
   Future<bool> updateUser({
     required String userID,
-    required String gender,
-    required String date,
+    String? name,
+    String? gender,
+    String? date,
   }) async {
-    http.Response response = await createRequestAndSend(
-        endPoint: RestAPIPoints.updateUser + '/' + userID,
-        bodyFields: {'gender': gender, 'birthdate': date},
-        method: RequestType.PATCH,
-        client: RequestClient.auth,
-        bearerActive: true);
-    if (response.statusCode == 200) {
-      return true;
+    {
+      Map<String, String> data = {};
+      List<MapEntry<String, String>> entires = [
+        MapEntry('name', name ?? "-"),
+        MapEntry('gender', gender ?? "-"),
+        MapEntry('date', date ?? "-")
+      ];
+      data.addEntries(entires.where((element) => element.value != "-"));
+      http.Response response = await createRequestAndSend(
+          endPoint: RestAPIPoints.updateUser + '/' + userID,
+          bodyFields: data,
+          method: RequestType.PATCH,
+          client: RequestClient.auth,
+          bearerActive: true);
+
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
     }
-    return false;
   }
 
   Future<bool> logout({required String refreshToken}) async {

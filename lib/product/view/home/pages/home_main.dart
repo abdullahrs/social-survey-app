@@ -83,7 +83,9 @@ class HomeMainPage extends StatelessWidget {
                         {
                           return SurveyListPage(
                             surveys: listState.surveys!,
-                            scrollCallback: (int i) {},
+                            scrollCallback: (int i) async {
+                              return true;
+                            },
                           );
                         }
                     }

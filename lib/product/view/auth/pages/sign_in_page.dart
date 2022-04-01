@@ -31,8 +31,7 @@ class SignInPage extends StatelessWidget {
         child: BlocConsumer<SignInCubit, SignInState>(
           listener: (context, state) {
             if (state is SignInValidationState && !state.isValidate) {
-              AutoRouter.of(context).pop();
-              AutoRouter.of(context).pop();
+              context.router.popUntilRoot();
               context.router.replaceNamed('home');
             }
           },

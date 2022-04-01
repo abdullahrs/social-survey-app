@@ -1,5 +1,6 @@
 import 'dart:convert' as convert;
 
+import '../models/info.dart';
 import '../constants/enums/request_info.dart';
 
 import '../../core/src/api_service_manager.dart';
@@ -26,6 +27,8 @@ class DataService extends ApiServiceManager {
             refreshURL: refreshURL);
 
   static DataService? _instance;
+
+  static Info? authUser;
 
   factory DataService.fromCache(
       {String? tokenKey,
@@ -153,6 +156,7 @@ class DataService extends ApiServiceManager {
     );
 
     var result = convert.json.decode(convert.utf8.decode(response.bodyBytes));
+    authUser = Info.fromJson(result);
     if (response.statusCode == 200) {
       return List<String>.from(result['submittedSurveys'] ?? []);
     }

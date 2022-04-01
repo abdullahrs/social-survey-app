@@ -15,6 +15,8 @@ Info _$InfoFromJson(Map<String, dynamic> json) => Info(
       submittedSurveys: (json['submittedSurveys'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      birthdate: json['birthdate'] as String?,
+      gender: json['gender'] as String?,
     );
 
 Map<String, dynamic> _$InfoToJson(Info instance) => <String, dynamic>{
@@ -22,6 +24,8 @@ Map<String, dynamic> _$InfoToJson(Info instance) => <String, dynamic>{
       'name': instance.name,
       'email': instance.email,
       'id': instance.id,
+      'birthdate': instance.birthdate,
+      'gender': instance.gender,
       'isEmailVerified': instance.isEmailVerified,
       'submittedSurveys': instance.submittedSurveys,
     };

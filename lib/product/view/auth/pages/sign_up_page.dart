@@ -42,7 +42,7 @@ class SignUpPage extends StatelessWidget {
             if (state is RegisterValidationState && state.registerValidation) {
               var data = await _dataService.getCategories();
               await SurveyCacheManager.instance.setCategories(data);
-              context.router.navigateNamed('home');
+              context.router.replaceNamed('home');
             }
           },
           builder: (context, state) {

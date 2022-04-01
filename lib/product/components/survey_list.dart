@@ -4,9 +4,11 @@ import '../view/survey/components/survey_list_item.dart';
 
 import 'package:flutter/material.dart';
 
+
+typedef ParamFunction = Future<bool> Function(int x);
 class SurveyListPage extends StatefulWidget {
   final List<Survey> surveys;
-  final Function(int) scrollCallback;
+  final ParamFunction scrollCallback;
   const SurveyListPage({
     Key? key,
     required this.surveys,

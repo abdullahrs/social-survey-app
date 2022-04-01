@@ -13,7 +13,7 @@ import '../view/home/pages/home.dart';
 import '../view/home/pages/home_categories.dart';
 import '../view/home/pages/home_main.dart';
 import '../view/home/pages/home_participated.dart';
-import '../view/home/pages/home_settings.dart';
+import '../view/home/pages/home_profile.dart';
 import '../view/survey/pages/survey_page.dart';
 
 part 'routes.gr.dart';

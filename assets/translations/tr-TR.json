@@ -37,9 +37,13 @@
     "politics": "Siyaset",
     "end-survey": "Anketi Bitir",
     "continue": "Sonraki",
-    "edit_info": "Bilgileri düzenle",
+    "edit_info": "Bilgileri Düzenle",
     "female":"Kadın",
     "male":"Erkek",
-    "birth_date":"Doğum tarihi",
-    "save": "Kaydet"
+    "birth-date":"Doğum Tarihi",
+    "save": "Kaydet",
+    "profile": "Profil",
+    "gender": "Cinsiyet",
+    "dark-mode" : "Karanlık Mod",
+    "last-surveys" : "Son Anketler"
 }

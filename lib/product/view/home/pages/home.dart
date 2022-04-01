@@ -8,7 +8,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'home_categories.dart';
 import 'home_main.dart';
 // import 'home_participated.dart';
-import 'home_settings.dart';
+import 'home_profile.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -36,8 +36,8 @@ class _HomePageState extends State<HomePage> {
         //   margin: const EdgeInsets.all(4),
         // ),
         GButton(
-          icon: Icons.settings,
-          text: ' ' + 'settings'.tr(),
+          icon: Icons.person,
+          text: ' ' + 'profile'.tr(),
           borderRadius: BorderRadius.circular(10),
         ),
       ];

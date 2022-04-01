@@ -8,6 +8,8 @@ class Info {
   String? name;
   String? email;
   String? id;
+  String? birthdate;
+  String? gender;
   final bool isEmailVerified;
   final List<String>? submittedSurveys;
 
@@ -18,6 +20,8 @@ class Info {
     this.id,
     required this.isEmailVerified,
     this.submittedSurveys,
+    this.birthdate,
+    this.gender
   });
 
   factory Info.fromJson(Map<String, dynamic> json) => _$InfoFromJson(json);

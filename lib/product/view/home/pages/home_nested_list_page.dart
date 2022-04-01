@@ -56,7 +56,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
                     scrollCallback: (int i) async {
                       int len = kSurveyListViewModel.state.surveys?.length ?? 0;
                       await kSurveyListViewModel.loadMoreSurvey(5, i);
-                      return kSurveyListViewModel.state.surveys?.length == len;
+                      return ((kSurveyListViewModel.state.surveys?.length ?? 0 )== len);
                     },
                   );
               }

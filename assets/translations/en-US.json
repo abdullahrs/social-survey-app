@@ -40,6 +40,10 @@
     "edit_info": "Edit information",
     "female": "Female",
     "male": "Male",
-    "birth_date": "Birth Date",
-    "save": "Save"
+    "birth-date": "Birth Date",
+    "save": "Save",
+    "profile": "Profile",
+    "gender": "Gender",
+    "dark-mode" : "Dark Mode",
+    "last-surveys" : "Last Surveys"
 }
