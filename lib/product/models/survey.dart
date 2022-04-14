@@ -13,6 +13,7 @@ class Survey {
   final String categoryId;
   final int submissionCount;
   // final String color;
+  final String? expireDate;
   final List<Question> questions;
 
   Survey({
@@ -24,6 +25,7 @@ class Survey {
     required this.submissionCount,
     // required this.color,
     required this.questions,
+    this.expireDate
   });
 
   factory Survey.fromJson(Map<String, dynamic> json) => _$SurveyFromJson(json);

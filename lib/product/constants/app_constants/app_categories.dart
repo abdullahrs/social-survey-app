@@ -8,6 +8,7 @@ const List<String> kCategories = [
 ];
 
 const Map<String, String> kCategoryIcons = {
+  'location' : 'assets/svg/location.svg',
   'current': 'assets/svg/current.svg',
   'art': 'assets/svg/art.svg',
   'education': 'assets/svg/education.svg',

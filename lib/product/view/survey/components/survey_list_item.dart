@@ -1,3 +1,6 @@
+import 'package:anket/product/components/countdown_widget.dart';
+import 'package:anket/product/components/dialog/warning_dialog.dart';
+import 'package:anket/product/constants/strings/svg_paths.dart';
 import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +8,6 @@ import 'package:flutter/material.dart';
 import '../../../../core/extensions/buildcontext_extension.dart';
 import '../../../../core/extensions/color_extension.dart';
 import '../../../utils/survey_cache_manager.dart';
-import '../../../constants/style/colors.dart';
 import '../../../models/survey.dart';
 import '../../../router/routes.dart';
 
@@ -19,7 +21,15 @@ class SurveyListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
+      onTap: () async{
+        if (DateTime.parse(surveyModel.expireDate!).isBefore(DateTime.now())) {
+          await showWarningDialog(
+            context,
+            text: 'survey-time-expired'.tr(),
+            imagePath: SvgPaths.expired,
+          );
+          return;
+        }
         if (!submitted) {
           context.router.push(SurveyRoute(survey: surveyModel));
         } else {
@@ -31,7 +41,7 @@ class SurveyListItem extends StatelessWidget {
       child: Container(
         width: context.screenWidth,
         decoration: BoxDecoration(
-          color: AppStyle.surveyListItemBackgroundColor,
+          color: context.appTheme.cardColor,
           border: Border(
             left: BorderSide(
                 width: 4,
@@ -46,39 +56,55 @@ class SurveyListItem extends StatelessWidget {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Chip(
-                        label: Text(
-                          submitted ? 'completed'.tr() : 'uncompleted'.tr(),
-                        ),
-                        backgroundColor: Colors.blue,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Chip(
-                        label: Text(SurveyCacheManager.instance.categories
-                                .where((element) =>
-                                    element.id == surveyModel.categoryId)
-                                .first
-                                .name)
-                            .tr(),
-                        backgroundColor: Colors.green,
-                      ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: Row(
+                Flexible(
+                  flex: 9,
+                  child: Wrap(
                     children: [
-                      Text(surveyModel.submissionCount.toString()),
-                      const Icon(Icons.check, color: Colors.green)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Chip(
+                          label: Text(
+                            submitted ? 'completed'.tr() : 'uncompleted'.tr(),
+                          ),
+                          backgroundColor: Colors.blue,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Chip(
+                          label: Text(SurveyCacheManager.instance.categories
+                                  .where((element) =>
+                                      element.id == surveyModel.categoryId)
+                                  .first
+                                  .name)
+                              .tr(),
+                          backgroundColor: Colors.green,
+                        ),
+                      ),
+                      if (surveyModel.expireDate != null)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Chip(
+                            label: Text("time-limited".tr()),
+                            backgroundColor: Colors.green,
+                          ),
+                        ),
                     ],
+                  ),
+                ),
+                Flexible(
+                  flex: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0, top: 16.0),
+                    child: Row(
+                      children: [
+                        Text(surveyModel.submissionCount.toString()),
+                        const Flexible(
+                            child: Icon(Icons.check, color: Colors.green))
+                      ],
+                    ),
                   ),
                 )
               ],
@@ -99,7 +125,13 @@ class SurveyListItem extends StatelessWidget {
                 maxLines: 1,
                 style: context.appTextTheme.subtitle1,
               ),
-            )
+            ),
+            if (surveyModel.expireDate != null)
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, bottom: 8.0),
+                child: CountdownWidget(
+                    expireDate: DateTime.parse(surveyModel.expireDate!)),
+              ),
           ],
         ),
       ),

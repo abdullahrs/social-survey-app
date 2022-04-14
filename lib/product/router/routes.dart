@@ -1,3 +1,5 @@
+import 'package:anket/product/view/home/pages/home_location_list_page.dart';
+
 import '../view/home/pages/home_nested_list_page.dart';
 import '../view/auth/pages/forgot_password_page.dart';
 import '../view/auth/pages/sign_in_page.dart';
@@ -30,6 +32,10 @@ part 'routes.gr.dart';
     AutoRoute(page: ForgotPassPage, path: '/forgot'),
     AutoRoute(page: SurveyPage),
     AutoRoute(page: ResultPage),
+    AutoRoute(
+      path: '/location-list',
+      page: LocationListPage,
+    ),
     AutoRoute(
       page: HomePage,
       path: 'home',

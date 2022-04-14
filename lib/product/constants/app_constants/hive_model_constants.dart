@@ -6,4 +6,6 @@ class HiveModelConstants{
   static const String submittedSurveysKey = "submittedSurveysKey";
   static const String userIDKey = "userIDKey";
   static const String darkMode = "darkMode";
+  static const String lang = "lang";
+
 }

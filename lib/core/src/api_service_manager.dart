@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import '../../product/utils/custom_exception.dart';
 import 'package:http/http.dart';
 
@@ -35,7 +36,7 @@ abstract class ApiServiceManager {
         cacheManager.getItem(_tokenKey); // HiveModelConstants.tokenKey
     Map<String, String> headers = {
       'Content-Type':
-          'application/${client == RequestClient.data ? "json" : "x-www-form-urlencoded"}', // "x-www-form-urlencoded"
+          'application/${client == RequestClient.data ? "json" : "x-www-form-urlencoded"}', // client == RequestClient.data ? "json" : "x-www-form-urlencoded"
     };
 
     if (bearerActive) {
@@ -59,9 +60,12 @@ abstract class ApiServiceManager {
     }
     request.headers.addAll(headers);
 
+    log("REQUEST METHOD : ${request.method}\n\nREQUEST HEADERS : ${request.headers}\n\nREQUEST BODY : ${request.body}");
+
     try {
       StreamedResponse streamedResponse = await request.send();
       Response response = await Response.fromStream(streamedResponse);
+      log("RESPONSE BODY ${response.body}");
       if (response.statusCode == 401) {
         bool control = await refreshToken();
         if (control) {

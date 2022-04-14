@@ -44,6 +44,19 @@
     "save": "Save",
     "profile": "Profile",
     "gender": "Gender",
-    "dark-mode" : "Dark Mode",
-    "last-surveys" : "Last Surveys"
+    "dark-mode": "Dark Mode",
+    "last-surveys": "Last Surveys",
+    "location-services-disabled-message": "Location services are disabled.",
+    "permission-denied-message": "Permission denied.",
+    "permission-granted-message": "Permission granted.",
+    "time-limited": "Time Limited",
+    "personal-info": "Personal Info",
+    "language": "Language",
+    "expired" : "Expired",
+    "days" : "Days",
+    "hours" : "Hours",
+    "minutes" : "Minutes",
+    "seconds" : "Seconds",
+    "survey-time-expired": "Survey Time Expired",
+    "ok": "Ok"
 }

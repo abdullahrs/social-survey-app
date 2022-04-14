@@ -10,15 +10,15 @@ class Info {
   String? id;
   String? birthdate;
   String? gender;
-  final bool isEmailVerified;
-  final List<String>? submittedSurveys;
+  bool? isEmailVerified;
+  List<String>? submittedSurveys;
 
   Info({
     this.role,
     this.name,
     this.email,
     this.id,
-    required this.isEmailVerified,
+    this.isEmailVerified,
     this.submittedSurveys,
     this.birthdate,
     this.gender

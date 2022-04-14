@@ -24,7 +24,8 @@ class SurveyCacheManager extends ModelCacheManager {
   List<Category> get categories => _categories ?? <Category>[];
 
   Future<void> setCategories(List<Category> cats) async {
-    _categories = cats;
+    _categories = [Category(id: "locationID", name: "location", color: "#FF8243", rank: 1)];
+    _categories!.addAll(cats);
     await putItem(HiveModelConstants.surveyCategoriesKey, _categories);
   }
 

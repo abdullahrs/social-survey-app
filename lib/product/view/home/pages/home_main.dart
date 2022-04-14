@@ -111,6 +111,11 @@ class HomeMainPage extends StatelessWidget {
                     snapshot.connectionState == ConnectionState.done) {
                   return HorizontalCategories(data: snapshot.data!);
                 }
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text(snapshot.error.toString()),
+                  );
+                }
                 return const Center(child: CircularProgressIndicator());
               }),
     );

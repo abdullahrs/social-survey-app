@@ -1,4 +1,12 @@
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:geolocator/geolocator.dart';
+
 import 'product/constants/app_constants/hive_model_constants.dart';
+import 'product/constants/app_constants/locals.dart';
+import 'product/utils/lang_util.dart';
+import 'product/utils/location_service/location_cubit.dart';
 import 'product/utils/theme_util.dart';
 
 import 'product/utils/survey_list_view_model/list_viewmodel.dart';
@@ -20,9 +28,9 @@ Future<void> main() async {
   await TokenCacheManager().init();
   await SurveyCacheManager().init();
   runApp(EasyLocalization(
-    supportedLocales: const [Locale('en', 'US'), Locale('tr', 'TR')],
+    supportedLocales: kSupportedLocales,
     path: 'assets/translations',
-    fallbackLocale: const Locale('tr', 'TR'),
+    fallbackLocale: kTrLocale,
     child: SurveyApp(),
   ));
 }
@@ -32,14 +40,21 @@ class SurveyApp extends StatelessWidget {
   final _appRouter = AppRouter();
   @override
   Widget build(BuildContext context) {
-    bool? mode = SurveyCacheManager.instance.getItem(HiveModelConstants.darkMode);
+    bool? mode =
+        SurveyCacheManager.instance.getItem(HiveModelConstants.darkMode);
+    String? langKey =
+        SurveyCacheManager.instance.getItem(HiveModelConstants.lang);
     return MultiBlocProvider(
       providers: [
         BlocProvider<SurveyListViewModel>(
           create: (BuildContext context) => kSurveyListViewModel,
         ),
         BlocProvider(
-            create: (_) => ThemeCubit(mode ?? ThemeMode.system == ThemeMode.dark))
+            create: (_) =>
+                ThemeCubit(mode ?? ThemeMode.system == ThemeMode.dark)),
+        BlocProvider(
+            create: (_) =>
+                LocationCubit(geolocatorPlatform: GeolocatorPlatform.instance))
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, state) {
@@ -48,7 +63,7 @@ class SurveyApp extends StatelessWidget {
             localizationsDelegates: context.localizationDelegates,
             supportedLocales: context.supportedLocales,
             locale: context.locale,
-            theme: state.isDark ? ThemeData.dark() : lightTheme,
+            theme: state.isDark ? darkTheme : lightTheme,
             routerDelegate: _appRouter.delegate(),
             routeInformationParser: _appRouter.defaultRouteParser(),
           );

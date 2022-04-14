@@ -21,8 +21,13 @@ class HorizontalCategories extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         String categoryName = data[index].name;
         return InkWell(
-          onTap: () =>
-              context.router.push(CategoryListRoute(categoryId: data[index].id)),
+          onTap: () {
+            if(categoryName == 'location'){
+              context.router.pushNamed('/location-list');
+              return;
+            }
+            context.router.push(CategoryListRoute(categoryId: data[index].id));
+          },
           child: Container(
             height: context.dynamicHeight(0.125),
             width: context.dynamicHeight(0.125),

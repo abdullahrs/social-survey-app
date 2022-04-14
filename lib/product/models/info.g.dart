@@ -11,7 +11,7 @@ Info _$InfoFromJson(Map<String, dynamic> json) => Info(
       name: json['name'] as String?,
       email: json['email'] as String?,
       id: json['id'] as String?,
-      isEmailVerified: json['isEmailVerified'] as bool,
+      isEmailVerified: json['isEmailVerified'] as bool?,
       submittedSurveys: (json['submittedSurveys'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),

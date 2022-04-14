@@ -36,8 +36,10 @@ class DataService extends ApiServiceManager {
       ModelCacheManager? manager,
       String? refreshURL}) {
     if (_instance == null) {
-      if (tokenKey != null && baseURL != null 
-        && manager != null && refreshURL != null) {
+      if (tokenKey != null &&
+          baseURL != null &&
+          manager != null &&
+          refreshURL != null) {
         _instance = DataService._ctor(
             tokenKey: tokenKey,
             baseURL: baseURL,
@@ -159,6 +161,48 @@ class DataService extends ApiServiceManager {
     authUser = Info.fromJson(result);
     if (response.statusCode == 200) {
       return List<String>.from(result['submittedSurveys'] ?? []);
+    }
+    throw FetchDataException(
+        statusCode: response.statusCode, message: response.body);
+  }
+
+  Future<List<Survey>?> getSubmitionsDetail(
+      String userID, List<String> surveyIDs) async {
+    print(convert.jsonEncode(surveyIDs));
+    http.Response response = await createRequestAndSend(
+        endPoint: RestAPIPoints.userSubmitionDetails,
+        method: RequestType.POST,
+        bearerActive: true,
+        body: "{\"id\": ${convert.jsonEncode(surveyIDs)}}"
+        // bodyFields: {"id": convert.jsonEncode(surveyIDs)},
+        );
+
+    if (response.statusCode == 200) {
+      var result = convert.json.decode(convert.utf8.decode(response.bodyBytes));
+      List<Survey> surveys = List<Survey>.from(
+          result.map((item) => Survey.fromJson(item)).toList());
+      return surveys;
+    }
+    throw FetchDataException(
+        statusCode: response.statusCode, message: response.body);
+  }
+
+  Future<List<Survey>> getLocationSurveys(double lat, double long) async {
+    http.Response response = await createRequestAndSend(
+      endPoint: RestAPIPoints.getSurveysByLocation,
+      method: RequestType.GET,
+      bearerActive: true,
+      queryParams: {
+        'lat': lat.toString(),
+        'long': long.toString(),
+      },
+    );
+
+    if (response.statusCode == 200) {
+      var result = convert.json.decode(convert.utf8.decode(response.bodyBytes));
+      List<Survey> surveys = List<Survey>.from(
+          result["results"].map((item) => Survey.fromJson(item)).toList());
+      return surveys;
     }
     throw FetchDataException(
         statusCode: response.statusCode, message: response.body);

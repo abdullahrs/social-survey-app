@@ -53,6 +53,10 @@ class _$AppRouter extends RootStackRouter {
           routeData: routeData,
           child: ResultPage(key: args.key, url: args.url));
     },
+    LocationListRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const LocationListPage());
+    },
     HomeRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const HomePage());
@@ -102,6 +106,7 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(ForgotPassRoute.name, path: '/forgot'),
         RouteConfig(SurveyRoute.name, path: '/survey-page'),
         RouteConfig(ResultRoute.name, path: '/result-page'),
+        RouteConfig(LocationListRoute.name, path: '/location-list'),
         RouteConfig(HomeRoute.name, path: 'home', children: [
           RouteConfig(HomeMainRouter.name,
               path: 'home-main',
@@ -250,6 +255,15 @@ class ResultRouteArgs {
   String toString() {
     return 'ResultRouteArgs{key: $key, url: $url}';
   }
+}
+
+/// generated route for
+/// [LocationListPage]
+class LocationListRoute extends PageRouteInfo<void> {
+  const LocationListRoute()
+      : super(LocationListRoute.name, path: '/location-list');
+
+  static const String name = 'LocationListRoute';
 }
 
 /// generated route for

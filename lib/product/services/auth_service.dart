@@ -109,7 +109,7 @@ class AuthService extends ApiServiceManager {
       List<MapEntry<String, String>> entires = [
         MapEntry('name', name ?? "-"),
         MapEntry('gender', gender ?? "-"),
-        MapEntry('date', date ?? "-")
+        MapEntry('birthdate', date ?? "-")
       ];
       data.addEntries(entires.where((element) => element.value != "-"));
       http.Response response = await createRequestAndSend(

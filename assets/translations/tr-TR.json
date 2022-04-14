@@ -45,5 +45,18 @@
     "profile": "Profil",
     "gender": "Cinsiyet",
     "dark-mode" : "Karanlık Mod",
-    "last-surveys" : "Son Anketler"
+    "last-surveys" : "Son Anketler",
+    "location-services-disabled-message" : "Konum hizmetleri devre dışı.",
+    "permission-denied-message" : "İzin reddedildi.",
+    "permission-granted-message": "İzin sağlandı.",
+    "time-limited": "Süreli",
+    "personal-info": "Kişisel Bilgiler",
+    "language": "Dil",
+    "expired" : "Süresi dolmuş",
+    "days" : "Gün",
+    "hours" : "Saat",
+    "minutes" : "Dakika",
+    "seconds" : "Saniye",
+    "survey-time-expired" : "Anketin Süresi Doldu",
+    "ok" : "Tamam"
 }
