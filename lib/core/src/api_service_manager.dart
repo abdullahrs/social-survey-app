@@ -59,7 +59,7 @@ abstract class ApiServiceManager {
       request.body = body;
     }
     request.headers.addAll(headers);
-
+    log("Endpoint: $_baseURL$endPoint");
     log("REQUEST METHOD : ${request.method}\n\nREQUEST HEADERS : ${request.headers}\n\nREQUEST BODY : ${request.body}");
 
     try {
