@@ -4,7 +4,6 @@ import '../../../constants/enums/genders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../constants/app_constants/hive_model_constants.dart';
 import '../../../constants/enums/auth_statuses.dart';
 import '../../../models/user.dart';
 import '../../../services/auth_service.dart';
@@ -41,17 +40,9 @@ class RegisterCubit extends Cubit<RegisterState> {
         name: nameController.text,
         email: mailController.text,
         password: passwordController.text,
+        gender: gender.toString().split(".")[1],
+        birthDate: birthDate.toString(),
       );
-
-      if (sucsess?.tokens != null) {
-        await cacheManager.putItem(
-            HiveModelConstants.tokenKey, sucsess!.tokens!);
-        await _authService.updateUser(
-          userID: sucsess.user!.id!,
-          gender: gender.toString().split(".")[1],
-          date: birthDate.toString(),
-        );
-      }
 
       WidgetsBinding.instance!.addPostFrameCallback((_) {
         emit(RegisterStatus(sucsess == null
