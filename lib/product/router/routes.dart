@@ -1,5 +1,8 @@
-import 'package:anket/product/view/home/pages/home_location_list_page.dart';
+import 'package:geolocator/geolocator.dart';
 
+import '../view/home/pages/home_location_list_page.dart';
+
+import '../view/details/location_detail.dart';
 import '../view/home/pages/home_nested_list_page.dart';
 import '../view/auth/pages/forgot_password_page.dart';
 import '../view/auth/pages/sign_in_page.dart';
@@ -35,6 +38,10 @@ part 'routes.gr.dart';
     AutoRoute(
       path: '/location-list',
       page: LocationListPage,
+    ),
+    AutoRoute(
+      page: LocationDetailPage,
+      path: '/location-detail',
     ),
     AutoRoute(
       page: HomePage,

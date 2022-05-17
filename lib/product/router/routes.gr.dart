@@ -57,6 +57,13 @@ class _$AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const LocationListPage());
     },
+    LocationDetailRoute.name: (routeData) {
+      final args = routeData.argsAs<LocationDetailRouteArgs>();
+      return MaterialPageX<dynamic>(
+          routeData: routeData,
+          child: LocationDetailPage(
+              key: args.key, position: args.position, cityName: args.cityName));
+    },
     HomeRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const HomePage());
@@ -107,6 +114,7 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(SurveyRoute.name, path: '/survey-page'),
         RouteConfig(ResultRoute.name, path: '/result-page'),
         RouteConfig(LocationListRoute.name, path: '/location-list'),
+        RouteConfig(LocationDetailRoute.name, path: '/location-detail'),
         RouteConfig(HomeRoute.name, path: 'home', children: [
           RouteConfig(HomeMainRouter.name,
               path: 'home-main',
@@ -264,6 +272,35 @@ class LocationListRoute extends PageRouteInfo<void> {
       : super(LocationListRoute.name, path: '/location-list');
 
   static const String name = 'LocationListRoute';
+}
+
+/// generated route for
+/// [LocationDetailPage]
+class LocationDetailRoute extends PageRouteInfo<LocationDetailRouteArgs> {
+  LocationDetailRoute(
+      {Key? key, required Position position, required String cityName})
+      : super(LocationDetailRoute.name,
+            path: '/location-detail',
+            args: LocationDetailRouteArgs(
+                key: key, position: position, cityName: cityName));
+
+  static const String name = 'LocationDetailRoute';
+}
+
+class LocationDetailRouteArgs {
+  const LocationDetailRouteArgs(
+      {this.key, required this.position, required this.cityName});
+
+  final Key? key;
+
+  final Position position;
+
+  final String cityName;
+
+  @override
+  String toString() {
+    return 'LocationDetailRouteArgs{key: $key, position: $position, cityName: $cityName}';
+  }
 }
 
 /// generated route for
