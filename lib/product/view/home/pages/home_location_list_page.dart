@@ -1,8 +1,12 @@
-import 'dart:developer';
+import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 
+import '../../../constants/app_constants/cities.dart';
 import '../../../../core/widgets/loading_widget.dart';
 import '../../../components/survey_list.dart';
 import '../../../models/survey.dart';
+import '../../../router/routes.dart';
+import '../../../utils/custom_exception.dart';
 import '../../../utils/location_service/location_cubit.dart';
 import '../view_model/location_category_view_model.dart';
 import 'package:flutter/material.dart';
@@ -17,28 +21,79 @@ class LocationListPage extends StatefulWidget {
 }
 
 class _LocationListPageState extends State<LocationListPage> {
+  Future<Position?>? initialPosition;
+
+  Position getPositionFromCoordinates(Position? _initialPosition, Map d) {
+    return Position(
+        longitude: d['coordinates'][0],
+        latitude: d['coordinates'][1],
+        accuracy: _initialPosition?.accuracy ?? 0,
+        altitude: _initialPosition?.altitude ?? 0,
+        heading: _initialPosition?.heading ?? 0,
+        speed: _initialPosition?.speed ?? 0,
+        speedAccuracy: _initialPosition?.speedAccuracy ?? 0,
+        timestamp: _initialPosition?.timestamp ?? DateTime.now());
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initialPosition = context.read<LocationCubit>().getCurrentPosition();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => LocationCategoryCubit(),
       child: BlocBuilder<LocationCategoryCubit, LocationCategoryState>(
         builder: (context, state) {
-          return Scaffold(
-            appBar: AppBar(),
-            body: FutureBuilder(
-                future: context.read<LocationCubit>().getCurrentPosition(),
-                builder: (context, AsyncSnapshot<Position?> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done &&
-                      snapshot.data != null) {
-                    return FutureBuilder(
+          return FutureBuilder<Position?>(
+              future: initialPosition,
+              builder: (context, snapshot) {
+                return Scaffold(
+                    appBar: AppBar(
+                      title: SizedBox(
+                        width: double.infinity,
+                        height: kToolbarHeight,
+                        child: DropdownButton(
+                          isExpanded: true,
+                          hint: const Text("location-category").tr(),
+                          items: kCities.map((e) {
+                            return DropdownMenuItem(
+                              value: e,
+                              child: Text(e['name']),
+                            );
+                          }).toList(),
+                          onChanged: (data) {
+                            Position position = getPositionFromCoordinates(
+                                snapshot.data, data as Map);
+                            context.router.push(
+                              LocationDetailRoute(
+                                position: position,
+                                cityName: data['name'],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                    body: FutureBuilder(
                       future: context
                           .read<LocationCategoryCubit>()
-                          .getLocationSurvey(snapshot.data!),
+                          .getLocationSurvey(snapshot.data),
                       builder: (context,
                           AsyncSnapshot<List<Survey>> surveySnapshot) {
                         if (surveySnapshot.hasError) {
-                          return Center(
-                              child: Text(surveySnapshot.error.toString()));
+                          if (surveySnapshot.error is FetchDataException) {
+                            return Center(
+                                child: Text(
+                                    (surveySnapshot.error as FetchDataException)
+                                        .message));
+                          }
+                          return SingleChildScrollView(
+                              child: Center(
+                                  child:
+                                      Text(surveySnapshot.error.toString())));
                         }
                         if (surveySnapshot.connectionState ==
                             ConnectionState.waiting) {
@@ -50,26 +105,19 @@ class _LocationListPageState extends State<LocationListPage> {
                           return const Center(child: Text("no-data"));
                         }
                         if (surveySnapshot.connectionState ==
-                            ConnectionState.done) {
+                                ConnectionState.done &&
+                            (surveySnapshot.data != null &&
+                                surveySnapshot.data!.isNotEmpty)) {
                           return SurveyListPage(
                               surveys: surveySnapshot.data!,
                               scrollCallback: (_) {
                                 return Future.value(false);
                               });
                         }
-                        return Container();
+                        return kLoadingWidget;
                       },
-                    );
-                  }
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return kLoadingWidget;
-                  }
-                  if (snapshot.hasError) {
-                    return Center(child: Text(snapshot.error.toString()));
-                  }
-                  return const Center(child: Text('location not found'));
-                }),
-          );
+                    ));
+              });
         },
       ),
     );
