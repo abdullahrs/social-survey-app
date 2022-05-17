@@ -7,11 +7,26 @@ part of 'answer.dart';
 // **************************************************************************
 
 Answer _$AnswerFromJson(Map<String, dynamic> json) => Answer(
-      answerId: json['answer_id'] as int,
-      answerText: json['answer_text'] as String,
+      answerId: json['answerId'] as int,
+      answerText: json['answerText'] as String,
     );
 
 Map<String, dynamic> _$AnswerToJson(Answer instance) => <String, dynamic>{
-      'answer_id': instance.answerId,
-      'answer_text': instance.answerText,
+      'answerId': instance.answerId,
+      'answerText': instance.answerText,
+    };
+
+SliderAnswer _$SliderAnswerFromJson(Map<String, dynamic> json) => SliderAnswer(
+      answerId: json['answerId'] as int,
+      answerText: json['answerText'] as String,
+      sliderMin: json['sliderMin'] as int,
+      sliderMax: json['sliderMax'] as int,
+    );
+
+Map<String, dynamic> _$SliderAnswerToJson(SliderAnswer instance) =>
+    <String, dynamic>{
+      'answerId': instance.answerId,
+      'answerText': instance.answerText,
+      'sliderMin': instance.sliderMin,
+      'sliderMax': instance.sliderMax,
     };

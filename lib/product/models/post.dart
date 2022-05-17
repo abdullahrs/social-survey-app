@@ -1,3 +1,4 @@
+import 'question.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'post.g.dart';
@@ -28,12 +29,16 @@ class UserLocation {
   Map<String, dynamic> toJson() => _$UserLocationToJson(this);
 }
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable() // fieldRename: FieldRename.snake
 class UserAnswer {
+  final QuestionType questionType;
   final int questionId;
-  final int answerId;
+  final dynamic answer;
 
-  UserAnswer({required this.questionId, required this.answerId});
+  UserAnswer(
+      {required this.questionType,
+      required this.questionId,
+      required this.answer});
 
   factory UserAnswer.fromJson(Map<String, dynamic> json) =>
       _$UserAnswerFromJson(json);

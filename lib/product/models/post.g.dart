@@ -32,12 +32,23 @@ Map<String, dynamic> _$UserLocationToJson(UserLocation instance) =>
     };
 
 UserAnswer _$UserAnswerFromJson(Map<String, dynamic> json) => UserAnswer(
-      questionId: json['question_id'] as int,
-      answerId: json['answer_id'] as int,
+      questionType: $enumDecode(_$QuestionTypeEnumMap, json['questionType']),
+      questionId: json['questionId'] as int,
+      answer: json['answer'],
     );
 
 Map<String, dynamic> _$UserAnswerToJson(UserAnswer instance) =>
     <String, dynamic>{
-      'question_id': instance.questionId,
-      'answer_id': instance.answerId,
+      'questionId': instance.questionId,
+      (instance.questionType == QuestionType.multipleChoice
+          ? 'multipleChoiceValue'
+          : instance.questionType == QuestionType.slider
+              ? 'sliderValue'
+              : 'rankingValue'): instance.answer,
     };
+
+const _$QuestionTypeEnumMap = {
+  QuestionType.slider: 'slider',
+  QuestionType.ranking: 'ranking',
+  QuestionType.multipleChoice: 'multiple-choice',
+};
