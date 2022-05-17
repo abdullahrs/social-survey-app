@@ -1,7 +1,8 @@
-import '../../../core/extensions/buildcontext_extension.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../core/extensions/buildcontext_extension.dart';
 
 Future<void> showWarningDialog(
   context, {
@@ -19,13 +20,14 @@ Future<void> showWarningDialog(
           children: [
             SvgPicture.asset(
               imagePath,
-              width: context.dynamicWidth(0.6),
-              height: context.dynamicWidth(0.6),
+              width: context.dynamicWidth(0.5),
+              height: context.dynamicWidth(0.5),
             ),
             const SizedBox(height: 20),
-            Text(
-              text,
-              style: context.appTextTheme.bodyText2!.copyWith(fontSize: 22),
+            SizedBox(
+              height: context.dynamicWidth(0.075),
+              child: Text(text,
+                  style: context.appTextTheme.bodyText2!.copyWith(fontSize: 22)),
             ),
           ],
         ),
