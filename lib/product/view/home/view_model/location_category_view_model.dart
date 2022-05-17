@@ -1,13 +1,15 @@
-import 'package:anket/product/models/survey.dart';
-import 'package:anket/product/services/data_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 
+import '../../../models/survey.dart';
+import '../../../services/data_service.dart';
+
 class LocationCategoryCubit extends Cubit<LocationCategoryState> {
   LocationCategoryCubit() : super(const LocationCategoryState());
 
-  Future<List<Survey>> getLocationSurvey(Position position) async {
+  Future<List<Survey>> getLocationSurvey(Position? position) async {
+    if(position == null) return [];
     try {
       DataService dataService = DataService.fromCache();
       List<Survey> surveys = await dataService.getLocationSurveys(
