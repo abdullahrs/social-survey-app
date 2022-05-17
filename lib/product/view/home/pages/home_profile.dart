@@ -40,11 +40,17 @@ class _SettingsPageState extends State<SettingsPage> {
   String? gender;
   late String birthDate;
   late final DataService dataService;
+
+  Future<List<Survey>?>? surveys;
+
   @override
   void initState() {
     super.initState();
     _editingController = TextEditingController();
     dataService = DataService.fromCache();
+    surveys = dataService.getSubmitionsDetail(
+        DataService.authUser!.id!, DataService.authUser!.submittedSurveys!);
+    gender = DataService.authUser?.gender;
   }
 
   @override
@@ -159,7 +165,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   text: 'gender'.tr() + ' : ',
                   style: context.appTextTheme.bodyText2!
                       .copyWith(fontWeight: FontWeight.bold)),
-              TextSpan(text: (DataService.authUser?.gender ?? " -").capitalize),
+              TextSpan(text: DataService.authUser?.gender?.tr().capitalize ?? " -"),
             ],
           )),
         ),
@@ -217,8 +223,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   FutureBuilder<List<Survey>?> lastSurveysField() {
     return FutureBuilder(
-      future: dataService.getSubmitionsDetail(
-          DataService.authUser!.id!, DataService.authUser!.submittedSurveys!),
+      future: surveys,
       builder: (context, AsyncSnapshot<List<Survey>?> snapshot) {
         if (snapshot.connectionState == ConnectionState.none) {
           return const Text("no-connection-message").tr();
@@ -228,7 +233,7 @@ class _SettingsPageState extends State<SettingsPage> {
           return kLoadingWidget;
         }
         if (!snapshot.hasData || snapshot.data == null) {
-          return const Text("no-data-message").tr();
+          return Center(child: const Text("no-data-message").tr());
         }
         if (snapshot.hasError) {
           return Text(snapshot.error.toString());
@@ -245,29 +250,31 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   DropdownButton genderDropdown() {
+    List<String> items = <String>['male', 'female'];
     return DropdownButton<String>(
-      value: DataService.authUser?.gender,
+      // value: (gender ?? items.first),
+      hint: Text('gender'.tr()),
       icon: const Icon(Icons.arrow_downward),
       elevation: 16,
       underline: const SizedBox(),
       onChanged: (String? newValue) async {
         gender = newValue!;
         String? genderOnCache = DataService.authUser?.gender;
-        if ((genderOnCache == null && gender != null) ||
-            (genderOnCache != null &&
-                gender != null &&
-                genderOnCache != gender)) {
+        if (gender != genderOnCache) {
+          // String? _gender = gender;
+          // if (gender == 'erkek' || gender == 'kadın') {
+          //   _gender = gender == 'erkek' ? 'male' : 'female';
+          // }
           DataService.authUser!.gender = gender;
           await AuthService.fromCache().updateUser(
               userID: DataService.authUser!.id!, gender: gender!.toLowerCase());
         }
         onClickGenderEdit();
       },
-      items: <String>['male'.tr(), 'female'.tr()]
-          .map<DropdownMenuItem<String>>((String value) {
+      items: items.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
-          value: value.toLowerCase(),
-          child: Text(value),
+          value: value,
+          child: Text(value.tr().capitalize),
         );
       }).toList(),
     );
