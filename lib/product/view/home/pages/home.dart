@@ -1,10 +1,10 @@
-import '../../../router/routes.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
+import '../../../router/routes.dart';
 import 'home_categories.dart';
 import 'home_main.dart';
 // import 'home_participated.dart';
