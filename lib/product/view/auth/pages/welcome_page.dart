@@ -1,11 +1,11 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+
+import '../../../../core/extensions/buildcontext_extension.dart';
 import '../../../../core/widgets/loading_widget.dart';
 import '../components/border_button.dart';
 import '../view_model/initializer.dart';
-import 'package:auto_route/auto_route.dart';
-
-import '../../../../core/extensions/buildcontext_extension.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);
