@@ -1,11 +1,11 @@
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 
 import '../../models/survey.dart';
-import '../custom_exception.dart';
 import '../../services/data_service.dart';
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
+import '../custom_exception.dart';
 
 part 'list_state.dart';
 
