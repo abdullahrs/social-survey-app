@@ -1,7 +1,8 @@
-import '../../../constants/enums/genders.dart';
-import '../../../constants/style/colors.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
+
+import '../../../constants/enums/genders.dart';
+import '../../../constants/style/colors.dart';
 
 typedef GenderCallback = Function(Gender? gender);
 class GenderSelection extends StatefulWidget {
