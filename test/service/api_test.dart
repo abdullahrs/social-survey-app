@@ -43,7 +43,11 @@ void main() {
 
     test('Sign-up', () async {
       var result = await authService.register(
-          email: "xyz@xy.com", password: "deneme1**", name: 'Deneme Deneme');
+          email: "xyz@xy.com",
+          password: "deneme1**",
+          name: 'Deneme Deneme',
+          birthDate: 'male',
+          gender: '1999-10-10');
       expect(result.runtimeType, User);
     });
     test('Forgot password send email', () async {
@@ -118,8 +122,9 @@ void main() {
           location: UserLocation(lat: 24.3, long: 12.1),
           answers: [
             UserAnswer(
+                questionType: surveys.first.questions.first.questionType,
                 questionId: surveys.first.questions.first.questionId,
-                answerId: 1)
+                answer: 1)
           ]);
       // Already submitted hatasi cikmali
       expect(() async => await dataService.sendSurveyAnswers(post),
