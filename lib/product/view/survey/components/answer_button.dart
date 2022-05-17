@@ -23,7 +23,7 @@ class AnswerButton extends StatelessWidget {
       onTap: callback,
       child: Container(
         width: context.dynamicWidth(0.75),
-        height: context.dynamicWidth(0.75) / 5,
+        height: context.dynamicWidth(0.75) / 6,
         alignment: Alignment.centerLeft,
         padding: const EdgeInsets.all(4),
         margin: const EdgeInsets.all(10),
