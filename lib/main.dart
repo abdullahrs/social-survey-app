@@ -1,11 +1,7 @@
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:geolocator/geolocator.dart';
 
 import 'product/constants/app_constants/hive_model_constants.dart';
 import 'product/constants/app_constants/locals.dart';
-import 'product/utils/lang_util.dart';
 import 'product/utils/location_service/location_cubit.dart';
 import 'product/utils/theme_util.dart';
 
@@ -42,8 +38,7 @@ class SurveyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     bool? mode =
         SurveyCacheManager.instance.getItem(HiveModelConstants.darkMode);
-    String? langKey =
-        SurveyCacheManager.instance.getItem(HiveModelConstants.lang);
+
     return MultiBlocProvider(
       providers: [
         BlocProvider<SurveyListViewModel>(
