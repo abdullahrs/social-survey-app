@@ -1,9 +1,9 @@
 import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:flutter/material.dart';
 
-import '../components/forgot_password_reset_pass_tab.dart';
-import '../components/forgot_password_email_tab.dart';
 import '../../../services/auth_service.dart';
+import '../components/forgot_password_email_tab.dart';
+import '../components/forgot_password_reset_pass_tab.dart';
 
 class ForgotPassPage extends StatefulWidget {
   final bool navigateToReset;
