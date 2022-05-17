@@ -14,7 +14,7 @@ class QuestionField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: Alignment.centerLeft,
+      alignment: Alignment.center,
       child: Text(
         questionText,
         style: context.appTextTheme.headline5!
