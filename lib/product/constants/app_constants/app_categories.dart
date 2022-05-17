@@ -1,5 +1,6 @@
 // Güncel, Sanat, Eğitim, Spor, Siyaset
 const List<String> kCategories = [
+  'location',
   'current',
   'art',
   'education',
