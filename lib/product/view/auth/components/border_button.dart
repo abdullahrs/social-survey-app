@@ -1,6 +1,7 @@
-import '../../../../core/extensions/buildcontext_extension.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../core/extensions/buildcontext_extension.dart';
 
 class BorderButton extends StatelessWidget {
   final VoidCallback function;
