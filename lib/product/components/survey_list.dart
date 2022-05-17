@@ -9,10 +9,12 @@ typedef ParamFunction = Future<bool> Function(int x);
 class SurveyListPage extends StatefulWidget {
   final List<Survey> surveys;
   final ParamFunction scrollCallback;
+  final bool isSurveysAvaible;
   const SurveyListPage({
     Key? key,
     required this.surveys,
     required this.scrollCallback,
+    this.isSurveysAvaible = true
   }) : super(key: key);
 
   @override
@@ -61,6 +63,7 @@ class _SurveyListPageState extends State<SurveyListPage> {
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             child: SurveyListItem(
                 surveyModel: widget.surveys[index],
+                isAvaible: widget.isSurveysAvaible,
                 submitted:
                     SurveyCacheManager.instance.submittedSurveys.isNotEmpty
                         ? SurveyCacheManager.instance.submittedSurveys
