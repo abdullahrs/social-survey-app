@@ -23,12 +23,14 @@ class _CountdownWidgetState extends State<CountdownWidget> {
       expired = true;
     } else {
       expired = false;
-      Duration difference = widget.expireDate.difference(DateTime.now());
-      _expireDate = widget.expireDate.subtract(difference);
+      _expireDate = widget.expireDate;
       _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
         setState(() {
-          difference = widget.expireDate.difference(DateTime.now());
-          _expireDate = widget.expireDate.subtract(difference);
+          _expireDate = _expireDate?.subtract(const Duration(seconds: 1));
+          if (_expireDate?.isBefore(DateTime.now()) == true) {
+            expired = true;
+            _timer?.cancel();
+          }
         });
       });
     }
