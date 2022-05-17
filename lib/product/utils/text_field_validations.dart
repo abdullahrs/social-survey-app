@@ -16,7 +16,7 @@ String? getValidator(String? str, ValidationType type, {String? firstStr}) {
       {
         if (str == null || str.isEmpty) return "empty_field".tr();
         RegExp digitExp = RegExp(r'\d+');
-        RegExp specialExp = RegExp(r'[^A-Za-z0-9]');
+        RegExp specialExp = RegExp(r'[A-Za-z]');
         if (!digitExp.hasMatch(str) || !specialExp.hasMatch(str)) {
           return 'password_lacking'.tr();
         }
