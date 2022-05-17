@@ -68,6 +68,7 @@ class AuthService extends ApiServiceManager {
         User user = User(user: null, tokens: null);
         return user;
       }
+      return null;
     } catch (e) {
       return null;
     }
@@ -76,10 +77,18 @@ class AuthService extends ApiServiceManager {
   Future<User?> register(
       {required String name,
       required String email,
-      required String password}) async {
+      required String password,
+      required String gender,
+      required String birthDate}) async {
     http.Response response = await createRequestAndSend(
         endPoint: RestAPIPoints.register,
-        bodyFields: {'name': name, 'email': email, 'password': password},
+        bodyFields: {
+          'name': name,
+          'email': email,
+          'password': password,
+          'gender': gender,
+          'birthdate': birthDate
+        },
         client: RequestClient.auth,
         method: RequestType.POST);
 
