@@ -1,12 +1,12 @@
-import 'package:anket/product/components/countdown_widget.dart';
-import 'package:anket/product/components/dialog/warning_dialog.dart';
-import 'package:anket/product/constants/strings/svg_paths.dart';
+import '../../../components/countdown_widget.dart';
 import 'package:auto_route/src/router/auto_router_x.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/extensions/buildcontext_extension.dart';
 import '../../../../core/extensions/color_extension.dart';
+import '../../../components/dialog/warning_dialog.dart';
+import '../../../constants/strings/svg_paths.dart';
 import '../../../utils/survey_cache_manager.dart';
 import '../../../models/survey.dart';
 import '../../../router/routes.dart';
@@ -14,30 +14,46 @@ import '../../../router/routes.dart';
 class SurveyListItem extends StatelessWidget {
   final Survey surveyModel;
   final bool submitted;
+  final bool isAvaible;
   const SurveyListItem(
-      {Key? key, required this.surveyModel, required this.submitted})
+      {Key? key,
+      required this.surveyModel,
+      required this.submitted,
+      this.isAvaible = true})
       : super(key: key);
+
+  Future<void> onClickItem(BuildContext context) async {
+    if (!isAvaible) {
+      if (surveyModel.expireDate != null &&
+          !DateTime.parse(surveyModel.expireDate!).isBefore(DateTime.now())) {
+        await showWarningDialog(context,
+            text: "survey-still-active".tr(), imagePath: SvgPaths.expired);
+        return;
+      }
+      context.router.push(ResultRoute(
+          url:
+              "https://socialsurveyapp.software/results/#/?surveyId=${surveyModel.id}"));
+    }
+    if (!submitted) {
+      if (surveyModel.expireDate != null &&
+          DateTime.parse(surveyModel.expireDate!).isBefore(DateTime.now())) {
+        context.router.push(ResultRoute(
+            url:
+                "https://socialsurveyapp.software/results/#/?surveyId=${surveyModel.id}"));
+      } else {
+        context.router.push(SurveyRoute(survey: surveyModel));
+      }
+    } else {
+      context.router.push(ResultRoute(
+          url:
+              "https://socialsurveyapp.software/results/#/?surveyId=${surveyModel.id}"));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () async{
-        if (DateTime.parse(surveyModel.expireDate!).isBefore(DateTime.now())) {
-          await showWarningDialog(
-            context,
-            text: 'survey-time-expired'.tr(),
-            imagePath: SvgPaths.expired,
-          );
-          return;
-        }
-        if (!submitted) {
-          context.router.push(SurveyRoute(survey: surveyModel));
-        } else {
-          context.router.push(ResultRoute(
-              url:
-                  "https://socialsurveyapp.software/results.html?surveyId=${surveyModel.id}"));
-        }
-      },
+      onTap: () async => await onClickItem(context),
       child: Container(
         width: context.screenWidth,
         decoration: BoxDecoration(
