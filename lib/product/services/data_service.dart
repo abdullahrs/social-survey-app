@@ -197,14 +197,15 @@ class DataService extends ApiServiceManager {
         'long': long.toString(),
       },
     );
-
+    var responseBody = convert.json.decode(convert.utf8.decode(response.bodyBytes));
     if (response.statusCode == 200) {
-      var result = convert.json.decode(convert.utf8.decode(response.bodyBytes));
+      var result = responseBody;
       List<Survey> surveys = List<Survey>.from(
           result["results"].map((item) => Survey.fromJson(item)).toList());
       return surveys;
     }
     throw FetchDataException(
-        statusCode: response.statusCode, message: response.body);
+        statusCode: response.statusCode,
+        message: responseBody['message']);
   }
 }
