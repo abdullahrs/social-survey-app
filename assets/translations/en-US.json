@@ -29,7 +29,7 @@
     "all": "All",
     "completed": "Completed",
     "uncompleted": "Uncompleted",
-    "password_lacking": "Password must contain at least 1 special character and 1 number",
+    "password_lacking": "Password must contain at least 1 letter and 1 number",
     "current": "Current",
     "art": "Art",
     "education": "Education",
@@ -58,5 +58,9 @@
     "minutes" : "Minutes",
     "seconds" : "Seconds",
     "survey-time-expired": "Survey Time Expired",
-    "ok": "Ok"
+    "survey-still-active": "Survey Still Active",
+    "ok": "Ok",
+    "location": "Location",
+    "location-category": "Select City",
+    "no-data-message": "You have not participated in any survey yet."
 }
