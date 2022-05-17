@@ -1,7 +1,8 @@
-import '../constants/app_constants/hive_model_constants.dart';
-import 'survey_cache_manager.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../constants/app_constants/hive_model_constants.dart';
+import 'survey_cache_manager.dart';
 
 class ThemeCubit extends Cubit<ThemeState> {
   ThemeCubit(bool isDark) : super(ThemeState(isDark));
