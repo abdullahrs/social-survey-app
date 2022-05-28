@@ -23,8 +23,10 @@ class _GenderSelectionState extends State<GenderSelection> {
       children: [
         Flexible(
           child: DecoratedBox(
-            decoration: const BoxDecoration(
-              color: AppStyle.textFieldFillColor
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: AppStyle.textFieldFillColor
+              )
             ),
             child: RadioListTile<Gender>(
               title: const Text('female').tr(),
@@ -44,8 +46,10 @@ class _GenderSelectionState extends State<GenderSelection> {
         const SizedBox(width: 20),
         Flexible(
           child: DecoratedBox(
-            decoration: const BoxDecoration(
-              color: AppStyle.textFieldFillColor
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: AppStyle.textFieldFillColor
+              )
             ),
             child: RadioListTile<Gender>(
               title: const Text('male').tr(),

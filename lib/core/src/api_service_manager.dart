@@ -59,13 +59,13 @@ abstract class ApiServiceManager {
       request.body = body;
     }
     request.headers.addAll(headers);
-    log("Endpoint: $_baseURL$endPoint");
-    log("REQUEST METHOD : ${request.method}\n\nREQUEST HEADERS : ${request.headers}\n\nREQUEST BODY : ${request.body}");
+    // log("Endpoint: $_baseURL$endPoint");
+    // log("REQUEST METHOD : ${request.method}\n\nREQUEST HEADERS : ${request.headers}\n\nREQUEST BODY : ${request.body}");
 
     try {
       StreamedResponse streamedResponse = await request.send();
       Response response = await Response.fromStream(streamedResponse);
-      log("RESPONSE BODY ${response.body}");
+      // log("RESPONSE BODY ${response.body}");
       if (response.statusCode == 401) {
         bool control = await refreshToken();
         if (control) {
