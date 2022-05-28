@@ -2,6 +2,7 @@ import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 
 typedef ValidatorFunction = String? Function(String?);
+
 class CustomTextField extends StatelessWidget {
   final IconData prefixIconData;
   final String hintText;
@@ -22,14 +23,12 @@ class CustomTextField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(
-        prefixIcon: Icon(prefixIconData),
-        hintText: hintText.tr(),
-        errorMaxLines: 2
-      ),
+          prefixIcon: Icon(prefixIconData),
+          hintText: hintText.tr(),
+          errorMaxLines: 2),
       obscureText: obscure,
       textAlignVertical: TextAlignVertical.center,
       validator: validator,
-      
     );
   }
 }

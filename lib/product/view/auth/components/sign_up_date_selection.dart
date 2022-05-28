@@ -58,12 +58,12 @@ class _DateSelectorState extends State<DateSelector> {
         padding: const EdgeInsets.symmetric(horizontal: 12),
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
-            // color: Colors.transparent,
+            color: AppStyle.textFieldFillColor,
             borderRadius: BorderRadius.circular(4)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Icon(Icons.calendar_today, color: Colors.grey[400]),
+            Icon(Icons.calendar_today, color: Colors.grey[600]),
             Padding(
               padding: const EdgeInsets.only(left: 12.0),
               child: Text(
@@ -71,7 +71,7 @@ class _DateSelectorState extends State<DateSelector> {
                     ? 'birth-date'.tr()
                     : _chosenDateTime.toString().substring(0, 10),
                 style: context.appTextTheme.subtitle1!
-                    .copyWith(color: Colors.grey[400]),
+                    .copyWith(color: Colors.grey[600]),
               ),
             ),
           ],

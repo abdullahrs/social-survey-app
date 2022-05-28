@@ -24,6 +24,7 @@ class _GenderSelectionState extends State<GenderSelection> {
         Flexible(
           child: DecoratedBox(
             decoration: BoxDecoration(
+              color: AppStyle.textFieldFillColor,
               border: Border.all(
                 color: AppStyle.textFieldFillColor
               )
@@ -47,6 +48,7 @@ class _GenderSelectionState extends State<GenderSelection> {
         Flexible(
           child: DecoratedBox(
             decoration: BoxDecoration(
+              color: AppStyle.textFieldFillColor,
               border: Border.all(
                 color: AppStyle.textFieldFillColor
               )

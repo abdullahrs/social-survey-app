@@ -46,7 +46,7 @@ class SurveyApp extends StatelessWidget {
         ),
         BlocProvider(
             create: (_) =>
-                ThemeCubit(mode ?? ThemeMode.system == ThemeMode.dark)),
+                ThemeCubit(mode ?? (ThemeMode.system == ThemeMode.dark))),
         BlocProvider(
             create: (_) =>
                 LocationCubit(geolocatorPlatform: GeolocatorPlatform.instance))
