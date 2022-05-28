@@ -5,7 +5,7 @@
 
 İşletim sistemine uygun [Flutter SDK](https://docs.flutter.dev/get-started/install)'sı ve [AndroidStudio](https://developer.android.com/studio) yüklenir.
 
-Sistemde JDK 8'inde yüklü olması gerekmektedir.
+Sistemde JDK ya da OpenJDK yüklü olması gerekmektedir.
 
 ## Çalıştırma 
 
